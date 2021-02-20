@@ -151,8 +151,8 @@ editor.keys.home_and_end_travel_far.macosx = true
 editor.input_method_support = false
 
 # convert tabs to spaces? how many spaces?
-editor.tabs.expand = true
-editor.tabs.size = 2
+editor.tabs.expand = false
+editor.tabs.size = 4
 
 # Set to true to automatically close [ { ( " and '
 editor.completion.auto_close = false
