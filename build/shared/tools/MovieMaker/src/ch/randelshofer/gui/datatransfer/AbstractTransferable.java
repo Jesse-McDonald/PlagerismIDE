@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractTransferable.java  1.0  22. August 2007
+ * @(#)AbstractTransferable.java	1.0	22. August 2007
  *
  * Copyright (c) 2007 Werner Randelshofer, Immensee, Switzerland.
  * All rights reserved.
@@ -20,23 +20,23 @@ import java.awt.datatransfer.*;
  * @version 1.0 22. August 2007 Created.
  */
 public abstract class AbstractTransferable implements Transferable {
-    private DataFlavor[] flavors;
-    
-    /** Creates a new instance. */
-    public AbstractTransferable(DataFlavor[] flavors) {
-        this.flavors = flavors;
-    }
+		private DataFlavor[] flavors;
+		
+		/** Creates a new instance. */
+		public AbstractTransferable(DataFlavor[] flavors) {
+				this.flavors = flavors;
+		}
 
-    public DataFlavor[] getTransferDataFlavors() {
-        return flavors.clone();
-    }
+		public DataFlavor[] getTransferDataFlavors() {
+				return flavors.clone();
+		}
 
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        for (DataFlavor f : flavors) {
-            if (f.equals(flavor)) {
-                return true;
-            }
-        }
-        return false;
-    }
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
+				for (DataFlavor f : flavors) {
+						if (f.equals(flavor)) {
+								return true;
+						}
+				}
+				return false;
+		}
 }

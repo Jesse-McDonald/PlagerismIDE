@@ -1,21 +1,21 @@
 /*
-  Part of the Processing project - http://processing.org
+	Part of the Processing project - http://processing.org
 
-  Copyright (c) 2011-12 hansi raber, released under LGPL under agreement
+	Copyright (c) 2011-12 hansi raber, released under LGPL under agreement
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation, version 2.1.
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation, version 2.1.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+	This library is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+	Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General
-  Public License along with this library; if not, write to the
-  Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-  Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this library; if not, write to the
+	Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+	Boston, MA	02111-1307	USA
 */ 
 package japplemenubar;
 
@@ -33,56 +33,56 @@ import processing.core.PApplet;
  * @author hansi
  */
 public class JAppleMenuBar {
-  static JAppleMenuBar instance;
-  static final String FILENAME = "libjAppleMenuBar.jnilib";
-  
+	static JAppleMenuBar instance;
+	static final String FILENAME = "libjAppleMenuBar.jnilib";
+	
 	static {
-	  try {
-	    File temp = File.createTempFile("processing", "menubar");
-	    temp.delete();  // remove the file itself
-	    temp.mkdirs();  // create a directory out of it
-	    temp.deleteOnExit();
+		try {
+			File temp = File.createTempFile("processing", "menubar");
+			temp.delete();	// remove the file itself
+			temp.mkdirs();	// create a directory out of it
+			temp.deleteOnExit();
 
-	    File jnilibFile = new File(temp, FILENAME);
-	    InputStream input = JAppleMenuBar.class.getResourceAsStream(FILENAME);
-	    if (input != null) {
-	      if (PApplet.saveStream(jnilibFile, input)) {
-	        System.load(jnilibFile.getAbsolutePath());
-	        instance = new JAppleMenuBar();
+			File jnilibFile = new File(temp, FILENAME);
+			InputStream input = JAppleMenuBar.class.getResourceAsStream(FILENAME);
+			if (input != null) {
+				if (PApplet.saveStream(jnilibFile, input)) {
+					System.load(jnilibFile.getAbsolutePath());
+					instance = new JAppleMenuBar();
 
-	      } else {
-	        sadness("Problem saving " + FILENAME + " for full screen use.");
-	      }
-	    } else {
-        sadness("Could not load " + FILENAME + " from core.jar");
-	    }
-	  } catch (IOException e) {
-	    sadness("Unknown error, here's the stack trace.");
-	    e.printStackTrace();
-	  }
+				} else {
+					sadness("Problem saving " + FILENAME + " for full screen use.");
+				}
+			} else {
+				sadness("Could not load " + FILENAME + " from core.jar");
+			}
+		} catch (IOException e) {
+			sadness("Unknown error, here's the stack trace.");
+			e.printStackTrace();
+		}
 	}
 	
 	
 	static void sadness(String msg) {
-	  System.err.println("Full screen mode disabled. " + msg);
+		System.err.println("Full screen mode disabled. " + msg);
 	}
 
 	
 //	static public void show() {
-//	  instance.setVisible(true);
+//		instance.setVisible(true);
 //	}
 
 	
 	static public void hide() {
-	  instance.setVisible(false, false);
+		instance.setVisible(false, false);
 	}
 
 	
 	public native void setVisible(boolean visibility, boolean kioskMode); 
 
 	
-//  public void setVisible(boolean visibility) {
-//    // Keep original API in-tact.  Default kiosk-mode to off.
-//    setVisible(visibility, false);
-//  }
+//	public void setVisible(boolean visibility) {
+//		// Keep original API in-tact.	Default kiosk-mode to off.
+//		setVisible(visibility, false);
+//	}
 }

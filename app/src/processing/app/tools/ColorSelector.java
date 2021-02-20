@@ -1,22 +1,22 @@
 /* -*- mode: java; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 
 /*
-  Part of the Processing project - http://processing.org
+	Part of the Processing project - http://processing.org
 
-  Copyright (c) 2006-14 Ben Fry and Casey Reas
+	Copyright (c) 2006-14 Ben Fry and Casey Reas
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License version 2
-  as published by the Free Software Foundation.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License version 2
+	as published by the Free Software Foundation.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+	GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software Foundation,
+	Inc., 59 Temple Place, Suite 330, Boston, MA	02111-1307	USA
 */
 
 package processing.app.tools;
@@ -41,43 +41,43 @@ import java.awt.event.*;
  */
 public class ColorSelector implements Tool {
 
-  /**
-   * Only create one instance, otherwise we'll have dozens of animation
-   * threads going if you open/close a lot of editor windows.
-   */
-  private static volatile ColorChooser selector;
+	/**
+	 * Only create one instance, otherwise we'll have dozens of animation
+	 * threads going if you open/close a lot of editor windows.
+	 */
+	private static volatile ColorChooser selector;
 
-  private Base base;
-
-
-  public String getMenuTitle() {
-    return Language.text("menu.tools.color_selector");
-  }
+	private Base base;
 
 
-  public void init(Base base) {
-    this.base = base;
-  }
+	public String getMenuTitle() {
+		return Language.text("menu.tools.color_selector");
+	}
 
 
-  public void run() {
-    if (selector == null) {
-      synchronized (ColorSelector.class) {
-        if (selector == null) {
-          selector = new ColorChooser(base.getActiveEditor(),
-                                      false, Color.WHITE,
-                                      Language.text("menu.edit.copy"),
-                                      new ActionListener() {
+	public void init(Base base) {
+		this.base = base;
+	}
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              Clipboard c = Toolkit.getSystemClipboard();
-              c.setContents(new StringSelection(selector.getHexColor()), null);
-            }
-          });
-        }
-      }
-    }
-    selector.show();
-  }
+
+	public void run() {
+		if (selector == null) {
+			synchronized (ColorSelector.class) {
+				if (selector == null) {
+					selector = new ColorChooser(base.getActiveEditor(),
+																			false, Color.WHITE,
+																			Language.text("menu.edit.copy"),
+																			new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Clipboard c = Toolkit.getSystemClipboard();
+							c.setContents(new StringSelection(selector.getHexColor()), null);
+						}
+					});
+				}
+			}
+		}
+		selector.show();
+	}
 }

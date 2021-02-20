@@ -10,7 +10,7 @@ as published by the Free Software Foundation.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -37,147 +37,147 @@ import processing.app.ui.Editor;
  * for other Mode implementations.
  */
 public class PdeTextArea extends JEditTextArea {
-  protected final Editor editor;
+	protected final Editor editor;
 
-  protected Image gutterGradient;
+	protected Image gutterGradient;
 
-  /// the text marker for highlighting breakpoints in the gutter
-  static public final String BREAK_MARKER = "<>";
-  /// the text marker for highlighting the current line in the gutter
-  static public final String STEP_MARKER = "->";
+	/// the text marker for highlighting breakpoints in the gutter
+	static public final String BREAK_MARKER = "<>";
+	/// the text marker for highlighting the current line in the gutter
+	static public final String STEP_MARKER = "->";
 
-  /// maps line index to gutter text
-  protected final Map<Integer, String> gutterText = new HashMap<>();
-
-
-  public PdeTextArea(TextAreaDefaults defaults, InputHandler inputHandler,
-                     Editor editor) {
-    super(defaults, inputHandler);
-    this.editor = editor;
-
-    // change cursor to pointer in the gutter area
-    painter.addMouseMotionListener(gutterCursorMouseAdapter);
-
-    add(CENTER, painter);
-
-    // load settings from theme.txt
-    Mode mode = editor.getMode();
-    gutterGradient = mode.makeGradient("editor", Editor.LEFT_GUTTER, 500);
-  }
+	/// maps line index to gutter text
+	protected final Map<Integer, String> gutterText = new HashMap<>();
 
 
-  @Override
-  protected TextAreaPainter createPainter(final TextAreaDefaults defaults) {
-    return new PdeTextAreaPainter(this, defaults);
-  }
+	public PdeTextArea(TextAreaDefaults defaults, InputHandler inputHandler,
+										 Editor editor) {
+		super(defaults, inputHandler);
+		this.editor = editor;
+
+		// change cursor to pointer in the gutter area
+		painter.addMouseMotionListener(gutterCursorMouseAdapter);
+
+		add(CENTER, painter);
+
+		// load settings from theme.txt
+		Mode mode = editor.getMode();
+		gutterGradient = mode.makeGradient("editor", Editor.LEFT_GUTTER, 500);
+	}
 
 
-  public Image getGutterGradient() {
-    return gutterGradient;
-  }
+	@Override
+	protected TextAreaPainter createPainter(final TextAreaDefaults defaults) {
+		return new PdeTextAreaPainter(this, defaults);
+	}
 
 
-  public void setMode(Mode mode) {
-    ((PdeTextAreaPainter) painter).setMode(mode);
-  }
+	public Image getGutterGradient() {
+		return gutterGradient;
+	}
 
 
-  /**
-   * Set the gutter text of a specific line.
-   *
-   * @param lineIdx
-   *          the line index (0-based)
-   * @param text
-   *          the text
-   */
-  public void setGutterText(int lineIdx, String text) {
-    gutterText.put(lineIdx, text);
-    painter.invalidateLine(lineIdx);
-  }
+	public void setMode(Mode mode) {
+		((PdeTextAreaPainter) painter).setMode(mode);
+	}
 
 
-  /**
-   * Clear the gutter text of a specific line.
-   *
-   * @param lineIdx
-   *          the line index (0-based)
-   */
-  public void clearGutterText(int lineIdx) {
-    gutterText.remove(lineIdx);
-    painter.invalidateLine(lineIdx);
-  }
+	/**
+	 * Set the gutter text of a specific line.
+	 *
+	 * @param lineIdx
+	 *					the line index (0-based)
+	 * @param text
+	 *					the text
+	 */
+	public void setGutterText(int lineIdx, String text) {
+		gutterText.put(lineIdx, text);
+		painter.invalidateLine(lineIdx);
+	}
 
 
-  /**
-   * Clear all gutter text.
-   */
-  public void clearGutterText() {
-    for (int lineIdx : gutterText.keySet()) {
-      painter.invalidateLine(lineIdx);
-    }
-    gutterText.clear();
-  }
+	/**
+	 * Clear the gutter text of a specific line.
+	 *
+	 * @param lineIdx
+	 *					the line index (0-based)
+	 */
+	public void clearGutterText(int lineIdx) {
+		gutterText.remove(lineIdx);
+		painter.invalidateLine(lineIdx);
+	}
 
 
-  /**
-   * Retrieve the gutter text of a specific line.
-   * @param lineIdx the line index (0-based)
-   * @return the gutter text
-   */
-  public String getGutterText(int lineIdx) {
-    return gutterText.get(lineIdx);
-  }
+	/**
+	 * Clear all gutter text.
+	 */
+	public void clearGutterText() {
+		for (int lineIdx : gutterText.keySet()) {
+			painter.invalidateLine(lineIdx);
+		}
+		gutterText.clear();
+	}
 
 
-  /**
-   * Convert a character offset to a horizontal pixel position inside
-   * the text area. Overridden to take gutter width into account.
-   * @param line the 0-based line number
-   * @param offset the character offset (0 is the first character on a line)
-   * @return the horizontal position
-   */
-  @Override
-  public int _offsetToX(int line, int offset) {
-    return super._offsetToX(line, offset) + Editor.LEFT_GUTTER;
-  }
+	/**
+	 * Retrieve the gutter text of a specific line.
+	 * @param lineIdx the line index (0-based)
+	 * @return the gutter text
+	 */
+	public String getGutterText(int lineIdx) {
+		return gutterText.get(lineIdx);
+	}
 
 
-  /**
-   * Convert a horizontal pixel position to a character offset. Overridden to
-   * take gutter width into account.
-   * @param line the 0-based line number
-   * @param x the horizontal pixel position
-   * @return he character offset (0 is the first character on a line)
-   */
-  @Override
-  public int xToOffset(int line, int x) {
-    return super.xToOffset(line, x - Editor.LEFT_GUTTER);
-  }
+	/**
+	 * Convert a character offset to a horizontal pixel position inside
+	 * the text area. Overridden to take gutter width into account.
+	 * @param line the 0-based line number
+	 * @param offset the character offset (0 is the first character on a line)
+	 * @return the horizontal position
+	 */
+	@Override
+	public int _offsetToX(int line, int offset) {
+		return super._offsetToX(line, offset) + Editor.LEFT_GUTTER;
+	}
 
 
-  /**
-   * Sets default cursor (instead of text cursor) in the gutter area.
-   */
-  protected final MouseMotionAdapter gutterCursorMouseAdapter = new MouseMotionAdapter() {
-    private int lastX; // previous horizontal position of the mouse cursor
-
-    @Override
-    public void mouseMoved(MouseEvent me) {
-      if (me.getX() < Editor.LEFT_GUTTER) {
-        if (lastX >= Editor.LEFT_GUTTER) {
-          painter.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }
-      } else {
-        if (lastX < Editor.LEFT_GUTTER) {
-          painter.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        }
-      }
-      lastX = me.getX();
-    }
-  };
+	/**
+	 * Convert a horizontal pixel position to a character offset. Overridden to
+	 * take gutter width into account.
+	 * @param line the 0-based line number
+	 * @param x the horizontal pixel position
+	 * @return he character offset (0 is the first character on a line)
+	 */
+	@Override
+	public int xToOffset(int line, int x) {
+		return super.xToOffset(line, x - Editor.LEFT_GUTTER);
+	}
 
 
-  public Editor getEditor() {
-    return editor;
-  }
+	/**
+	 * Sets default cursor (instead of text cursor) in the gutter area.
+	 */
+	protected final MouseMotionAdapter gutterCursorMouseAdapter = new MouseMotionAdapter() {
+		private int lastX; // previous horizontal position of the mouse cursor
+
+		@Override
+		public void mouseMoved(MouseEvent me) {
+			if (me.getX() < Editor.LEFT_GUTTER) {
+				if (lastX >= Editor.LEFT_GUTTER) {
+					painter.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
+			} else {
+				if (lastX < Editor.LEFT_GUTTER) {
+					painter.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+				}
+			}
+			lastX = me.getX();
+		}
+	};
+
+
+	public Editor getEditor() {
+		return editor;
+	}
 }

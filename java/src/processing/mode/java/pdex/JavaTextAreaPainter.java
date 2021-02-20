@@ -10,7 +10,7 @@ as published by the Free Software Foundation.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -50,18 +50,18 @@ import processing.mode.java.tweak.Settings;
  */
 public class JavaTextAreaPainter extends PdeTextAreaPainter {
 
-  public JavaTextAreaPainter(final JavaTextArea textArea, TextAreaDefaults defaults) {
-    super(textArea, defaults);
+	public JavaTextAreaPainter(final JavaTextArea textArea, TextAreaDefaults defaults) {
+		super(textArea, defaults);
 
-    // TweakMode code
-    tweakMode = false;
-    cursorType = Cursor.DEFAULT_CURSOR;
-  }
+		// TweakMode code
+		tweakMode = false;
+		cursorType = Cursor.DEFAULT_CURSOR;
+	}
 
 
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+	// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-  // TWEAK MODE
+	// TWEAK MODE
 
 
 	protected int horizontalAdjustment = 0;
@@ -75,16 +75,16 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 
 	int cursorType;
 	BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-  Cursor blankCursor;
-  // this is a temporary workaround for the CHIP, will be removed
-  {
-    Dimension cursorSize = Toolkit.getDefaultToolkit().getBestCursorSize(16, 16);
-    if (cursorSize.width == 0 || cursorSize.height == 0) {
-      blankCursor = Cursor.getDefaultCursor();
-    } else {
-      blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
-    }
-  }
+	Cursor blankCursor;
+	// this is a temporary workaround for the CHIP, will be removed
+	{
+		Dimension cursorSize = Toolkit.getDefaultToolkit().getBestCursorSize(16, 16);
+		if (cursorSize.width == 0 || cursorSize.height == 0) {
+			blankCursor = Cursor.getDefaultCursor();
+		} else {
+			blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+		}
+	}
 
 	@Override
 	synchronized public void paint(Graphics gfx) {
@@ -95,7 +95,7 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 			// enable anti-aliasing
 			Graphics2D g2d = (Graphics2D)gfx;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                				   RenderingHints.VALUE_ANTIALIAS_ON);
+													 RenderingHints.VALUE_ANTIALIAS_ON);
 
 			for (Handle n : handles.get(currentTab)) {
 				// update n position and width, and draw it
@@ -121,95 +121,95 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 
 
 	protected void startTweakMode() {
-	  addMouseListener(new MouseListener() {
+		addMouseListener(new MouseListener() {
 
-	    @Override
-	    public void mouseReleased(MouseEvent e) {
-	      if (mouseHandle != null) {
-	        mouseHandle.resetProgress();
-	        mouseHandle = null;
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (mouseHandle != null) {
+					mouseHandle.resetProgress();
+					mouseHandle = null;
 
-	        updateCursor(e.getX(), e.getY());
-	        repaint();
-	      }
-	    }
+					updateCursor(e.getX(), e.getY());
+					repaint();
+				}
+			}
 
-	    @Override
-	    public void mousePressed(MouseEvent e) {
-	      int currentTab = getCurrentCodeIndex();
-	      // check for clicks on number handles
-	      for (Handle n : handles.get(currentTab)) {
-	        if (n.pick(e.getX(), e.getY())) {
-	          cursorType = -1;
-	          JavaTextAreaPainter.this.setCursor(blankCursor);
-	          mouseHandle = n;
-	          mouseHandle.setCenterX(e.getX());
-	          repaint();
-	          return;
-	        }
-	      }
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int currentTab = getCurrentCodeIndex();
+				// check for clicks on number handles
+				for (Handle n : handles.get(currentTab)) {
+					if (n.pick(e.getX(), e.getY())) {
+						cursorType = -1;
+						JavaTextAreaPainter.this.setCursor(blankCursor);
+						mouseHandle = n;
+						mouseHandle.setCenterX(e.getX());
+						repaint();
+						return;
+					}
+				}
 
-	      // check for clicks on color boxes
-	      for (ColorControlBox box : colorBoxes.get(currentTab)) {
-	        if (box.pick(e.getX(), e.getY())) {
-	          if (colorSelector != null) {
-	            // we already show a color selector, close it
-	            colorSelector.frame.dispatchEvent(new WindowEvent(colorSelector.frame, WindowEvent.WINDOW_CLOSING));
-	          }
+				// check for clicks on color boxes
+				for (ColorControlBox box : colorBoxes.get(currentTab)) {
+					if (box.pick(e.getX(), e.getY())) {
+						if (colorSelector != null) {
+							// we already show a color selector, close it
+							colorSelector.frame.dispatchEvent(new WindowEvent(colorSelector.frame, WindowEvent.WINDOW_CLOSING));
+						}
 
-	          colorSelector = new ColorSelector(box);
-	          colorSelector.frame.addWindowListener(new WindowAdapter() {
-	            public void windowClosing(WindowEvent e) {
-	              colorSelector.frame.setVisible(false);
-	              colorSelector = null;
-	            }
-	          });
-	          colorSelector.show(getLocationOnScreen().x + e.getX() + 30,
-	                             getLocationOnScreen().y + e.getY() - 130);
-	        }
-	      }
-	    }
+						colorSelector = new ColorSelector(box);
+						colorSelector.frame.addWindowListener(new WindowAdapter() {
+							public void windowClosing(WindowEvent e) {
+								colorSelector.frame.setVisible(false);
+								colorSelector = null;
+							}
+						});
+						colorSelector.show(getLocationOnScreen().x + e.getX() + 30,
+															 getLocationOnScreen().y + e.getY() - 130);
+					}
+				}
+			}
 
-      @Override
-      public void mouseExited(MouseEvent e) { }
+			@Override
+			public void mouseExited(MouseEvent e) { }
 
-      @Override
-      public void mouseEntered(MouseEvent e) { }
+			@Override
+			public void mouseEntered(MouseEvent e) { }
 
-      @Override
-      public void mouseClicked(MouseEvent e) { }
-    });
+			@Override
+			public void mouseClicked(MouseEvent e) { }
+		});
 
-	  addMouseMotionListener(new MouseMotionListener() {
+		addMouseMotionListener(new MouseMotionListener() {
 
-	    @Override
-	    public void mouseMoved(MouseEvent e) {
-	      updateCursor(e.getX(), e.getY());
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				updateCursor(e.getX(), e.getY());
 
-	      if (!Settings.alwaysShowColorBoxes) {
-	        showHideColorBoxes(e.getY());
-	      }
-	    }
+				if (!Settings.alwaysShowColorBoxes) {
+					showHideColorBoxes(e.getY());
+				}
+			}
 
-	    @Override
-	    public void mouseDragged(MouseEvent e) {
-	      if (mouseHandle != null) {
-	        // set the current drag amount of the arrows
-	        mouseHandle.setCurrentX(e.getX());
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if (mouseHandle != null) {
+					// set the current drag amount of the arrows
+					mouseHandle.setCurrentX(e.getX());
 
-	        // update code text with the new value
-	        updateCodeText();
+					// update code text with the new value
+					updateCodeText();
 
-	        if (colorSelector != null) {
-	          colorSelector.refreshColor();
-	        }
+					if (colorSelector != null) {
+						colorSelector.refreshColor();
+					}
 
-	        repaint();
-	      }
-	    }
-    });
-	  tweakMode = true;
-	  setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					repaint();
+				}
+			}
+		});
+		tweakMode = true;
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		repaint();
 	}
 
@@ -220,7 +220,7 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 		if (colorSelector != null) {
 			colorSelector.hide();
 			WindowEvent windowEvent =
-			  new WindowEvent(colorSelector.frame, WindowEvent.WINDOW_CLOSING);
+				new WindowEvent(colorSelector.frame, WindowEvent.WINDOW_CLOSING);
 			colorSelector.frame.dispatchEvent(windowEvent);
 		}
 
@@ -230,7 +230,7 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 
 
 	protected void updateTweakInterface(List<List<Handle>> handles,
-	                                    List<List<ColorControlBox>> colorBoxes) {
+																			List<List<ColorControlBox>> colorBoxes) {
 		this.handles = handles;
 		this.colorBoxes = colorBoxes;
 
@@ -301,12 +301,12 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 
 	// don't paint while we do the stuff below
 	private synchronized void replaceTextAreaCode(String code) {
-	  // by default setText will scroll all the way to the end
-	  // remember current scroll position
-	  int scrollLine = textArea.getVerticalScrollPosition();
-	  int scrollHor = textArea.getHorizontalScrollPosition();
-	  textArea.setText(code);
-	  textArea.setOrigin(scrollLine, -scrollHor);
+		// by default setText will scroll all the way to the end
+		// remember current scroll position
+		int scrollLine = textArea.getVerticalScrollPosition();
+		int scrollHor = textArea.getHorizontalScrollPosition();
+		textArea.setText(code);
+		textArea.setOrigin(scrollLine, -scrollHor);
 	}
 
 
@@ -334,17 +334,17 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 		}
 
 		if (cursorType == Cursor.W_RESIZE_CURSOR ||
-		    cursorType == Cursor.HAND_CURSOR ||
-		    cursorType == -1) {
-		  cursorType = Cursor.DEFAULT_CURSOR;
+				cursorType == Cursor.HAND_CURSOR ||
+				cursorType == -1) {
+			cursorType = Cursor.DEFAULT_CURSOR;
 			setCursor(new Cursor(cursorType));
 		}
 	}
 
 
 	private void showHideColorBoxes(int y) {
-	  // display the box if the mouse if in the same line.
-	  // always keep the color box of the color selector.
+		// display the box if the mouse if in the same line.
+		// always keep the color box of the color selector.
 		int currentTab = getCurrentCodeIndex();
 
 		boolean change = false;
@@ -368,11 +368,11 @@ public class JavaTextAreaPainter extends PdeTextAreaPainter {
 
 
 	private JavaEditor getJavaEditor() {
-	  return (JavaEditor) getEditor();
+		return (JavaEditor) getEditor();
 	}
 
 
 	private int getCurrentCodeIndex() {
-	  return getEditor().getSketch().getCurrentCodeIndex();
+		return getEditor().getSketch().getCurrentCodeIndex();
 	}
 }

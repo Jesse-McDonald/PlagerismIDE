@@ -23,154 +23,154 @@ import javax.swing.text.Segment;
  * @version $Id$
  */
 public class KeywordMap {
-//  private Keyword[] map;
-//  protected int mapLength;
+//	private Keyword[] map;
+//	protected int mapLength;
 
-  private boolean ignoreCase;
-  private Keyword[] literalMap;
-  private Keyword[] parenMap;
+	private boolean ignoreCase;
+	private Keyword[] literalMap;
+	private Keyword[] parenMap;
 
-  // A value of 52 will give good performance for most maps.
-  static private int MAP_LENGTH = 52;
+	// A value of 52 will give good performance for most maps.
+	static private int MAP_LENGTH = 52;
 
-  /**
-   * Creates a new <code>KeywordMap</code>.
-   * @param ignoreCase True if keys are case insensitive
-   */
-  public KeywordMap(boolean ignoreCase) {
-//    this(ignoreCase, 52);
-    this.ignoreCase = ignoreCase;
-    literalMap = new Keyword[MAP_LENGTH];
-    parenMap = new Keyword[MAP_LENGTH];
-  }
-
-
-//  /**
-//   * Creates a new <code>KeywordMap</code>.
-//   * @param ignoreCase True if the keys are case insensitive
-//   * @param mapLength The number of `buckets' to create.
-//   * A value of 52 will give good performance for most maps.
-//   */
-//  public KeywordMap(boolean ignoreCase, int mapLength) {
-//    this.mapLength = mapLength;
-//    this.ignoreCase = ignoreCase;
-//    map = new Keyword[mapLength];
-//  }
+	/**
+	 * Creates a new <code>KeywordMap</code>.
+	 * @param ignoreCase True if keys are case insensitive
+	 */
+	public KeywordMap(boolean ignoreCase) {
+//		this(ignoreCase, 52);
+		this.ignoreCase = ignoreCase;
+		literalMap = new Keyword[MAP_LENGTH];
+		parenMap = new Keyword[MAP_LENGTH];
+	}
 
 
-  /**
-   * Looks up a key.
-   * @param text The text segment
-   * @param offset The offset of the substring within the text segment
-   * @param length The length of the substring
-   */
-  public byte lookup(Segment text, int offset, int length, boolean paren) {
-    if (length == 0) {
-      return Token.NULL;
-    }
-    int key = getSegmentMapKey(text, offset, length);
-    Keyword k = paren ? parenMap[key] : literalMap[key];
-    while (k != null) {
-//      if (length != k.keyword.length) {
-//        k = k.next;
-//        continue;
-//      }
-      if (length == k.keyword.length) {
-        if (regionMatches(ignoreCase, text, offset, k.keyword)) {
-          return k.id;
-        }
-      }
-      k = k.next;
-    }
-    return Token.NULL;
-  }
+//	/**
+//	 * Creates a new <code>KeywordMap</code>.
+//	 * @param ignoreCase True if the keys are case insensitive
+//	 * @param mapLength The number of `buckets' to create.
+//	 * A value of 52 will give good performance for most maps.
+//	 */
+//	public KeywordMap(boolean ignoreCase, int mapLength) {
+//		this.mapLength = mapLength;
+//		this.ignoreCase = ignoreCase;
+//		map = new Keyword[mapLength];
+//	}
 
 
-  /**
-   * Checks if a subregion of a <code>Segment</code> is equal to a
-   * character array.
-   * @param ignoreCase True if case should be ignored, false otherwise
-   * @param text The segment
-   * @param offset The offset into the segment
-   * @param match The character array to match
-   */
-  static public boolean regionMatches(boolean ignoreCase, Segment text,
-                                      int offset, char[] match) {
-    int length = offset + match.length;
-    char[] textArray = text.array;
-    if (length > text.offset + text.count) {
-      return false;
-    }
-    for (int i = offset, j = 0; i < length; i++, j++) {
-      char c1 = textArray[i];
-      char c2 = match[j];
-      if (ignoreCase) {
-        c1 = Character.toUpperCase(c1);
-        c2 = Character.toUpperCase(c2);
-      }
-      if (c1 != c2) {
-        return false;
-      }
-    }
-    return true;
-  }
+	/**
+	 * Looks up a key.
+	 * @param text The text segment
+	 * @param offset The offset of the substring within the text segment
+	 * @param length The length of the substring
+	 */
+	public byte lookup(Segment text, int offset, int length, boolean paren) {
+		if (length == 0) {
+			return Token.NULL;
+		}
+		int key = getSegmentMapKey(text, offset, length);
+		Keyword k = paren ? parenMap[key] : literalMap[key];
+		while (k != null) {
+//			if (length != k.keyword.length) {
+//				k = k.next;
+//				continue;
+//			}
+			if (length == k.keyword.length) {
+				if (regionMatches(ignoreCase, text, offset, k.keyword)) {
+					return k.id;
+				}
+			}
+			k = k.next;
+		}
+		return Token.NULL;
+	}
 
 
-  /**
-   * Adds a key-value mapping.
-   * @param keyword The key
-   * @param id The value
-   */
-  public void add(String keyword, byte id, boolean paren) {
-    int key = getStringMapKey(keyword);
-    Keyword[] map = paren ? parenMap : literalMap;
-    map[key] = new Keyword(keyword.toCharArray(), id, map[key]);
-  }
+	/**
+	 * Checks if a subregion of a <code>Segment</code> is equal to a
+	 * character array.
+	 * @param ignoreCase True if case should be ignored, false otherwise
+	 * @param text The segment
+	 * @param offset The offset into the segment
+	 * @param match The character array to match
+	 */
+	static public boolean regionMatches(boolean ignoreCase, Segment text,
+																			int offset, char[] match) {
+		int length = offset + match.length;
+		char[] textArray = text.array;
+		if (length > text.offset + text.count) {
+			return false;
+		}
+		for (int i = offset, j = 0; i < length; i++, j++) {
+			char c1 = textArray[i];
+			char c2 = match[j];
+			if (ignoreCase) {
+				c1 = Character.toUpperCase(c1);
+				c2 = Character.toUpperCase(c2);
+			}
+			if (c1 != c2) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 
-  /**
-   * Returns true if the keyword map is set to be case insensitive,
-   * false otherwise.
-   */
-  public boolean getIgnoreCase() {
-    return ignoreCase;
-  }
+	/**
+	 * Adds a key-value mapping.
+	 * @param keyword The key
+	 * @param id The value
+	 */
+	public void add(String keyword, byte id, boolean paren) {
+		int key = getStringMapKey(keyword);
+		Keyword[] map = paren ? parenMap : literalMap;
+		map[key] = new Keyword(keyword.toCharArray(), id, map[key]);
+	}
 
 
-  /**
-   * Sets if the keyword map should be case insensitive.
-   * @param ignoreCase True if the keyword map should be case
-   * insensitive, false otherwise
-   */
-  public void setIgnoreCase(boolean ignoreCase) {
-    this.ignoreCase = ignoreCase;
-  }
+	/**
+	 * Returns true if the keyword map is set to be case insensitive,
+	 * false otherwise.
+	 */
+	public boolean getIgnoreCase() {
+		return ignoreCase;
+	}
 
 
-  protected int getStringMapKey(String s) {
-    return (Character.toUpperCase(s.charAt(0)) +
-      Character.toUpperCase(s.charAt(s.length()-1)))
-      % MAP_LENGTH;
-  }
+	/**
+	 * Sets if the keyword map should be case insensitive.
+	 * @param ignoreCase True if the keyword map should be case
+	 * insensitive, false otherwise
+	 */
+	public void setIgnoreCase(boolean ignoreCase) {
+		this.ignoreCase = ignoreCase;
+	}
 
 
-  protected int getSegmentMapKey(Segment s, int off, int len) {
-    return (Character.toUpperCase(s.array[off]) +
-      Character.toUpperCase(s.array[off + len - 1]))
-      % MAP_LENGTH;
-  }
+	protected int getStringMapKey(String s) {
+		return (Character.toUpperCase(s.charAt(0)) +
+			Character.toUpperCase(s.charAt(s.length()-1)))
+			% MAP_LENGTH;
+	}
 
 
-  // private members
-  private static class Keyword {
-    public final char[] keyword;
-    public final byte id;
-    public final Keyword next;
+	protected int getSegmentMapKey(Segment s, int off, int len) {
+		return (Character.toUpperCase(s.array[off]) +
+			Character.toUpperCase(s.array[off + len - 1]))
+			% MAP_LENGTH;
+	}
 
-    public Keyword(char[] keyword, byte id, Keyword next) {
-      this.keyword = keyword;
-      this.id = id;
-      this.next = next;
-    }
-  }
+
+	// private members
+	private static class Keyword {
+		public final char[] keyword;
+		public final byte id;
+		public final Keyword next;
+
+		public Keyword(char[] keyword, byte id, Keyword next) {
+			this.keyword = keyword;
+			this.id = id;
+			this.next = next;
+		}
+	}
 }

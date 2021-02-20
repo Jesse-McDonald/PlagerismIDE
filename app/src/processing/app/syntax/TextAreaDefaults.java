@@ -18,28 +18,28 @@ import java.awt.*;
  * creating the text area is that this method is faster.
  */
 public class TextAreaDefaults {
-  public SyntaxDocument document;
+	public SyntaxDocument document;
 
-  public boolean caretVisible;
-  public boolean caretBlinks;
-  public boolean blockCaret;
-  public int electricScroll;
+	public boolean caretVisible;
+	public boolean caretBlinks;
+	public boolean blockCaret;
+	public int electricScroll;
 
-  // default/preferred number of rows/cols
-  public int cols;
-  public int rows;
+	// default/preferred number of rows/cols
+	public int cols;
+	public int rows;
 
-  public SyntaxStyle[] styles;
-  public Color caretColor;
-  public Color selectionColor;
-  public Color lineHighlightColor;
-  public boolean lineHighlight;
-  public Color bracketHighlightColor;
-  public boolean bracketHighlight;
-  public Color eolMarkerColor;
-  public boolean eolMarkers;
-  public boolean paintInvalid;
+	public SyntaxStyle[] styles;
+	public Color caretColor;
+	public Color selectionColor;
+	public Color lineHighlightColor;
+	public boolean lineHighlight;
+	public Color bracketHighlightColor;
+	public boolean bracketHighlight;
+	public Color eolMarkerColor;
+	public boolean eolMarkers;
+	public boolean paintInvalid;
 
-  public Color fgcolor;
-  public Color bgcolor;
+	public Color fgcolor;
+	public Color bgcolor;
 }

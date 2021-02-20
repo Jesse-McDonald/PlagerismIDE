@@ -26,86 +26,86 @@ import processing.app.Base;
  *
  */
 public class StreamPump implements Runnable {
-  private static final ExecutorService threads = 
-    Executors.newCachedThreadPool(new ThreadFactory() {
-        public Thread newThread(final Runnable r) {
-          final Thread t = new Thread(r);
-          t.setDaemon(true);
-          t.setName("StreamPump " + t.getId());
-          return t;
-        }
-      });
+	private static final ExecutorService threads = 
+		Executors.newCachedThreadPool(new ThreadFactory() {
+				public Thread newThread(final Runnable r) {
+					final Thread t = new Thread(r);
+					t.setDaemon(true);
+					t.setName("StreamPump " + t.getId());
+					return t;
+				}
+			});
 
-  private final BufferedReader reader;
-  private final List<LineProcessor> outs = new CopyOnWriteArrayList<LineProcessor>();
-  private final String name;
+	private final BufferedReader reader;
+	private final List<LineProcessor> outs = new CopyOnWriteArrayList<LineProcessor>();
+	private final String name;
 
-  public StreamPump(final InputStream in, final String name) {
-    this.reader = new BufferedReader(new InputStreamReader(in));
-    this.name = name;
-  }
+	public StreamPump(final InputStream in, final String name) {
+		this.reader = new BufferedReader(new InputStreamReader(in));
+		this.name = name;
+	}
 
-  public StreamPump addTarget(final OutputStream out) {
-    outs.add(new WriterLineProcessor(out));
-    return this;
-  }
+	public StreamPump addTarget(final OutputStream out) {
+		outs.add(new WriterLineProcessor(out));
+		return this;
+	}
 
-  public StreamPump addTarget(final Writer out) {
-    outs.add(new WriterLineProcessor(out));
-    return this;
-  }
+	public StreamPump addTarget(final Writer out) {
+		outs.add(new WriterLineProcessor(out));
+		return this;
+	}
 
-  public StreamPump addTarget(final LineProcessor out) {
-    outs.add(out);
-    return this;
-  }
+	public StreamPump addTarget(final LineProcessor out) {
+		outs.add(out);
+		return this;
+	}
 
-  public void start() {
-//    System.out.println("starting new StreamPump");
-//    new Exception().printStackTrace(EditorConsole.systemOut);
-    threads.execute(this);
-  }
+	public void start() {
+//		System.out.println("starting new StreamPump");
+//		new Exception().printStackTrace(EditorConsole.systemOut);
+		threads.execute(this);
+	}
 
-  public void run() {
-    try {
-      String line;
-      while ((line = reader.readLine()) != null) {
-        for (final LineProcessor out : outs) {
-          try {
-            out.processLine(line);
-          } catch (final Exception e) {
-          }
-        }
-      }
-    } catch (final IOException e) {
-      if (Base.DEBUG) {
-        System.err.println("StreamPump: " + name);
-        e.printStackTrace(System.err);
-        // removing for 0190, but need a better way to handle these
-        throw new RuntimeException("Inside " + this + " for " + name, e);
-      }
-    }
-  }
+	public void run() {
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				for (final LineProcessor out : outs) {
+					try {
+						out.processLine(line);
+					} catch (final Exception e) {
+					}
+				}
+			}
+		} catch (final IOException e) {
+			if (Base.DEBUG) {
+				System.err.println("StreamPump: " + name);
+				e.printStackTrace(System.err);
+				// removing for 0190, but need a better way to handle these
+				throw new RuntimeException("Inside " + this + " for " + name, e);
+			}
+		}
+	}
 
-  private static class WriterLineProcessor implements LineProcessor {
-    private final PrintWriter writer;
+	private static class WriterLineProcessor implements LineProcessor {
+		private final PrintWriter writer;
 
-    private WriterLineProcessor(final OutputStream out) {
-      this.writer = new PrintWriter(out, true);
-    }
+		private WriterLineProcessor(final OutputStream out) {
+			this.writer = new PrintWriter(out, true);
+		}
 
-    private WriterLineProcessor(final Writer writer) {
-      this.writer = new PrintWriter(writer, true);
-    }
+		private WriterLineProcessor(final Writer writer) {
+			this.writer = new PrintWriter(writer, true);
+		}
 
-    public void processLine(final String line) {
-      writer.println(line);
-    }
-  }
+		public void processLine(final String line) {
+			writer.println(line);
+		}
+	}
 
-//  public static final LineProcessor DEVNULL = new LineProcessor() {
-//    public void processLine(final String line) {
-//      // noop
-//    }
-//  };
+//	public static final LineProcessor DEVNULL = new LineProcessor() {
+//		public void processLine(final String line) {
+//			// noop
+//		}
+//	};
 }

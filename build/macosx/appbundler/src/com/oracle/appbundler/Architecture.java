@@ -5,13 +5,13 @@
  *
  * This code is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  The Infinite Kind designates this
+ * published by the Free Software Foundation.	The Infinite Kind designates this
  * particular file as subject to the "Classpath" exception as provided
  * by The Infinite Kind in the LICENSE file that accompanied this code.
  *
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * FITNESS FOR A PARTICULAR PURPOSE.	See the GNU General Public License
  * version 2 for more details (a copy is included in the LICENSE file that
  * accompanied this code).
  *
@@ -28,18 +28,18 @@ package com.oracle.appbundler;
  * to indicate which architectures the binary support.
  */
 public class Architecture {
-    private String name = null;
+		private String name = null;
 
-    public String getName() {
-        return name;
-    }
+		public String getName() {
+				return name;
+		}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+		public void setName(String name) {
+				this.name = name;
+		}
 
-    @Override
-    public String toString() {
-        return name;
-    }
+		@Override
+		public String toString() {
+				return name;
+		}
 }
