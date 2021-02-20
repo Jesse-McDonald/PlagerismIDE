@@ -10362,11 +10362,11 @@ public class PApplet implements PConstants {
 	 * @see PApplet#colorMode(int)
 	 */
 	public final int color(int gray) {
-		if (g == null) {
+		//if (g == null) {
 			if (gray > 255) gray = 255; else if (gray < 0) gray = 0;
 			return 0xff000000 | (gray << 16) | (gray << 8) | gray;
-		}
-		return g.color(gray);
+		//}
+		//return g.color(gray);
 	}
 
 
@@ -10375,12 +10375,12 @@ public class PApplet implements PConstants {
 	 * @param fgray number specifying value between white and black
 	 */
 	public final int color(float fgray) {
-		if (g == null) {
+		//if (g == null) {
 			int gray = (int) fgray;
 			if (gray > 255) gray = 255; else if (gray < 0) gray = 0;
 			return 0xff000000 | (gray << 16) | (gray << 8) | gray;
-		}
-		return g.color(fgray);
+		//}
+		//return g.color(fgray);
 	}
 
 
@@ -10389,7 +10389,7 @@ public class PApplet implements PConstants {
 	 * @param alpha relative to current color range
 	 */
 	public final int color(int gray, int alpha) {
-		if (g == null) {
+		//if (g == null) {
 			if (alpha > 255) alpha = 255; else if (alpha < 0) alpha = 0;
 			if (gray > 255) {
 				// then assume this is actually a #FF8800
@@ -10398,8 +10398,8 @@ public class PApplet implements PConstants {
 				//if (gray > 255) gray = 255; else if (gray < 0) gray = 0;
 				return (alpha << 24) | (gray << 16) | (gray << 8) | gray;
 			}
-		}
-		return g.color(gray, alpha);
+		//}
+		//return g.color(gray, alpha);
 	}
 
 
@@ -10407,14 +10407,14 @@ public class PApplet implements PConstants {
 	 * @nowebref
 	 */
 	public final int color(float fgray, float falpha) {
-		if (g == null) {
+		//if (g == null) {
 			int gray = (int) fgray;
 			int alpha = (int) falpha;
 			if (gray > 255) gray = 255; else if (gray < 0) gray = 0;
 			if (alpha > 255) alpha = 255; else if (alpha < 0) alpha = 0;
 			return (alpha << 24) | (gray << 16) | (gray << 8) | gray;
-		}
-		return g.color(fgray, falpha);
+		//}
+		//return g.color(fgray, falpha);
 	}
 
 
@@ -10424,52 +10424,52 @@ public class PApplet implements PConstants {
 	 * @param v3 blue or brightness values relative to the current color range
 	 */
 	public final int color(int v1, int v2, int v3) {
-		if (g == null) {
+		//if (g == null) {
 			if (v1 > 255) v1 = 255; else if (v1 < 0) v1 = 0;
 			if (v2 > 255) v2 = 255; else if (v2 < 0) v2 = 0;
 			if (v3 > 255) v3 = 255; else if (v3 < 0) v3 = 0;
 
 			return 0xff000000 | (v1 << 16) | (v2 << 8) | v3;
-		}
-		return g.color(v1, v2, v3);
+		//}
+		//return g.color(v1, v2, v3);
 	}
 
 
 	public final int color(int v1, int v2, int v3, int alpha) {
-		if (g == null) {
+		//if (g == null) {
 			if (alpha > 255) alpha = 255; else if (alpha < 0) alpha = 0;
 			if (v1 > 255) v1 = 255; else if (v1 < 0) v1 = 0;
 			if (v2 > 255) v2 = 255; else if (v2 < 0) v2 = 0;
 			if (v3 > 255) v3 = 255; else if (v3 < 0) v3 = 0;
 
 			return (alpha << 24) | (v1 << 16) | (v2 << 8) | v3;
-		}
-		return g.color(v1, v2, v3, alpha);
+		//}
+		//return g.color(v1, v2, v3, alpha);
 	}
 
 
 	public final int color(float v1, float v2, float v3) {
-		if (g == null) {
+		//if (g == null) {
 			if (v1 > 255) v1 = 255; else if (v1 < 0) v1 = 0;
 			if (v2 > 255) v2 = 255; else if (v2 < 0) v2 = 0;
 			if (v3 > 255) v3 = 255; else if (v3 < 0) v3 = 0;
 
 			return 0xff000000 | ((int)v1 << 16) | ((int)v2 << 8) | (int)v3;
-		}
-		return g.color(v1, v2, v3);
+		//}
+		//return g.color(v1, v2, v3);
 	}
 
 
 	public final int color(float v1, float v2, float v3, float alpha) {
-		if (g == null) {
+		//if (g == null) {
 			if (alpha > 255) alpha = 255; else if (alpha < 0) alpha = 0;
 			if (v1 > 255) v1 = 255; else if (v1 < 0) v1 = 0;
 			if (v2 > 255) v2 = 255; else if (v2 < 0) v2 = 0;
 			if (v3 > 255) v3 = 255; else if (v3 < 0) v3 = 0;
 
 			return ((int)alpha << 24) | ((int)v1 << 16) | ((int)v2 << 8) | (int)v3;
-		}
-		return g.color(v1, v2, v3, alpha);
+		//}
+		//return g.color(v1, v2, v3, alpha);
 	}
 
 
