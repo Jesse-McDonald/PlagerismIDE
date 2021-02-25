@@ -30,6 +30,7 @@ import java.awt.im.InputMethodRequests;
 import processing.app.syntax.im.InputMethodSupport;
 import processing.core.PApplet;
 
+import plagerism.Logger;
 /**
  * The text area component from the JEdit Syntax (syntax.jedit.org) project.
  * This is a very early version of what later was completely rewritten and
@@ -89,7 +90,11 @@ public class JEditTextArea extends JComponent
 	 */
 	public JEditTextArea(TextAreaDefaults defaults, InputHandler inputHandler) {
 		this.defaults = defaults;
-
+		
+		Logger.init();
+		Logger.add("Successfully initilized logger");
+		Logger.flush();
+		
 		// Enable the necessary events
 		enableEvents(AWTEvent.KEY_EVENT_MASK);
 
@@ -990,6 +995,7 @@ public class JEditTextArea extends JComponent
 	 * Sets the entire text of this text area.
 	 */
 	public void setText(String text) {
+		
 		try {
 			document.beginCompoundEdit();
 			document.remove(0,document.getLength());
@@ -1382,6 +1388,8 @@ public class JEditTextArea extends JComponent
 	 * recorded as a compound edit
 	 */
 	public void setSelectedText(String selectedText, boolean recordCompoundEdit) {
+		Logger.add("Seting selected text");
+		Logger.add(selectedText);
 		if (!editable) {
 			throw new InternalError("Text component read only");
 		}
@@ -1577,11 +1585,16 @@ public class JEditTextArea extends JComponent
 	 * Places the selected text into the clipboard.
 	 */
 	public void copy() {
+		
+
 		if (selectionStart != selectionEnd) {
 			Clipboard clipboard = getToolkit().getSystemClipboard();
 
 			String selection = getSelectedText();
 			if (selection != null) {
+				Logger.add("Copied");
+				Logger.add(selection);
+				Logger.flush();
 				int repeatCount = inputHandler.getRepeatCount();
 				StringBuilder sb = new StringBuilder();
 				for(int i = 0; i < repeatCount; i++)
