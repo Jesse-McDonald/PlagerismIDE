@@ -4,46 +4,60 @@ import java.io.IOException;
 import java.util.LinkedList;
 public class Logger{
 	public static String logfile="D:/test.txt";
-	public static FileWriter logWriter;
+
 	public static LinkedList<Entry> past;
 	public static LinkedList<Entry> future;
+	public static boolean futureSafe=false;
 	public static String label="typing";
 	public static Logger init(){
-		past=new LinkedList<Entry>();
-		future=new LinkedList<Entry>();
+
 		return init("D:/test.txt");
 	}
-	public static setLabel(String l){
+	public static Logger setLabel(String l){
 		label=l;
 		return new Logger();
 	}
 	public static Logger init(String log){
-		try{
-			if(logWriter!=null){
-				
-				logWriter.close();
-				
-			}
 			logfile=log;
-			logWriter=new FileWriter(logfile);
-		}catch(IOException e){}
-		return new Logger();
-	}
-	public static Logger close(String log){
-		try{
-			logWriter.close();
-		}catch(IOException e){}
-		return new Logger();
+			past=new LinkedList<Entry>();
+			future=new LinkedList<Entry>();
+			return new Logger();
 	}
 	public static Logger add(int pos, String log){
-		try{
-			past.addFirst(new Event(pos,log,label));
-		}catch(IOException e){}
+		return add(pos,pos,log);
+	}
+	public static Logger add(int pos, int end, String log){
+		
+		if(!futureSafe){//the redo que neads cleared
+			future.clear();
+		}
+		past.addFirst(new Entry(pos,end,log,label));
+
 		return new Logger();
 	}
-	public static Logger flush(){
+	public static Logger save(String currentFileContent){
 		try{
+			FileWriter logWriter=new FileWriter(logfile,false);
+			logWriter.write("{");
+			Entry[] writeArray=new Entry[past.size()];
+			past.toArray(writeArray);
+			logWriter.write("History:[");
+			for(int i=writeArray.length-1;i>=0;i--){
+				
+				writeArray[i].write(logWriter);
+				if(i!=0){
+					logWriter.write(",");
+				}
+			}
+			logWriter.write("],");
+			logWriter.write("Code:\"");
+			currentFileContent=currentFileContent.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n");//make file safe for json
+		
+			logWriter.write(currentFileContent);
+			logWriter.write("\"");
+			logWriter.write("}");
 			logWriter.flush();
+			logWriter.close();
 		}catch(IOException e){}
 		return new Logger();
 	}
@@ -59,15 +73,21 @@ public class Logger{
 				top=past.pop();
 		}
 		future.push(top);
-		
+		return new Logger();
+	}
+	public static Logger timeTravel(boolean state){//call when travling through time to supress future flushing
+		futureSafe=state;
+		return new Logger();
 	}
 	public static Logger redo(){
+		
 		Entry top=future.pop();
 		while(!past.isEmpty()&&!top.landmark){
 				past.addFirst(top);
 				top=future.pop();
 		}
 		past.push(top);
+		return new Logger();
 	}
 	
 }
