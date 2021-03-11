@@ -92,8 +92,6 @@ public class JEditTextArea extends JComponent
 		this.defaults = defaults;
 		
 		Logger.init();
-		Logger.add("Successfully initilized logger");
-		Logger.flush();
 		
 		// Enable the necessary events
 		enableEvents(AWTEvent.KEY_EVENT_MASK);
@@ -1388,8 +1386,7 @@ public class JEditTextArea extends JComponent
 	 * recorded as a compound edit
 	 */
 	public void setSelectedText(String selectedText, boolean recordCompoundEdit) {
-		Logger.add("Seting selected text");
-		Logger.add(selectedText);
+		
 		if (!editable) {
 			throw new InternalError("Text component read only");
 		}
@@ -1401,7 +1398,10 @@ public class JEditTextArea extends JComponent
 		try {
 			document.remove(selectionStart, selectionEnd - selectionStart);
 			if (selectedText != null) {
+				
 				document.insertString(selectionStart, selectedText,null);
+				Logger.add(selectionStart,selectionEnd,selectedText);
+		
 			}
 		} catch (BadLocationException bl) {
 			bl.printStackTrace();
@@ -1512,7 +1512,7 @@ public class JEditTextArea extends JComponent
 		}
 	}
 
-	/**
+	/** 
 	 * Returns true if overwrite mode is enabled, false otherwise.
 	 */
 	public final boolean isOverwriteEnabled()
@@ -1575,8 +1575,10 @@ public class JEditTextArea extends JComponent
 	 */
 	public void cut() {
 		if (editable) {
+			Logger.setLabel("Cut");
 			copy();
 			setSelectedText("");
+			Logger.setLabel("Typing");
 		}
 	}
 
@@ -1592,15 +1594,21 @@ public class JEditTextArea extends JComponent
 
 			String selection = getSelectedText();
 			if (selection != null) {
-				Logger.add("Copied");
-				Logger.add(selection);
-				Logger.flush();
+				boolean label=!Logger.label.equals("Cut");
+				if(label){
+					Logger.setLabel("Copy");
+				}
+				//call to Logger.inject when it is written
+				Logger.add(-1,-1,selection);
 				int repeatCount = inputHandler.getRepeatCount();
 				StringBuilder sb = new StringBuilder();
 				for(int i = 0; i < repeatCount; i++)
 					sb.append(selection);
 
 				clipboard.setContents(new StringSelection(sb.toString()), null);
+				if(label){
+					Logger.setLabel("Typing");
+				}
 			}
 		}
 	}
@@ -1778,8 +1786,10 @@ public class JEditTextArea extends JComponent
 	 */
 	public void paste() {
 //		System.out.println("focus owner is: " + isFocusOwner());
+		Logger.setLabel("Paste");
 		if (editable) {
 			Clipboard clipboard = getToolkit().getSystemClipboard();
+			//call Logger.parse here when implimented
 			try {
 				String selection =
 					((String) clipboard.getContents(this).getTransferData(DataFlavor.stringFlavor));
@@ -1794,6 +1804,7 @@ public class JEditTextArea extends JComponent
 
 				// Remove tabs and replace with spaces
 				// http://code.google.com/p/processing/issues/detail?id=69
+				/*
 				if (selection.contains("\t")) {
 					int tabSize = Preferences.getInteger("editor.tabs.size");
 					char[] c = new char[tabSize];
@@ -1801,7 +1812,9 @@ public class JEditTextArea extends JComponent
 					String tabString = new String(c);
 					selection = selection.replaceAll("\t", tabString);
 				}
-
+				*/
+				//but I like my tabs
+				
 				// Replace unicode x00A0 (non-breaking space) with just a plain space.
 				// Seen often on Mac OS X when pasting from Safari. [fry 030929]
 				selection = selection.replace('\u00A0', ' ');
@@ -1839,6 +1852,7 @@ public class JEditTextArea extends JComponent
 				}
 
 			}
+			Logger.setLabel("Typing");
 		}
 	}
 
