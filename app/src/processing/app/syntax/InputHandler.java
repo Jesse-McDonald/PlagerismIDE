@@ -992,8 +992,7 @@ public abstract class InputHandler extends KeyAdapter
 
 			textArea.setFirstLine(firstLine - visibleLines);
 
-			int caret = textArea.getLineStartOffset(
-																							Math.max(0,line - visibleLines));
+			int caret = textArea.getLineStartOffset(Math.max(0,line - visibleLines));
 			if (select)
 				textArea.select(textArea.getMarkPosition(),caret);
 			else

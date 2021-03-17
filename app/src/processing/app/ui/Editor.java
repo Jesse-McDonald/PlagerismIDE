@@ -336,7 +336,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		box.add(splitPane);
 
 		contentPain.add(box);
-
+		//insert history mark here
 		// end an undo-chunk any time the caret moves unless it's when text is edited
 		textarea.addCaretListener(new CaretListener() {
 			String lastText = textarea.getText();
@@ -1645,7 +1645,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		startCompoundEdit();
 		int caret = getCaretOffset();
 		setSelection(caret, caret);
-		textarea.setSelectedText(what);
+		setSelectedText(what);//direct to setSelected text function instead of directly to textArea
 		stopCompoundEdit();
 	}
 
