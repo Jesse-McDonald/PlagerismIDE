@@ -1383,6 +1383,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			Logger.timeTravel(true);
 			stopCompoundEdit();
 
 			try {
@@ -1394,6 +1395,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 			}
 			try {
 				undo.undo();
+				Logger.undo();
 			} catch (CannotUndoException ex) {
 				//System.out.println("Unable to undo: " + ex);
 				//ex.printStackTrace();
@@ -1412,6 +1414,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 				}
 				repaintHeader();
 			}
+			Logger.timeTravel(false);
 		}
 
 		protected void updateUndoState() {
@@ -1449,10 +1452,11 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			Logger.timeTravel(true);
 			stopCompoundEdit();
-
 			try {
 				undo.redo();
+				Logger.redo();
 			} catch (CannotRedoException ex) {
 				//System.out.println("Unable to redo: " + ex);
 				//ex.printStackTrace();
@@ -1478,6 +1482,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 				}
 				repaintHeader();
 			}
+			Logger.timeTravel(false);
 		}
 
 		protected void updateRedoState() {
