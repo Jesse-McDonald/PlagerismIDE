@@ -20,6 +20,27 @@ public class Entry{
 			landmark=true;
 			return this;
 		}
+		public String toString(){
+			StringBuilder ret=new StringBuilder();
+
+			ret.append("{");
+			ret.append("timestamp:");
+			ret.append(""+timeStamp);
+			ret.append(",position:");
+			if(pos==endPos){
+				ret.append(""+pos);
+			}else{
+				ret.append(pos+"-"+endPos);
+			}
+			ret.append(",label:");
+			ret.append("\""+label+"\"");
+			ret.append(",edit:");
+			
+			ret.append("\""+set.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n")+"\"");//make edit safe for json
+			
+			ret.append("}");
+			return ret.toString();
+		}
 		public Entry write(FileWriter logWriter) throws IOException{
 			logWriter.write("{");
 			logWriter.write("timestamp:");

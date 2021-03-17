@@ -70,7 +70,6 @@ import javax.swing.text.*;
 import javax.swing.text.html.*;
 import javax.swing.undo.*;
 
-import plagerism.Logger;
 /**
  * Main editor panel for the Processing Development Environment.
  */
@@ -422,8 +421,10 @@ public abstract class Editor extends JFrame implements RunnerListener {
 
 
 	protected JEditTextArea createTextArea() {
-		return new JEditTextArea(new PdeTextAreaDefaults(mode),
-														 new PdeInputHandler(this));
+		JEditTextArea ret=new JEditTextArea(new PdeTextAreaDefaults(mode),
+											new PdeInputHandler(this));
+		ret.setLogger(sketch.getLogger());
+		return ret;
 	}
 
 
@@ -1383,7 +1384,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			Logger.timeTravel(true);
+			sketch.timeTravel(true);
 			stopCompoundEdit();
 
 			try {
@@ -1395,7 +1396,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 			}
 			try {
 				undo.undo();
-				Logger.undo();
+				sketch.undo();
 			} catch (CannotUndoException ex) {
 				//System.out.println("Unable to undo: " + ex);
 				//ex.printStackTrace();
@@ -1414,7 +1415,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 				}
 				repaintHeader();
 			}
-			Logger.timeTravel(false);
+			sketch.timeTravel(false);
 		}
 
 		protected void updateUndoState() {
@@ -1452,11 +1453,11 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			Logger.timeTravel(true);
+			sketch.timeTravel(true);
 			stopCompoundEdit();
 			try {
 				undo.redo();
-				Logger.redo();
+				sketch.redo();
 			} catch (CannotRedoException ex) {
 				//System.out.println("Unable to redo: " + ex);
 				//ex.printStackTrace();
@@ -1482,7 +1483,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 				}
 				repaintHeader();
 			}
-			Logger.timeTravel(false);
+			sketch.timeTravel(false);
 		}
 
 		protected void updateRedoState() {
@@ -1637,6 +1638,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 	public void setText(String what) {
 		startCompoundEdit();
 		textarea.setText(what);
+		//sketch.add(0,-1,what);//turns out this is like.... never called
 		stopCompoundEdit();
 	}
 
@@ -1656,12 +1658,14 @@ public abstract class Editor extends JFrame implements RunnerListener {
 
 
 	public void setSelectedText(String what) {
-		textarea.setSelectedText(what);
+		textarea.setSelectedText(what);//should be only call to textArea.setSelectedText
+		sketch.add(getSelectionStart(),getSelectionStop(),what);
 	}
 
 
 	public void setSelectedText(String what, boolean ever) {
-		textarea.setSelectedText(what, ever);
+		textarea.setSelectedText(what, ever);//ok, this one too
+		sketch.add(getSelectionStart(),getSelectionStop(),what);
 	}
 
 
@@ -1723,7 +1727,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 	public void setLineText(int line, String what) {
 		startCompoundEdit();
 		textarea.select(getLineStartOffset(line), getLineStopOffset(line));
-		textarea.setSelectedText(what);
+		setSelectedText	(what);
 		stopCompoundEdit();
 	}
 
@@ -1885,7 +1889,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		textarea.setDocument(document,
 												 code.getSelectionStart(), code.getSelectionStop(),
 												 code.getScrollPosition());
-
+		textarea.setLogger(code.history);
 //		textarea.requestFocus();	// get the caret blinking
 		textarea.requestFocusInWindow();	// required for caret blinking
 
@@ -2023,20 +2027,20 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		if (moveUp) {
 			// Change the selection, then change the line above
 			textarea.select(selectionStart, selectionEnd);
-			textarea.setSelectedText(replacedText);
+			setSelectedText	(replacedText);
 
 			textarea.select(replaceStart, replaceEnd);
-			textarea.setSelectedText(selectedText);
+			setSelectedText	(selectedText);
 
 			newSelectionStart = textarea.getLineStartOffset(startLine - 1);
 			newSelectionEnd = textarea.getLineStopOffset(stopLine - 1) -	1;
 		} else {
 			// Change the line beneath, then change the selection
 			textarea.select(replaceStart, replaceEnd);
-			textarea.setSelectedText(selectedText);
+			setSelectedText	(selectedText);
 
 			textarea.select(selectionStart, selectionEnd);
-			textarea.setSelectedText(replacedText);
+			setSelectedText	(replacedText);
 
 			newSelectionStart = textarea.getLineStartOffset(startLine + 1);
 			newSelectionEnd = textarea.getLineStopOffset(stopLine + 1) - 1;
@@ -2059,7 +2063,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 			end--;
 
 		textarea.select(start, end);
-		textarea.setSelectedText("");
+		setSelectedText	("");
 	}
 	*/
 
@@ -2175,12 +2179,12 @@ public abstract class Editor extends JFrame implements RunnerListener {
 			if (commented) {
 				// remove a comment
 				textarea.select(location, location + prefixLen);
-				textarea.setSelectedText("");
+				setSelectedText	("");
 			} else {
 				// add a comment
 				location = textarea.getLineStartOffset(line) + lso;
 				textarea.select(location, location);
-				textarea.setSelectedText(prefix);
+				setSelectedText	(prefix);
 			}
 		}
 		// Subtract one from the end, otherwise selects past the current line.
@@ -2227,14 +2231,14 @@ public abstract class Editor extends JFrame implements RunnerListener {
 
 			if (indent) {
 				textarea.select(location, location);
-				textarea.setSelectedText(tabString);
+				setSelectedText	(tabString);
 
 			} else {	// outdent
 				int last = Math.min(location + tabSize, textarea.getDocumentLength());
 				textarea.select(location, last);
 				// Don't eat code if it's not indented
 				if (tabString.equals(textarea.getSelectedText())) {
-					textarea.setSelectedText("");
+					setSelectedText	("");
 				}
 			}
 		}

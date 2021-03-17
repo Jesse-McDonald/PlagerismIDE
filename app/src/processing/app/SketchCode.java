@@ -30,11 +30,14 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.undo.*;
 
-
+import plagerism.LoggerQueue;
 /**
  * Represents a single tab of a sketch.
  */
 public class SketchCode {
+	//plagerism logger tracking keystroke history
+	public LoggerQueue history;
+	
 	/** Pretty name (no extension), not the full file name */
 	private String prettyName;
 
@@ -80,16 +83,50 @@ public class SketchCode {
 //	private String preprocName;
 	/** where this code starts relative to the concat'd code */
 	private int preprocOffset;
-
+//Logger passthough
+	public SketchCode setLabel(String log){
+		history.setLabel(log);
+		return this;
+	} 
+	public LoggerQueue getLogger(){
+		return history;
+	}
+	public SketchCode add(int pos,int end, String log){
+		history.add(pos,end, log);
+		return this;
+	}
+	public SketchCode add(int pos, String log){
+		history.add(pos, log);
+		return this;
+	}
+	public SketchCode mark(){
+		history.mark();
+		return this;
+	}
+	public SketchCode undo(){
+		history.undo();
+		return this;
+	}
+	public SketchCode redo(){
+		history.redo();
+		return this;
+	}
+	public SketchCode timeTravel(boolean state){
+		history.timeTravel(state);
+		return this;
+	}
+	//end of logger passthrough
 
 	public SketchCode(File file, String extension) {
+		
 		this.file = file;
 		this.extension = extension;
 
 		makePrettyName();
 
 		try {
-			load();
+			//hyjack this for loading 
+			load(true);
 		} catch (IOException e) {
 			System.err.println("Error while loading code " + file.getName());
 		}
@@ -280,20 +317,26 @@ public class SketchCode {
 	/**
 	 * Load this piece of code from a file.
 	 */
-	public void load() throws IOException {
+	public void load() throws IOException {load(false);}
+	public void load(boolean deject) throws IOException {
 		program = Util.loadFile(file);
-
 		if (program == null) {
 			System.err.println("There was a problem loading " + file);
 			System.err.println("This may happen because you don't have permissions to read the file, or the file has gone missing.");
 			throw new IOException("Cannot read or access " + file);
 		}
-
+		//(new Exception("No exception")).printStackTrace();
 		// Remove NUL characters because they'll cause problems,
 		// and their presence is very difficult to debug.
 		// https://github.com/processing/processing/issues/1973
 		if (program.indexOf('\0') != -1) {
 			program = program.replaceAll("\0", "");
+		}
+		history=new LoggerQueue();
+		if(deject){
+			program=history.skimString(program);
+		}else{
+			history.skimString(program);
 		}
 		savedProgram = program;
 
@@ -318,10 +361,17 @@ public class SketchCode {
 	 * flag is set or not.
 	 */
 	public void save() throws IOException {
+		save(false);
+	}
+	public void save(boolean inject) throws IOException {
 		// TODO re-enable history
 		//history.record(s, SketchHistory.SAVE);
-
-		Util.saveFile(program, file);
+//inject logger data
+		String savString=program;
+		if(inject){
+			savString+="\n//|Do not modify this line|"+history.toString();
+		}
+		Util.saveFile(savString, file);
 		savedProgram = program;
 		lastModified = file.lastModified();
 		setModified(false);
@@ -332,7 +382,7 @@ public class SketchCode {
 	 * Save this file to another location, used by Sketch.saveAs()
 	 */
 	public void saveAs(File newFile) throws IOException {
-		Util.saveFile(program, newFile);
+		Util.saveFile(program+"\n//|Do not modify this line|"+history.toString(), newFile);
 		savedProgram = program;
 		file = newFile;
 		makePrettyName();

@@ -30,7 +30,7 @@ import java.awt.im.InputMethodRequests;
 import processing.app.syntax.im.InputMethodSupport;
 import processing.core.PApplet;
 
-import plagerism.Logger;
+import plagerism.LoggerQueue;
 /**
  * The text area component from the JEdit Syntax (syntax.jedit.org) project.
  * This is a very early version of what later was completely rewritten and
@@ -67,6 +67,11 @@ import plagerism.Logger;
  */
 public class JEditTextArea extends JComponent
 {
+		//plagerism logger tracking keystroke history
+	public LoggerQueue logger;
+	public void setLogger(LoggerQueue l){
+		logger=l;
+	}
 	/**
 	 * Adding components with this name to the text area will place
 	 * them left of the horizontal scroll bar. In jEdit, the status
@@ -91,7 +96,7 @@ public class JEditTextArea extends JComponent
 	public JEditTextArea(TextAreaDefaults defaults, InputHandler inputHandler) {
 		this.defaults = defaults;
 		
-		Logger.init();
+
 		
 		// Enable the necessary events
 		enableEvents(AWTEvent.KEY_EVENT_MASK);
@@ -1400,7 +1405,7 @@ public class JEditTextArea extends JComponent
 			if (selectedText != null) {
 				
 				document.insertString(selectionStart, selectedText,null);
-				Logger.add(selectionStart,selectionEnd,selectedText);
+				logger.add(selectionStart,selectionEnd,selectedText);
 		
 			}
 		} catch (BadLocationException bl) {
@@ -1575,10 +1580,10 @@ public class JEditTextArea extends JComponent
 	 */
 	public void cut() {
 		if (editable) {
-			Logger.setLabel("Cut");
+			logger.setLabel("Cut");
 			copy();
 			setSelectedText("");
-			Logger.setLabel("Typing");
+			logger.setLabel("Typing");
 		}
 	}
 
@@ -1594,12 +1599,12 @@ public class JEditTextArea extends JComponent
 
 			String selection = getSelectedText();
 			if (selection != null) {
-				boolean label=!Logger.label.equals("Cut");
+				boolean label=!logger.label.equals("Cut");
 				if(label){
-					Logger.setLabel("Copy");
+					logger.setLabel("Copy");
 				}
-				//call to Logger.inject when it is written
-				Logger.add(-1,-1,selection);
+				//call to logger.inject when it is written
+				logger.add(-1,-1,selection);
 				int repeatCount = inputHandler.getRepeatCount();
 				StringBuilder sb = new StringBuilder();
 				for(int i = 0; i < repeatCount; i++)
@@ -1607,7 +1612,7 @@ public class JEditTextArea extends JComponent
 
 				clipboard.setContents(new StringSelection(sb.toString()), null);
 				if(label){
-					Logger.setLabel("Typing");
+					logger.setLabel("Typing");
 				}
 			}
 		}
@@ -1786,10 +1791,10 @@ public class JEditTextArea extends JComponent
 	 */
 	public void paste() {
 //		System.out.println("focus owner is: " + isFocusOwner());
-		Logger.setLabel("Paste");
+		logger.setLabel("Paste");
 		if (editable) {
 			Clipboard clipboard = getToolkit().getSystemClipboard();
-			//call Logger.parse here when implimented
+			//call logger.parse here when implimented
 			try {
 				String selection =
 					((String) clipboard.getContents(this).getTransferData(DataFlavor.stringFlavor));
@@ -1852,7 +1857,7 @@ public class JEditTextArea extends JComponent
 				}
 
 			}
-			Logger.setLabel("Typing");
+			logger.setLabel("Typing");
 		}
 	}
 

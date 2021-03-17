@@ -213,7 +213,7 @@ public class ChangeDetector implements WindowFocusListener {
 					scDelete -> sketch.removeCode(scDelete),
 					scResave -> {
 						try {
-							scResave.save();
+							scResave.save(true);
 						} catch (IOException e) {
 							if (sketch.getCode(0).equals(scResave)) {
 								// Not a fatal error; the sketch has to stay open if

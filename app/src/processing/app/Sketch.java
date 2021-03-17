@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import plagerism.LoggerQueue;
 
 /**
  * Stores information about files in the current sketch.
@@ -93,7 +93,40 @@ public class Sketch {
 
 	/** true if we've posted a "sketch disappeared" warning */
 	private boolean disappearedWarning;
-
+	
+	//Logger passthough
+	public LoggerQueue getLogger(){
+		return current.getLogger();
+	}
+	public Sketch setLabel(String log){
+		current.setLabel(log);
+		return this;
+	}
+	public Sketch add(int pos,int end, String log){
+		current.add(pos,end, log);
+		return this;
+	}
+	public Sketch add(int pos, String log){
+		current.add(pos, log);
+		return this;
+	}
+	public Sketch mark(){
+		current.mark();
+		return this;
+	}
+	public Sketch undo(){
+		current.undo();
+		return this;
+	}
+	public Sketch redo(){
+		current.redo();
+		return this;
+	}
+	public Sketch timeTravel(boolean state){
+		current.timeTravel(state);
+		return this;
+	}
+	//end of logger passthrough
 	/**
 	 * Used by the command-line version to create a sketch object.
 	 * @param path location of the main .pde file
@@ -814,7 +847,7 @@ public class Sketch {
 
 		for (SketchCode sc : code) {
 			if (sc.isModified()) {
-				sc.save();
+				sc.save(true);
 			}
 		}
 		calcModified();
@@ -1528,7 +1561,7 @@ public class Sketch {
 					modified = true;
 
 					for (int i = 0; i < codeCount; i++) {
-						code[i].save();	// this will force a save
+						code[i].save(true);	// this will force a save
 					}
 					calcModified();
 
