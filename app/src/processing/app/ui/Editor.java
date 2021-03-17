@@ -70,7 +70,7 @@ import javax.swing.text.*;
 import javax.swing.text.html.*;
 import javax.swing.undo.*;
 
-
+import plagerism.Logger;
 /**
  * Main editor panel for the Processing Development Environment.
  */
