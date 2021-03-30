@@ -1580,10 +1580,10 @@ public class JEditTextArea extends JComponent
 	 */
 	public void cut() {
 		if (editable) {
-			logger.setLabel("Cut");
+			logger.setLabel("X");
 			copy();
 			setSelectedText("");
-			logger.setLabel("Typing");
+			logger.setLabel("T");
 		}
 	}
 
@@ -1599,9 +1599,9 @@ public class JEditTextArea extends JComponent
 
 			String selection = getSelectedText();
 			if (selection != null) {
-				boolean label=!logger.label.equals("Cut");
+				boolean label=!logger.label.equals("X");
 				if(label){
-					logger.setLabel("Copy");
+					logger.setLabel("C");
 				}
 				//call to logger.inject when it is written
 				logger.add(-1,-1,selection);
@@ -1612,7 +1612,7 @@ public class JEditTextArea extends JComponent
 
 				clipboard.setContents(new StringSelection(sb.toString()), null);
 				if(label){
-					logger.setLabel("Typing");
+					logger.setLabel("T");
 				}
 			}
 		}
@@ -1791,7 +1791,7 @@ public class JEditTextArea extends JComponent
 	 */
 	public void paste() {
 //		System.out.println("focus owner is: " + isFocusOwner());
-		logger.setLabel("Paste");
+		logger.setLabel("P");
 		if (editable) {
 			Clipboard clipboard = getToolkit().getSystemClipboard();
 			//call logger.parse here when implimented
@@ -1857,7 +1857,7 @@ public class JEditTextArea extends JComponent
 				}
 
 			}
-			logger.setLabel("Typing");
+			logger.setLabel("T");
 		}
 	}
 

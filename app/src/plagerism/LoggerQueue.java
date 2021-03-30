@@ -15,7 +15,7 @@ public class LoggerQueue{
 	public LinkedList<Entry> past;
 	public LinkedList<Entry> future;
 	public boolean futureSafe=false;
-	public String label="typing";
+	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy
 	
 	public LoggerQueue setLabel(String l){
 		label=l;
@@ -32,11 +32,61 @@ public class LoggerQueue{
 		//Logger.setLabel("queue");
 		//Logger.add(pos,end,log);
 		//Logger.setLabel("typing");
-		if(!futureSafe){//the redo que neads cleared
-			future.clear();
+		if(!past.isEmpty()){
+			Entry top=past.peek();
+			if(!futureSafe){//the redo que neads cleared
+				future.clear();
+			}
+			if(!top.landmark&&!top.isYoung()){
+				consolidate();
+			}
 		}
 		past.addFirst(new Entry(pos,end,log,label));
 
+		return this;
+	}
+	public LoggerQueue consolidate(){
+		LinkedList<Entry> now=new LinkedList<Entry>();
+		while(!past.isEmpty()){//take off top edits
+			Entry top=past.pop();
+			if(top.landmark){
+				past.addFirst(top);
+				break;
+			}else{
+					now.addFirst(top);
+			}
+		}
+		StringBuilder newEdit=new StringBuilder(now.size());
+		boolean isTyping=false;
+		int startPos=0;
+		long startTime=0;
+		while(!now.isEmpty()){
+			Entry top=now.pop();
+			if(top.label.equals("T")){//typing is the only thing that needs consolidating
+				if(!isTyping){
+					startPos=top.pos;
+					startTime=top.timeStamp;
+				}
+				newEdit.append(top.set);
+				isTyping=true;
+			}else{
+				if(isTyping){
+					Entry insert=new Entry(startPos,startPos,newEdit.toString(),"T");
+					insert.timeStamp=startTime;
+					now.addFirst(insert);
+					isTyping=false;
+					newEdit=new StringBuilder(now.size());
+				}		
+				past.addFirst(top);
+			}
+		}		
+		if(isTyping){
+			Entry insert=new Entry(startPos,startPos,newEdit.toString(),"T");
+			insert.timeStamp=startTime;
+			past.addFirst(insert);	
+		}
+		System.out.println(newEdit);
+		past.peek().mark();
 		return this;
 	}
 	public String toString(){
@@ -82,12 +132,12 @@ public class LoggerQueue{
 	}
 	
 	public LoggerQueue mark(){
-		past.peek().mark();
+		consolidate();
 		return this;
 	}
 	public LoggerQueue undo(){
+		mark();
 		Entry top=past.pop();
-		top.mark();
 		while(!past.isEmpty()&&!top.landmark){
 				future.addFirst(top);
 				top=past.pop();
