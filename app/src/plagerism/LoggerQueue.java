@@ -6,14 +6,16 @@ import java.security.SecureRandom;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 public class LoggerQueue{
 	//public  String uuidStack;//add UUID after first full test
 	//public  String projectUUID;
 	//you want a uuid for the install, this should be tracked by all projects opened with that install
 	//install uuid should also be embeded in pastes
 	//you want a uuid for the project, this should be embeded in copy pastes
-	public LinkedList<Entry> past;
-	public LinkedList<Entry> future;
+	private String history=null;//changes from loaded file
+	public LinkedList<Entry> past;//undo queue
+	public LinkedList<Entry> future;//redo queue
 	public boolean futureSafe=false;
 	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy
 	
@@ -22,11 +24,18 @@ public class LoggerQueue{
 		return this;
 	}
 	public LoggerQueue(){
+		history=null;
 		past=new LinkedList<Entry>();
 		future=new LinkedList<Entry>();
 	}
 	public  LoggerQueue add(int pos, String log){
 		return add(pos,pos,log);
+	}
+	public LoggerQueue carrotMove(int start, int end){
+		mark();
+		past.addFirst(new Entry(start,end,"","D"));
+		past.peek().mark();
+		return this;
 	}
 	public  LoggerQueue add(int pos, int end, String log){
 		//Logger.setLabel("queue");
@@ -86,35 +95,70 @@ public class LoggerQueue{
 			past.addFirst(insert);	
 		}
 		System.out.println(newEdit);
-		past.peek().mark();
 		return this;
 	}
+	public static void stackTrace(){
+		
+		String st="";
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		(new Exception("No exception")).printStackTrace(pw);
+		st=sw.toString();
+		System.out.println(st);
+	}
 	public String toString(){
+		consolidate();
 		//Logger.save("Micro save");
 		StringBuilder ret=new StringBuilder();
 
-		Entry[] writeArray=new Entry[past.size()];
-		past.toArray(writeArray);
-		//String st="";
-		//StringWriter sw = new StringWriter();
-		//PrintWriter pw = new PrintWriter(sw);
-		//(new Exception("No exception")).printStackTrace(pw);
-		//st=sw.toString();
+		
+		
 		ret.append("{InstallUUIDStack:[\"NotYetImplimented\"],ProjectUUIDStack:[\"NotYetImplimented\"],");
 		ret.append("History:[");
-		for(int i=writeArray.length-1;i>=0;i--){
-			
-			ret.append(writeArray[i].toString());
-			if(i!=0){
-				ret.append(",");
-			}
+		boolean first=false;
+		if(history!=null){
+			ret.append(history);
+			first=true;
 		}
-	ret.append("]}");
+		Entry[] writeArray=new Entry[past.size()];
+		past.toArray(writeArray);
+		for(int i=writeArray.length-1;i>=0;i--){
+			if(first){
+				ret.append(",");
+			}else{
+				first=true;
+			}
+			ret.append(writeArray[i].toString());
+			
+			
+		}
+		ret.append("]}");
 		return ret.toString();
 
 	}
 	public LoggerQueue fromString(String s){
 		//parse json
+		String lookFor="History:[";
+		int x=s.indexOf(lookFor)+lookFor.length();
+		if(x>0){
+			boolean quotesOn=false;
+			for(int i=x;i<s.length();i++){
+				char a=s.charAt(i);
+				if(a=='"'){
+					quotesOn^=true;
+				}
+				if(!quotesOn){
+					if(a=='\\'){
+						i++;
+					}if(a==']'){
+						history=s.substring(x,i);
+						System.out.print(history);
+						break;
+					}
+					
+				}
+			}
+		}
 		return this;
 	}
 	public String skimString(String s){
@@ -133,6 +177,7 @@ public class LoggerQueue{
 	
 	public LoggerQueue mark(){
 		consolidate();
+		past.peek().mark();
 		return this;
 	}
 	public LoggerQueue undo(){

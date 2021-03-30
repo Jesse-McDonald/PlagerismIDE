@@ -17,6 +17,7 @@ public class Entry{
 			this.label=label;
 			timeStamp = System.currentTimeMillis();
 		}
+		
 		public Entry mark(){
 			landmark=true;
 			return this;

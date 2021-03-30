@@ -118,7 +118,7 @@ public class SketchCode {
 	//end of logger passthrough
 
 	public SketchCode(File file, String extension) {
-		
+		LoggerQueue.stackTrace();
 		this.file = file;
 		this.extension = extension;
 
