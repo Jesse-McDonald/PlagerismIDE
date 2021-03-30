@@ -641,22 +641,22 @@ public class AutoFormat implements Formatter {
 				break;
 
 			case '"':
-			case '“':
-			case '”':
+			case '\u201C':
+			case '\u201D':
 			case '\'':
-			case '‘':
-			case '’':
+			case '\u2018':
+			case '\u2019':
 				inStatementFlag = true;
 				char realQuote = c;
-				if (c == '“' || c == '”') realQuote = '"';
-				if (c == '‘' || c == '’') realQuote = '\'';
+				if (c == '\u201C' || c == '\u201D') realQuote = '"';
+				if (c == '\u2018' || c == '\u2019') realQuote = '\'';
 				buf.append(realQuote);
 
 				char otherQuote = c;
-				if (c == '“') otherQuote = '”';
-				if (c == '”') otherQuote = '“';
-				if (c == '‘') otherQuote = '’';
-				if (c == '’') otherQuote = '‘';
+				if (c == '\u201C') otherQuote = '\u201D';
+				if (c == '\u201D') otherQuote = '\u201C';
+				if (c == '\u2018') otherQuote = '\u2019';
+				if (c == '\u2019') otherQuote = '\u2018';
 
 				char cc = nextChar();
 				// In a proper string, all the quotes tested are c. In a curly-quoted
