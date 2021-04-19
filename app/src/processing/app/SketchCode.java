@@ -30,7 +30,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.undo.*;
 
-import plagerism.LoggerQueue;
+import plagerism.*;
 /**
  * Represents a single tab of a sketch.
  */
@@ -332,7 +332,7 @@ public class SketchCode {
 		if (program.indexOf('\0') != -1) {
 			program = program.replaceAll("\0", "");
 		}
-		history=new LoggerQueue();
+		history=LogManager.makeLog(file.getCanonicalPath());
 		if(deject){
 			program=history.skimString(program);
 		}else{

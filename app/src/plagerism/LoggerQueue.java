@@ -23,7 +23,7 @@ public class LoggerQueue{
 		label=l;
 		return this;
 	}
-	public LoggerQueue(){
+	LoggerQueue(){
 		history=null;
 		past=new LinkedList<Entry>();
 		future=new LinkedList<Entry>();
