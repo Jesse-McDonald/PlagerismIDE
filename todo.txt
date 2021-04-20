@@ -1,4 +1,4 @@
-synch undo undo queue by ram logging cursor moves
+synch undo queue by ram logging cursor moves
 log backspace propperly
 UUID stacks
 
