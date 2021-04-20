@@ -163,8 +163,12 @@ public class SketchCode {
 	protected boolean renameTo(File what, String ext) {
 //		System.out.println("renaming " + file);
 //		System.out.println("			to " + what);
+		
 		boolean success = file.renameTo(what);
 		if (success) {
+			try{
+				LogManager.rename(this.file.getCanonicalPath(),what.getCanonicalPath());
+			}catch(java.io.IOException e){}
 			this.file = what;	// necessary?
 			this.extension = ext;
 			makePrettyName();

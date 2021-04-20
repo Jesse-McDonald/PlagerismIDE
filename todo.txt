@@ -1,6 +1,5 @@
 synch undo undo queue by ram logging cursor moves
 log backspace propperly
-fix file rename (test that its not working first)
 UUID stacks
 
 
