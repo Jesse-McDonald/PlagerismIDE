@@ -1,6 +1,5 @@
-synch undo queue by ram logging cursor moves
-log backspace propperly
 UUID stacks
+Fix file move (important, first save is a move) (maybe use a fileUUID for this?)
 
 
 

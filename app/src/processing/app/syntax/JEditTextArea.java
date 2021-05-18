@@ -1198,9 +1198,14 @@ public class JEditTextArea extends JComponent
 	 * @param caret The caret position
 	 * @see #select(int,int)
 	 */
-	public final void setCaretPosition(int caret)
+	 
+	public final void setCaretPosition(int caret){
+			setCaretPosition(caret,true);
+	}
+	public final void setCaretPosition(int caret,boolean significant)
 	{
-		select(caret,caret);
+		select(caret,caret,significant);
+		//CarretMark
 	}
 
 	/**
@@ -1228,6 +1233,10 @@ public class JEditTextArea extends JComponent
 	 * @param end The end offset
 	 */
 	public void select(int start, int end)
+	{
+			select(start,end,true);
+	}
+	public void select(int start, int end,boolean significant)
 	{
 		int newStart, newEnd;
 		boolean newBias;
@@ -1279,7 +1288,9 @@ public class JEditTextArea extends JComponent
 			selectionStartLine = newStartLine;
 			selectionEndLine = newEndLine;
 			biasLeft = newBias;
-
+			if(significant){
+				logger.mark();
+			}
 			fireCaretEvent();
 		}
 
@@ -1379,8 +1390,16 @@ public class JEditTextArea extends JComponent
 	 * Replaces the selection with the specified text.
 	 * @param selectedText The replacement text for the selection
 	 */
+	 
 	public void setSelectedText(String selectedText) {
 		setSelectedText(selectedText, false);
+	}
+	public void backspace(){//passthrough a backspace event to logger
+		logger.backspace(selectionStart,selectionEnd);
+				
+	}
+	public void delete(){//passthrough a delete event to logger
+		logger.delete(selectionStart,selectionEnd);
 	}
 
 
@@ -1391,7 +1410,7 @@ public class JEditTextArea extends JComponent
 	 * recorded as a compound edit
 	 */
 	public void setSelectedText(String selectedText, boolean recordCompoundEdit) {
-		
+		logger.shield=true;
 		if (!editable) {
 			throw new InternalError("Text component read only");
 		}
@@ -1401,12 +1420,14 @@ public class JEditTextArea extends JComponent
 		}
 
 		try {
+			int realStart=selectionStart;
+			int realEnd=selectionEnd;
 			document.remove(selectionStart, selectionEnd - selectionStart);
 			if (selectedText != null) {
-				
 				document.insertString(selectionStart, selectedText,null);
-				logger.add(selectionStart,selectionEnd,selectedText);
-		
+				logger.add(realStart,realEnd,selectedText);
+				
+				
 			}
 		} catch (BadLocationException bl) {
 			bl.printStackTrace();
@@ -1419,7 +1440,8 @@ public class JEditTextArea extends JComponent
 				document.endCompoundEdit();
 			}
 		}
-		setCaretPosition(selectionEnd);
+		setCaretPosition(selectionEnd,false);
+		logger.shield=false;
 	}
 
 
@@ -2506,6 +2528,8 @@ public class JEditTextArea extends JComponent
 		CaretUndo(int start, int end) {
 			this.start = start;
 			this.end = end;
+			
+			
 		}
 
 		public boolean isSignificant() {
@@ -2528,6 +2552,7 @@ public class JEditTextArea extends JComponent
 
 		public boolean addEdit(UndoableEdit edit) {
 			if (edit instanceof CaretUndo) {
+
 				CaretUndo cedit = (CaretUndo)edit;
 				start = cedit.start;
 				end = cedit.end;

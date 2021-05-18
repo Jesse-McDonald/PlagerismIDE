@@ -1,13 +1,48 @@
 package plagerism;
+import processing.app.Platform;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.security.SecureRandom;
-
+import java.util.Scanner;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import java.util.UUID;
+import java.io.File;
+import java.io.FileNotFoundException;
 public class LoggerQueue{
+	private static UUID projectUUID=null;
+	private static UUID installUUID=installID();
+	public boolean shield;//a hacky fix to the untraceable mark issue, shield the logger from mark for the entire problem function
+		
+	private static UUID installID(){
+		Platform.init();
+		File installed=null;
+		
+		try{
+			File settingsFolder=Platform.getSettingsFolder();	
+			installed=new File(settingsFolder.getAbsolutePath()+"/installID");
+		
+			if(installed.exists()){
+				Scanner s=new Scanner(installed);
+				return UUID.fromString(s.nextLine());
+		
+			}
+		}catch(Exception e){
+		}
+		UUID ret=UUID.randomUUID();
+		try{
+			PrintWriter pw=new PrintWriter(installed);
+			pw.print(ret.toString());
+			pw.flush();
+			pw.close();
+		}catch(FileNotFoundException e){
+			
+		}
+		return ret;
+		
+	}
 	//public  String uuidStack;//add UUID after first full test
 	//public  String projectUUID;
 	//you want a uuid for the install, this should be tracked by all projects opened with that install
@@ -17,7 +52,7 @@ public class LoggerQueue{
 	public LinkedList<Entry> past;//undo queue
 	public LinkedList<Entry> future;//redo queue
 	public boolean futureSafe=false;
-	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy
+	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy, M for move
 	
 	public LoggerQueue setLabel(String l){
 		label=l;
@@ -31,12 +66,17 @@ public class LoggerQueue{
 	public  LoggerQueue add(int pos, String log){
 		return add(pos,pos,log);
 	}
+	/*turns out carrotMoves arent logged
 	public LoggerQueue carrotMove(int start, int end){
+		if(!futureSafe){//the redo que neads cleared
+			future.clear();
+		}
 		mark();
-		past.addFirst(new Entry(start,end,"","D"));
+		past.addFirst(new Entry(start,end,"","M"));
 		past.peek().mark();
 		return this;
 	}
+	*/
 	public  LoggerQueue add(int pos, int end, String log){
 		//Logger.setLabel("queue");
 		//Logger.add(pos,end,log);
@@ -94,7 +134,7 @@ public class LoggerQueue{
 			insert.timeStamp=startTime;
 			past.addFirst(insert);	
 		}
-		System.out.println(newEdit);
+		//System.out.println(newEdit);
 		return this;
 	}
 	public static void stackTrace(){
@@ -123,13 +163,14 @@ public class LoggerQueue{
 		Entry[] writeArray=new Entry[past.size()];
 		past.toArray(writeArray);
 		for(int i=writeArray.length-1;i>=0;i--){
-			if(first){
-				ret.append(",");
-			}else{
-				first=true;
-			}
-			ret.append(writeArray[i].toString());
-			
+			//if(!writeArray[i].label.equals("M")){
+				if(first){
+					ret.append(",");
+				}else{
+					first=true;
+				}
+				ret.append(writeArray[i].toString());
+			//}
 			
 		}
 		ret.append("]}");
@@ -176,8 +217,12 @@ public class LoggerQueue{
 	}
 	
 	public LoggerQueue mark(){
-		consolidate();
-		past.peek().mark();
+		if(!shield){
+			consolidate();
+			if(!past.isEmpty()){
+				past.peek().mark();
+			}
+		}
 		return this;
 	}
 	public LoggerQueue undo(){
@@ -195,13 +240,14 @@ public class LoggerQueue{
 		return this;
 	}
 	public LoggerQueue redo(){
-		
-		Entry top=future.pop();
-		while(!past.isEmpty()&&!top.landmark){
-				past.addFirst(top);
-				top=future.pop();
+		if(!future.isEmpty()){
+			Entry top=future.pop();
+			while(!past.isEmpty()&&!top.landmark){
+					past.addFirst(top);
+					top=future.pop();
+			}
+			past.push(top);
 		}
-		past.push(top);
 		return this;
 	}
 	//probiably dont need
@@ -223,6 +269,16 @@ public class LoggerQueue{
 		}
 		return ret;
 	}
+
+	public LoggerQueue backspace(int pos, int end){
+		add(pos,end,"");
+		past.peek().set="\\b";
+		return this;
+	}
 	
-	
+	public LoggerQueue delete(int pos, int end){
+		add(pos,end,"");
+		past.peek().set="\\d";
+		return this;
+	}
 }

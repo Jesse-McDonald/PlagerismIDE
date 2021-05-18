@@ -8,14 +8,21 @@ public class Entry{
 		long timeStamp;//when was the edit
 		int pos,endPos;//what position did the edit happen at?
 		String set;//what was the edit
-		String label;//was it typing, copy, or paste
+		String label;//was it typing, copy, cut, or paste (TCXP)
 		boolean landmark=false;//if ctrl z will the undo go past here
 		public Entry(int pos, int end, String set, String label){
 			this.pos=pos;
 			endPos=end;
-			this.set=set;
+			this.set=set.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n");
 			this.label=label;
 			timeStamp = System.currentTimeMillis();
+			//System.out.println("DEBUG"+" "+ pos+" "+end);
+			if(label.equals("T")&&set.equals("")){
+				this.set="\\b["+pos+"-"+end+"]";//log backspace hopefully?
+				//turns out backspace isnt making it this far?
+				
+				
+			}
 		}
 		
 		public Entry mark(){
@@ -70,7 +77,7 @@ public class Entry{
 			ret.append("\""+label+"\"");
 			ret.append(",E:");
 			
-			ret.append("\""+set.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n")+"\"");//make edit safe for json
+			ret.append("\""+set+"\"");//make edit safe for json
 			
 			ret.append("}");
 			return ret.toString();

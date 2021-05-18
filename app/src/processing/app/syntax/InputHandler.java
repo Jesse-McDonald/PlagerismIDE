@@ -423,7 +423,7 @@ public abstract class InputHandler extends KeyAdapter
 			}
 
 			if (textArea.getSelectionStart() != textArea.getSelectionStop()) {
-				textArea.setSelectedText("");
+				textArea.setSelectedText("");//this is word backspace
 			} else {
 				int caret = textArea.getCaretPosition();
 				if (caret == 0) {
@@ -432,6 +432,7 @@ public abstract class InputHandler extends KeyAdapter
 				}
 				try {
 					textArea.getDocument().remove(caret - 1,1);
+					textArea.backspace();
 				} catch(BadLocationException bl) {
 					bl.printStackTrace();
 				}
@@ -506,6 +507,7 @@ public abstract class InputHandler extends KeyAdapter
 				}
 				try {
 					textArea.getDocument().remove(caret,1);
+					textArea.delete();
 				} catch(BadLocationException bl) {
 					bl.printStackTrace();
 				}
