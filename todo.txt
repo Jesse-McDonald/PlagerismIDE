@@ -1,6 +1,5 @@
-UUID stacks
-Fix file move (important, first save is a move) (maybe use a fileUUID for this?)
-
+UUID stacks stack
+Remove history duplication (some how (uhg))
 
 
 

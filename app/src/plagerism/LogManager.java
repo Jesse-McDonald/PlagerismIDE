@@ -12,11 +12,16 @@ public class LogManager{
 		return ret;
 	}
 	public static void rename(String oldName,String newName){
-		LoggerQueue place=makeLog(oldName);
-		logs.put(newName,place);
-		remove(oldName);
+		if(!oldName.equals(newName)){
+			LoggerQueue place=makeLog(oldName);
+			logs.put(newName,place);
+			remove(oldName);
+		}
 	}
 	public static void remove(String name){
-		logs.put(name,null);
+		logs.remove(name);
+	}
+	public static void set(String name, LoggerQueue in){
+		logs.put(name,in);
 	}
 }

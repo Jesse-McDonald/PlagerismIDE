@@ -118,7 +118,7 @@ public class SketchCode {
 	//end of logger passthrough
 
 	public SketchCode(File file, String extension) {
-		LoggerQueue.stackTrace();
+		//LoggerQueue.stackTrace();
 		this.file = file;
 		this.extension = extension;
 
@@ -376,6 +376,7 @@ public class SketchCode {
 			savString+="\n//|Do not modify this line|"+history.toString();
 		}
 		Util.saveFile(savString, file);
+		LogManager.set(file.getCanonicalPath(),history);
 		savedProgram = program;
 		lastModified = file.lastModified();
 		setModified(false);
@@ -389,6 +390,8 @@ public class SketchCode {
 		Util.saveFile(program+"\n//|Do not modify this line|"+history.toString(), newFile);
 		savedProgram = program;
 		file = newFile;
+		
+		LogManager.set(file.getCanonicalPath(),history);
 		makePrettyName();
 		setLastModified();
 		setModified(false);

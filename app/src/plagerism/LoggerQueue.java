@@ -90,7 +90,10 @@ public class LoggerQueue{
 				consolidate();
 			}
 		}
-		past.addFirst(new Entry(pos,end,log,label));
+		Entry insert=new Entry(pos,end,log,label);
+		insert.protect();
+			
+		past.addFirst(insert);
 
 		return this;
 	}
@@ -153,7 +156,7 @@ public class LoggerQueue{
 
 		
 		
-		ret.append("{InstallUUIDStack:[\"NotYetImplimented\"],ProjectUUIDStack:[\"NotYetImplimented\"],");
+		ret.append("{InstallUUIDStack:[\""+installUUID+"\"],ProjectUUIDStack:[\"NotYetImplimented\"],");
 		ret.append("History:[");
 		boolean first=false;
 		if(history!=null){

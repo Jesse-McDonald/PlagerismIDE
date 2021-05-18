@@ -13,7 +13,7 @@ public class Entry{
 		public Entry(int pos, int end, String set, String label){
 			this.pos=pos;
 			endPos=end;
-			this.set=set.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n");
+			this.set=set;
 			this.label=label;
 			timeStamp = System.currentTimeMillis();
 			//System.out.println("DEBUG"+" "+ pos+" "+end);
@@ -24,7 +24,10 @@ public class Entry{
 				
 			}
 		}
-		
+		public Entry protect(){
+			set=set.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n");
+			return this;
+		}
 		public Entry mark(){
 			landmark=true;
 			return this;
@@ -46,11 +49,11 @@ public class Entry{
 		long tenths=timeStamp/100;
 		long month=tenths/reducer;
 		long relevent=(tenths-month*reducer);
-		System.out.println(timeStamp);
+		//System.out.println(timeStamp);
 		
-		System.out.println(tenths);
-		System.out.println(month);
-		System.out.println(relevent);
+		//System.out.println(tenths);
+		//System.out.println(month);
+		//System.out.println(relevent);
 		
 		//should cut timestamp in half at least
 		return relevent;
