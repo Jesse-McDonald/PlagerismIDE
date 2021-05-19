@@ -136,6 +136,10 @@ public class LoggerQueue{
 			Entry insert=new Entry(startPos,startPos,newEdit.toString(),"T");
 			insert.timeStamp=startTime;
 			past.addFirst(insert);	
+			
+		}
+		if(!past.isEmpty()){
+			past.peek().mark();
 		}
 		//System.out.println(newEdit);
 		return this;
@@ -181,25 +185,32 @@ public class LoggerQueue{
 
 	}
 	public LoggerQueue fromString(String s){
+		return fromString(s,false);
+	}
+	public LoggerQueue fromString(String s,boolean important){
 		//parse json
-		String lookFor="History:[";
-		int x=s.indexOf(lookFor)+lookFor.length();
-		if(x>0){
-			boolean quotesOn=false;
-			for(int i=x;i<s.length();i++){
-				char a=s.charAt(i);
-				if(a=='"'){
-					quotesOn^=true;
-				}
-				if(!quotesOn){
-					if(a=='\\'){
-						i++;
-					}if(a==']'){
-						history=s.substring(x,i);
-						System.out.print(history);
-						break;
+		if(past.isEmpty()||important){
+			String lookFor="History:[";
+
+			int x=s.indexOf(lookFor)+lookFor.length();
+			if(x>0){
+				boolean quotesOn=false;
+				for(int i=x;i<s.length();i++){
+					char a=s.charAt(i);
+					if(a=='"'){
+						quotesOn^=true;
 					}
-					
+					if(!quotesOn){
+						if(a=='\\'){
+							i++;
+						}if(a==']'){
+							history=s.substring(x,i);
+							
+							//System.out.print(history);
+							break;
+						}
+						
+					}
 				}
 			}
 		}
