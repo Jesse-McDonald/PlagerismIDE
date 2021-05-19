@@ -11,12 +11,18 @@ import java.io.StringWriter;
 import java.util.UUID;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 public class LoggerQueue{
-	private static UUID projectUUID=null;
+	private ArrayList<UUID> allInstalls;
+	private UUID projectUUID=UUID.randomUUID();
+	
+	private ArrayList<UUID> infectionStack;
+	private  UUID creatorUUID;
 	private static UUID installUUID=installID();
 	public boolean shield;//a hacky fix to the untraceable mark issue, shield the logger from mark for the entire problem function
 		
 	private static UUID installID(){
+
 		Platform.init();
 		File installed=null;
 		
@@ -40,6 +46,8 @@ public class LoggerQueue{
 		}catch(FileNotFoundException e){
 			
 		}
+		
+	
 		return ret;
 		
 	}
@@ -62,8 +70,13 @@ public class LoggerQueue{
 		history=null;
 		past=new LinkedList<Entry>();
 		future=new LinkedList<Entry>();
+		allInstalls=new ArrayList<UUID>();
+		infectionStack=new ArrayList<UUID>();
+		creatorUUID=installUUID;
+		allInstalls.add(installUUID);
+		infectionStack.add(projectUUID);
 	}
-	public  LoggerQueue add(int pos, String log){
+	public LoggerQueue add(int pos, String log){
 		return add(pos,pos,log);
 	}
 	/*turns out carrotMoves arent logged
@@ -153,6 +166,16 @@ public class LoggerQueue{
 		st=sw.toString();
 		System.out.println(st);
 	}
+	public String jsonify(ArrayList in){
+		String ret="[";
+		for(int i=0;i<in.size();i++){
+			if(i!=0){
+				ret+=",";
+			}
+			ret+="\""+in.get(i)+"\"";
+		}
+		return ret+"]";
+	}
 	public String toString(){
 		consolidate();
 		//Logger.save("Micro save");
@@ -160,7 +183,7 @@ public class LoggerQueue{
 
 		
 		
-		ret.append("{InstallUUIDStack:[\""+installUUID+"\"],ProjectUUIDStack:[\"NotYetImplimented\"],");
+		ret.append("{InstallUUIDStack:"+jsonify(allInstalls)+",InfectionStack:"+jsonify(infectionStack)+",ProjectUUID:\""+projectUUID+"\",CreatorUUID:\""+creatorUUID+"\",");
 		ret.append("History:[");
 		boolean first=false;
 		if(history!=null){
@@ -188,11 +211,62 @@ public class LoggerQueue{
 		return fromString(s,false);
 	}
 	public LoggerQueue fromString(String s,boolean important){
+		//{
+		//InstallUUIDStack:[],
+		//InfectionStack:[],
+		//ProjectUUID:"",
+		//CreatorUUID:"",
+		//History:[{T:"",P:"",L:"",E:""},{T:"",P:"",L:"",E:"",N:""}]
+		//}
+		
+		
 		//parse json
+		//extract installs
+		String lookFor="InstallUUIDStack:[";
+		int x=s.indexOf(lookFor)+lookFor.length();
+		int y=s.indexOf("]",x);
+		String process=s.substring(x,y);
+		String[] sub=process.split(",");
+		for(String micro: sub){
+			try{
+				UUID uuid=UUID.fromString(micro.replace("\"",""));
+				if(!uuid.equals(allInstalls.get(allInstalls.size()-1))){
+						allInstalls.add(uuid);
+				}
+			
+			}catch(IllegalArgumentException e){}
+		}
+		//extract infection
+		lookFor="InfectionStack:[";
+		x=s.indexOf(lookFor)+lookFor.length();
+		y=s.indexOf("]",x);
+		process=s.substring(x,y);
+		sub=process.split(",");
+		for(String micro: sub){
+			try{
+				UUID uuid=UUID.fromString(micro.replace("\"",""));
+				if(!uuid.equals(infectionStack.get(infectionStack.size()-1))){
+						infectionStack.add(uuid);
+				}
+			}catch(IllegalArgumentException e){}
+		}
+		//extract project UUID
+		lookFor="ProjectUUID:";
+		x=s.indexOf(lookFor)+lookFor.length();
+		y=s.indexOf("]",x);
+		process=s.substring(x,y);
+		projectUUID=UUID.fromString(process.replace("\"",""));
+		//extract creator UUID
+		lookFor="CreatorUUID:";
+		x=s.indexOf(lookFor)+lookFor.length();
+		y=s.indexOf("]",x);
+		process=s.substring(x,y);
+		creatorUUID=UUID.fromString(process.replace("\"",""));
+		//mine history
 		if(past.isEmpty()||important){
-			String lookFor="History:[";
+			lookFor="History:[";
 
-			int x=s.indexOf(lookFor)+lookFor.length();
+			x=s.indexOf(lookFor)+lookFor.length();
 			if(x>0){
 				boolean quotesOn=false;
 				for(int i=x;i<s.length();i++){

@@ -9,6 +9,7 @@ public class Entry{
 		int pos,endPos;//what position did the edit happen at?
 		String set;//what was the edit
 		String label;//was it typing, copy, cut, or paste (TCXP)
+		String notes;//random notes, will be used for paste UUIDs
 		boolean landmark=false;//if ctrl z will the undo go past here
 		public Entry(int pos, int end, String set, String label){
 			this.pos=pos;
@@ -23,6 +24,7 @@ public class Entry{
 				
 				
 			}
+			
 		}
 		public Entry protect(){
 			set=set.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n");
@@ -83,6 +85,9 @@ public class Entry{
 			ret.append("\""+set+"\"");//make edit safe for json
 			
 			ret.append("}");
+			if(notes!=null&&!notes.isEmpty()){
+				ret.append(",N:"+notes);
+			}
 			return ret.toString();
 		}
 		//public Entry add(String s){
