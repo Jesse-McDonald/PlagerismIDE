@@ -1,2 +1,3 @@
 Test UUID stacks
-inject copy paste buffer
+Test everything
+make sure tabs work as tabs and not as spaces
