@@ -1626,7 +1626,8 @@ public class JEditTextArea extends JComponent
 					logger.setLabel("C");
 				}
 				//call to logger.inject when it is written
-				logger.add(-1,-1,selection);
+				logger.add(selectionStart,selectionEnd,selection);
+				selection=logger.inject(selection);
 				int repeatCount = inputHandler.getRepeatCount();
 				StringBuilder sb = new StringBuilder();
 				for(int i = 0; i < repeatCount; i++)
@@ -1818,6 +1819,7 @@ public class JEditTextArea extends JComponent
 			Clipboard clipboard = getToolkit().getSystemClipboard();
 			//call logger.parse here when implimented
 			try {
+				
 				String selection =
 					((String) clipboard.getContents(this).getTransferData(DataFlavor.stringFlavor));
 
@@ -1849,6 +1851,9 @@ public class JEditTextArea extends JComponent
 				// Remove ASCII NUL characters. Reported when pasting from
 				// Acrobat Reader and PDF documents. [fry 130719]
 				// https://github.com/processing/processing/issues/1973
+				
+				//parse logger
+				selection=logger.deject(selection);
 				if (selection.indexOf('\0') != -1) {
 					//System.out.println("found NUL charaacters");
 					//int before = selection.length();

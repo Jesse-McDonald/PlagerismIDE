@@ -86,7 +86,7 @@ public class Entry{
 			
 			ret.append("}");
 			if(notes!=null&&!notes.isEmpty()){
-				ret.append(",N:"+notes);
+				ret.append(",N:\""+notes+"\"");
 			}
 			return ret.toString();
 		}

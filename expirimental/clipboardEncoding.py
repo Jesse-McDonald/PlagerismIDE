@@ -1,5 +1,11 @@
 import itertools
 ec='​'
+#I really should have documented what this does at the time
+#there where 2 options, either assign 0 to be ec and 1 to be letter
+#Or assign letter to be flip flop, and ec to be the number of 0/1 in this flip
+#the later uses more data, but since we are limited by letters only, it is ideal
+#Note, all encodings begin with a letter to make copy past safer
+#revise for final, all encodeings begin with a non whitespace letter
 def encode(bytes,string):
 	bytes=bytearray(bytes,'utf-8')
 	ret=""

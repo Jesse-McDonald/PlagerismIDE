@@ -13,14 +13,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 public class LoggerQueue{
-	private ArrayList<UUID> allInstalls;
-	private UUID projectUUID=UUID.randomUUID();
+	public ArrayList<UUID> allInstalls;
+	public UUID projectUUID=UUID.randomUUID();
 	
-	private ArrayList<UUID> infectionStack;
-	private  UUID creatorUUID;
-	private static UUID installUUID=installID();
+	public ArrayList<UUID> infectionStack;
+	public  UUID creatorUUID;
+	public static UUID installUUID=installID();
+	public String lastPasteNote;
 	public boolean shield;//a hacky fix to the untraceable mark issue, shield the logger from mark for the entire problem function
-		
+	public String deject(String input){
+		return ClipboardEncoder.decode(input,this);
+	}
+	public String inject(String input){
+		return ClipboardEncoder.encode(input,this);
+	}
+	public LoggerQueue addInfection(UUID infection){
+		if(!infectionStack.contains(infection)){
+			infectionStack.add(infection);
+		}
+		return this;
+	}
 	private static UUID installID(){
 
 		Platform.init();
@@ -61,7 +73,7 @@ public class LoggerQueue{
 	public LinkedList<Entry> future;//redo queue
 	public boolean futureSafe=false;
 	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy, M for move
-	
+
 	public LoggerQueue setLabel(String l){
 		label=l;
 		return this;
@@ -90,6 +102,7 @@ public class LoggerQueue{
 		return this;
 	}
 	*/
+	
 	public  LoggerQueue add(int pos, int end, String log){
 		//Logger.setLabel("queue");
 		//Logger.add(pos,end,log);
@@ -103,7 +116,12 @@ public class LoggerQueue{
 				consolidate();
 			}
 		}
+		
 		Entry insert=new Entry(pos,end,log,label);
+		if(label.equals("P")){
+			insert.notes=lastPasteNote;
+			lastPasteNote="";
+		}
 		insert.protect();
 			
 		past.addFirst(insert);
@@ -253,13 +271,14 @@ public class LoggerQueue{
 		//extract project UUID
 		lookFor="ProjectUUID:";
 		x=s.indexOf(lookFor)+lookFor.length();
-		y=s.indexOf("]",x);
+		y=s.indexOf(",",x);
 		process=s.substring(x,y);
+		//System.out.println(process);
 		projectUUID=UUID.fromString(process.replace("\"",""));
 		//extract creator UUID
 		lookFor="CreatorUUID:";
 		x=s.indexOf(lookFor)+lookFor.length();
-		y=s.indexOf("]",x);
+		y=s.indexOf(",",x);
 		process=s.substring(x,y);
 		creatorUUID=UUID.fromString(process.replace("\"",""));
 		//mine history
