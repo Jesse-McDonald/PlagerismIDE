@@ -51,12 +51,20 @@ public class Console {
 	static PrintStream systemOut;
 	/** The original System.err */
 	static PrintStream systemErr;
-
+	/** The original System.in */
+	static InputStream systemIn;
 	/** Our replacement System.out */
 	static PrintStream consoleOut;
 	/** Our replacement System.err */
 	static PrintStream consoleErr;
-
+	/** The replacement System.in */
+	static PipedInputStream replacementIn;
+	
+	/** The output buffer that can be written to by the consol to go into the input stream */
+	static PipedOutputStream consoleIn;
+	/** a convenient thing to write to */
+	static PrintStream input;
+	 
 	/** All stdout also written to a file */
 	static OutputStream stdoutFile;
 	/** All stderr also written to a file */
@@ -73,12 +81,13 @@ public class Console {
 			// TODO fix this dreadful style choice in how the Console is initialized
 			// (This is not good code.. startup() should gracefully deal with this.
 			// It's just a low priority relative to the likelihood of trouble.)
-			new Exception("startup() called more than once").printStackTrace(systemErr);
+			//new Exception("startup() called more than once").printStackTrace(systemErr);
+			//well guess what? all we have to do is make return here and BOOM, gracefully handled, no need for an error
 			return;
 		}
 		systemOut = System.out;
 		systemErr = System.err;
-
+		systemIn = System.in;
 		// placing everything inside a try block because this can be a dangerous
 		// time for the lights to blink out and crash for and obscure reason.
 		try {
@@ -124,10 +133,14 @@ public class Console {
 
 			consoleOut = new PrintStream(new ConsoleStream(false));
 			consoleErr = new PrintStream(new ConsoleStream(true));
-
+			consoleIn = new PipedOutputStream();
+			input=new PrintStream(consoleIn);
+			replacementIn=new PipedInputStream(consoleIn);
+			
 			System.setOut(consoleOut);
 			System.setErr(consoleErr);
-
+			System.setIn(replacementIn);
+			add("Hard test");
 		} catch (Exception e) {
 			stdoutFile = null;
 			stderrFile = null;
@@ -137,6 +150,7 @@ public class Console {
 
 			System.setOut(systemOut);
 			System.setErr(systemErr);
+			System.setIn(systemIn);
 
 			e.printStackTrace();
 		}
@@ -147,6 +161,17 @@ public class Console {
 		editorOut = out;
 		editorErr = err;
 	}
+	/*
+	static public void setEditor(OutputStream out, OutputStream err, PipedOutputStream in) {
+		setEditor(out,err);
+		consoleIn=in;
+		try{
+			replacementIn.connect(consoleIn);
+		}catch(IOException e){
+			e.printStackTrace();//I duno how this exception would be thrown, but apparently it can
+		}
+	}
+	*/
 
 
 	static public void systemOut(String what) {
@@ -157,7 +182,10 @@ public class Console {
 	static public void systemErr(String what) {
 		systemErr.println(what);
 	}
-
+	static public void add(String what){
+			input.println(what);
+			input.flush();
+	}
 
 	/**
 	 * Close the streams so that the temporary files can be deleted.
@@ -171,7 +199,8 @@ public class Console {
 		// replace original streams to remove references to console's streams
 		System.setOut(systemOut);
 		System.setErr(systemErr);
-
+		System.setIn(systemIn);
+		
 		cleanup(consoleOut);
 		cleanup(consoleErr);
 

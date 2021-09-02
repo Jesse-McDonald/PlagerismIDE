@@ -40,6 +40,8 @@ import processing.app.contrib.ContributionManager;
 import processing.app.syntax.*;
 import processing.core.*;
 
+import processing.app.Console;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -69,7 +71,8 @@ import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
 import javax.swing.text.html.*;
 import javax.swing.undo.*;
-
+import javax.swing.border.LineBorder;
+import java.awt.*;
 /**
  * Main editor panel for the Processing Development Environment.
  */
@@ -113,6 +116,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 	protected JSplitPane splitPane;
 	protected EditorFooter footer;
 	protected EditorConsole console;
+	JTextField consoleInput;
 	protected ErrorTable errorTable;
 
 	// currently opened program
@@ -430,8 +434,38 @@ public abstract class Editor extends JFrame implements RunnerListener {
 
 	public EditorFooter createFooter() {
 		EditorFooter ef = new EditorFooter(this);
+		JPanel consoleWrapper=new JPanel(new BorderLayout());
 		console = new EditorConsole(this);
-		ef.addPanel(console, Language.text("editor.footer.console"), "/lib/footer/console");
+		JPanel bottom=new JPanel(new BorderLayout());
+		JLabel prompt=new JLabel("> ");
+		prompt.setBackground(Color.BLACK);
+		prompt.setForeground(Color.GREEN);
+		prompt.setBorder(new LineBorder(Color.BLACK, 1));
+		prompt.setOpaque(true);
+		
+		
+		consoleInput=new JTextField();
+		Action action = new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Console.add(consoleInput.getText());
+				System.out.println(consoleInput.getText());
+				consoleInput.setText("");
+				
+			}
+		};
+		consoleInput.addActionListener(action);
+		consoleInput.setBackground(Color.BLACK);
+		consoleInput.setForeground(Color.GREEN);
+		consoleInput.setBorder(new LineBorder(Color.BLACK, 1));
+		bottom.add(prompt,BorderLayout.LINE_START);
+		bottom.add(consoleInput,BorderLayout.CENTER);
+		
+		consoleWrapper.add(console,BorderLayout.CENTER);
+		consoleWrapper.add(bottom,BorderLayout.PAGE_END);
+		ef.addPanel(consoleWrapper, Language.text("editor.footer.console"), "/lib/footer/console");
 		return ef;
 	}
 
@@ -666,13 +700,21 @@ public abstract class Editor extends JFrame implements RunnerListener {
 	 * the app is just starting up, or the user just finished messing
 	 * with things in the Preferences window.
 	 */
+	 
+	protected void updateAppearance() {
+		String fontFamily = Preferences.get("editor.font.family");
+		int fontSize = Toolkit.zoom(Preferences.getInteger("console.font.size"));
+		Font font=new Font(fontFamily,Font.PLAIN,fontSize);
+		consoleInput.setFont(font);
+		//consoleInput.clear();	// otherwise we'll have mixed fonts
+	}
 	protected void applyPreferences() {
 		// Update fonts and other items controllable from the prefs
 		textarea.getPainter().updateAppearance();
 		textarea.repaint();
 
 		console.updateAppearance();
-
+		updateAppearance();
 		// All of this code was specific to using an external editor.
 		/*
 //		// apply the setting for 'use external editor'
