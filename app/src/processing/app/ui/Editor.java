@@ -437,7 +437,7 @@ public abstract class Editor extends JFrame implements RunnerListener {
 		JPanel consoleWrapper=new JPanel(new BorderLayout());
 		console = new EditorConsole(this);
 		JPanel bottom=new JPanel(new BorderLayout());
-		JLabel prompt=new JLabel("> ");
+		JLabel prompt=new JLabel("             > ");
 		prompt.setBackground(Color.BLACK);
 		prompt.setForeground(Color.GREEN);
 		prompt.setBorder(new LineBorder(Color.BLACK, 1));
