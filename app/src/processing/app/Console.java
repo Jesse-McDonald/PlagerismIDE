@@ -52,16 +52,16 @@ public class Console {
 	/** The original System.err */
 	static PrintStream systemErr;
 	/** The original System.in */
-	static InputStream systemIn;
+	//static InputStream systemIn;
 	/** Our replacement System.out */
 	static PrintStream consoleOut;
 	/** Our replacement System.err */
 	static PrintStream consoleErr;
 	/** The replacement System.in */
-	static PipedInputStream replacementIn;
+	//public static PipedInputStream replacementIn;//turns out we dont need to replace system.in since the sketch is running in a different environment anyway, and convenently when we get that system.in it is already an outputstream
 	
 	/** The output buffer that can be written to by the consol to go into the input stream */
-	static PipedOutputStream consoleIn;
+	static OutputStream consoleIn;
 	/** a convenient thing to write to */
 	static PrintStream input;
 	 
@@ -87,7 +87,7 @@ public class Console {
 		}
 		systemOut = System.out;
 		systemErr = System.err;
-		systemIn = System.in;
+		//systemIn = System.in;
 		// placing everything inside a try block because this can be a dangerous
 		// time for the lights to blink out and crash for and obscure reason.
 		try {
@@ -133,14 +133,13 @@ public class Console {
 
 			consoleOut = new PrintStream(new ConsoleStream(false));
 			consoleErr = new PrintStream(new ConsoleStream(true));
-			consoleIn = new PipedOutputStream();
+			consoleIn =  new ByteArrayOutputStream();
 			input=new PrintStream(consoleIn);
-			replacementIn=new PipedInputStream(consoleIn);
+			//replacementIn=new PipedInputStream(consoleIn);
 			
 			System.setOut(consoleOut);
 			System.setErr(consoleErr);
-			System.setIn(replacementIn);
-			add("Hard test");
+			//System.setIn(replacementIn);
 		} catch (Exception e) {
 			stdoutFile = null;
 			stderrFile = null;
@@ -150,7 +149,7 @@ public class Console {
 
 			System.setOut(systemOut);
 			System.setErr(systemErr);
-			System.setIn(systemIn);
+			//System.setIn(systemIn);
 
 			e.printStackTrace();
 		}
@@ -173,7 +172,10 @@ public class Console {
 	}
 	*/
 
-
+	public static void rebindIn(OutputStream in){
+		consoleIn=in;
+		input=new PrintStream(consoleIn);
+	};
 	static public void systemOut(String what) {
 		systemOut.println(what);
 	}
@@ -199,7 +201,7 @@ public class Console {
 		// replace original streams to remove references to console's streams
 		System.setOut(systemOut);
 		System.setErr(systemErr);
-		System.setIn(systemIn);
+		//System.setIn(systemIn);
 		
 		cleanup(consoleOut);
 		cleanup(consoleErr);

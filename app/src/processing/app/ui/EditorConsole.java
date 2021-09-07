@@ -32,6 +32,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
+import java.io.InputStream;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.*;
@@ -86,7 +88,9 @@ public class EditorConsole extends JScrollPane {
 		startTimer();
 	}
 
-
+	public void rebindIn(OutputStream in){
+		Console.rebindIn(in);
+	};
 	protected void flush() {
 		// only if new text has been added
 		if (consoleDoc.hasAppendage()) {

@@ -70,6 +70,8 @@ public class Runner implements MessageConsumer {
 
 	// Thread transferring remote output stream to our output stream
 	protected Thread outThread = null;
+	// Thread transferring ide input stream to output stream
+	//protected Thread inThread = null;
 
 	protected SketchException exception;
 	protected JavaEditor editor;
@@ -79,6 +81,8 @@ public class Runner implements MessageConsumer {
 	protected PrintStream sketchErr;
 	protected PrintStream sketchOut;
 
+	protected InputStream sketchIn;
+	
 	protected volatile boolean cancelled;
 	protected final Object cancelLock = new Object[0];
 
@@ -94,9 +98,11 @@ public class Runner implements MessageConsumer {
 			this.editor = (JavaEditor) listener;
 			sketchErr = editor.getConsole().getErr();
 			sketchOut = editor.getConsole().getOut();
+			//sketchIn=editor.getConsole().getIn();
 		} else {
 			sketchErr = System.err;
 			sketchOut = System.out;
+			//sketchIn  = System.in;
 		}
 
 		// Make sure all the imported libraries will actually run with this setup.
@@ -190,8 +196,10 @@ public class Runner implements MessageConsumer {
 		MessageSiphon ms = new MessageSiphon(process.getErrorStream(), this);
 		errThread = ms.getThread();
 		outThread = new StreamRedirectThread("VM output reader", process.getInputStream(), System.out);
+		//inThread = new StreamRedirectThread("VM input provider", System.in , process.getOutputStream());
 		errThread.start();
 		outThread.start();
+		//inThread.start();
 	}
 
 
@@ -620,13 +628,18 @@ public class Runner implements MessageConsumer {
 		outThread = new StreamRedirectThread("JVM stdout Reader",
 																				 process.getInputStream(),
 																				 sketchOut);
+		//inThread = new StreamRedirectThread("JVM stdin provider",
+																				// sketchIn,
+																				 //process.getOutputStream());																
+		processing.app.Console.rebindIn(process.getOutputStream());
 		errThread.start();
 		outThread.start();
+		//inThread.start();
 
 		// Shutdown begins when event thread terminates
 		try {
 			if (eventThread != null) eventThread.join();	// is this the problem?
-
+			//inThread.join();
 //			System.out.println("in here");
 			// Bug #852 tracked to this next line in the code.
 			// http://dev.processing.org/bugs/show_bug.cgi?id=852
@@ -634,7 +647,7 @@ public class Runner implements MessageConsumer {
 //			System.out.println("and then");
 			outThread.join(); // before we exit
 //			System.out.println("finished join for errThread and outThread");
-
+			
 			// At this point, disable the run button.
 			// This happens when the sketch is exited by hitting ESC,
 			// or the user manually closes the sketch window.
