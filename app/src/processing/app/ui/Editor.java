@@ -358,7 +358,6 @@ public abstract class Editor extends JFrame implements RunnerListener {
 
 		// Finish preparing Editor
 		pack();
-
 		// Set the window bounds and the divider location before setting it visible
 		state.apply(this);
 
@@ -371,7 +370,8 @@ public abstract class Editor extends JFrame implements RunnerListener {
 
 		// Bring back the general options for the editor
 		applyPreferences();
-
+		Rectangle r = getBounds();
+		setSize(r.width,r.height+20);//this fixes visual problem caused by adding the console
 		// Make textField get the focus whenever frame is activated.
 		// http://download.oracle.com/javase/tutorial/uiswing/misc/focus.html
 		// May not be necessary, but helps avoid random situations with
