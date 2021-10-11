@@ -1,5 +1,3 @@
-Note load of unmakred assignment
-Handle load of corrupt assignment
 Test UUID stacks
 Test everything
 make sure tabs work as tabs and not as spaces

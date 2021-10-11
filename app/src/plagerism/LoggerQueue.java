@@ -21,6 +21,13 @@ public class LoggerQueue{
 	public static UUID installUUID=installID();
 	public String lastPasteNote;
 	public boolean shield;//a hacky fix to the untraceable mark issue, shield the logger from mark for the entire problem function
+	
+	private String history=null;//changes from loaded file
+	public LinkedList<Entry> past;//undo queue
+	public LinkedList<Entry> future;//redo queue
+	public boolean futureSafe=false;
+	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy, M for move
+
 	public String deject(String input){
 		return ClipboardEncoder.decode(input,this);
 	}
@@ -68,11 +75,6 @@ public class LoggerQueue{
 	//you want a uuid for the install, this should be tracked by all projects opened with that install
 	//install uuid should also be embeded in pastes
 	//you want a uuid for the project, this should be embeded in copy pastes
-	private String history=null;//changes from loaded file
-	public LinkedList<Entry> past;//undo queue
-	public LinkedList<Entry> future;//redo queue
-	public boolean futureSafe=false;
-	public String label="T";//T for typing, C for copy (unused?), P for paste, X for cut, D for dummy, M for move
 
 	public LoggerQueue setLabel(String l){
 		label=l;
@@ -242,70 +244,80 @@ public class LoggerQueue{
 		//extract installs
 		String lookFor="InstallUUIDStack:[";
 		int x=s.indexOf(lookFor)+lookFor.length();
-		int y=s.indexOf("]",x);
-		String process=s.substring(x,y);
-		String[] sub=process.split(",");
-		for(String micro: sub){
+		if(x>=0){
 			try{
-				UUID uuid=UUID.fromString(micro.replace("\"",""));
-				if(!uuid.equals(allInstalls.get(allInstalls.size()-1))){
-						allInstalls.add(uuid);
-				}
-			
-			}catch(IllegalArgumentException e){}
-		}
-		//extract infection
-		lookFor="InfectionStack:[";
-		x=s.indexOf(lookFor)+lookFor.length();
-		y=s.indexOf("]",x);
-		process=s.substring(x,y);
-		sub=process.split(",");
-		for(String micro: sub){
-			try{
-				UUID uuid=UUID.fromString(micro.replace("\"",""));
-				if(!uuid.equals(infectionStack.get(infectionStack.size()-1))){
-						infectionStack.add(uuid);
-				}
-			}catch(IllegalArgumentException e){}
-		}
-		//extract project UUID
-		lookFor="ProjectUUID:";
-		x=s.indexOf(lookFor)+lookFor.length();
-		y=s.indexOf(",",x);
-		process=s.substring(x,y);
-		//System.out.println(process);
-		projectUUID=UUID.fromString(process.replace("\"",""));
-		//extract creator UUID
-		lookFor="CreatorUUID:";
-		x=s.indexOf(lookFor)+lookFor.length();
-		y=s.indexOf(",",x);
-		process=s.substring(x,y);
-		creatorUUID=UUID.fromString(process.replace("\"",""));
-		//mine history
-		if(past.isEmpty()||important){
-			lookFor="History:[";
-
-			x=s.indexOf(lookFor)+lookFor.length();
-			if(x>0){
-				boolean quotesOn=false;
-				for(int i=x;i<s.length();i++){
-					char a=s.charAt(i);
-					if(a=='"'){
-						quotesOn^=true;
-					}
-					if(!quotesOn){
-						if(a=='\\'){
-							i++;
-						}if(a==']'){
-							history=s.substring(x,i);
-							
-							//System.out.print(history);
-							break;
+				x+=lookFor.length();
+				
+				int y=s.indexOf("]",x);
+				String process=s.substring(x,y);
+				String[] sub=process.split(",");
+				for(String micro: sub){
+					try{
+						UUID uuid=UUID.fromString(micro.replace("\"",""));
+						if(!uuid.equals(allInstalls.get(allInstalls.size()-1))){
+								allInstalls.add(uuid);
 						}
-						
-					}
+					
+					}catch(IllegalArgumentException e){}
 				}
+				//extract infection
+				lookFor="InfectionStack:[";
+				x=s.indexOf(lookFor)+lookFor.length();
+				y=s.indexOf("]",x);
+				process=s.substring(x,y);
+				sub=process.split(",");
+				for(String micro: sub){
+					try{
+						UUID uuid=UUID.fromString(micro.replace("\"",""));
+						if(!uuid.equals(infectionStack.get(infectionStack.size()-1))){
+								infectionStack.add(uuid);
+						}
+					}catch(IllegalArgumentException e){}
+				}
+				//extract project UUID
+				lookFor="ProjectUUID:";
+				x=s.indexOf(lookFor)+lookFor.length();
+				y=s.indexOf(",",x);
+				process=s.substring(x,y);
+				//System.out.println(process);
+				projectUUID=UUID.fromString(process.replace("\"",""));
+				//extract creator UUID
+				lookFor="CreatorUUID:";
+				x=s.indexOf(lookFor)+lookFor.length();
+				y=s.indexOf(",",x);
+				process=s.substring(x,y);
+				creatorUUID=UUID.fromString(process.replace("\"",""));
+				//mine history
+				if(past.isEmpty()||important){
+					lookFor="History:[";
+
+					x=s.indexOf(lookFor)+lookFor.length();
+					//if(x>0){//I just realized this will always be true because of the +
+					boolean quotesOn=false;
+					for(int i=x;i<s.length();i++){
+						char a=s.charAt(i);
+						if(a=='"'){
+							quotesOn^=true;
+						}
+						if(!quotesOn){
+							if(a=='\\'){
+								i++;
+							}if(a==']'){
+								history=s.substring(x,i);
+								
+								//System.out.print(history);
+								break;
+							}
+							
+						}
+					}
+					//}
+				}
+			}catch(Exception e){
+				history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Error loading file\",N:\""+protect(s)+"\"}";
 			}
+		}else{
+			history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Untracked file loaded\",N:\""+protect(s)+"\"}";
 		}
 		return this;
 	}
@@ -388,4 +400,8 @@ public class LoggerQueue{
 		past.peek().set="\\d";
 		return this;
 	}
+	public String protect(String s){
+			return s.replace("\\","\\\\").replace("\"","\\\"").replace(String.format("%n"),"\\n").replace(String.format("\n"),"\\n");
+			
+		}
 }
