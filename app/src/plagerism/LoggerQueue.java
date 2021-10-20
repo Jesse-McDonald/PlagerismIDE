@@ -227,10 +227,10 @@ public class LoggerQueue{
 		return ret.toString();
 
 	}
-	public LoggerQueue fromString(String s){
+	public LoggerQueue fromString(String s)throws Exception{
 		return fromString(s,false);
 	}
-	public LoggerQueue fromString(String s,boolean important){
+	public LoggerQueue fromString(String s,boolean important)throws Exception{
 		//{
 		//InstallUUIDStack:[],
 		//InfectionStack:[],
@@ -244,10 +244,10 @@ public class LoggerQueue{
 		//extract installs
 		String lookFor="InstallUUIDStack:[";
 		int x=s.indexOf(lookFor)+lookFor.length();
-		if(x>=0){
-			try{
-				x+=lookFor.length();
-				
+		if(x<lookFor.length()){
+			throw new Exception("index error on load");
+		}
+			
 				int y=s.indexOf("]",x);
 				String process=s.substring(x,y);
 				String[] sub=process.split(",");
@@ -263,6 +263,9 @@ public class LoggerQueue{
 				//extract infection
 				lookFor="InfectionStack:[";
 				x=s.indexOf(lookFor)+lookFor.length();
+				if(x<lookFor.length()){
+					throw new Exception("index error on load");
+				}
 				y=s.indexOf("]",x);
 				process=s.substring(x,y);
 				sub=process.split(",");
@@ -277,6 +280,9 @@ public class LoggerQueue{
 				//extract project UUID
 				lookFor="ProjectUUID:";
 				x=s.indexOf(lookFor)+lookFor.length();
+				if(x<lookFor.length()){
+					throw new Exception("index error on load");
+				}
 				y=s.indexOf(",",x);
 				process=s.substring(x,y);
 				//System.out.println(process);
@@ -284,6 +290,9 @@ public class LoggerQueue{
 				//extract creator UUID
 				lookFor="CreatorUUID:";
 				x=s.indexOf(lookFor)+lookFor.length();
+				if(x<lookFor.length()){
+					throw new Exception("index error on load");
+				}
 				y=s.indexOf(",",x);
 				process=s.substring(x,y);
 				creatorUUID=UUID.fromString(process.replace("\"",""));
@@ -294,7 +303,8 @@ public class LoggerQueue{
 					x=s.indexOf(lookFor)+lookFor.length();
 					//if(x>0){//I just realized this will always be true because of the +
 					boolean quotesOn=false;
-					for(int i=x;i<s.length();i++){
+					int i;
+					for(i=x;i<s.length();i++){
 						char a=s.charAt(i);
 						if(a=='"'){
 							quotesOn^=true;
@@ -303,7 +313,7 @@ public class LoggerQueue{
 							if(a=='\\'){
 								i++;
 							}if(a==']'){
-								history=s.substring(x,i);
+								
 								
 								//System.out.print(history);
 								break;
@@ -311,26 +321,35 @@ public class LoggerQueue{
 							
 						}
 					}
+					history=s.substring(x,i);
 					//}
 				}
-			}catch(Exception e){
-				history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Error loading file\",N:\""+protect(s)+"\"}";
-			}
-		}else{
-			history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Untracked file loaded\",N:\""+protect(s)+"\"}";
-		}
+			
+		
 		return this;
 	}
-	public String skimString(String s){
+	public String skimString(String s){//parse json AND remove comment, then return string without comment
+		
 		int index1=s.lastIndexOf("\n",s.length()-1);
 		int index=s.indexOf("//|",index1);
 		String ret=s;
-		if(index>0){
-				index=s.indexOf("|{",index+1);
+		if(index>=0){
+			index=s.indexOf("|{",index+1);
+			try{
+				
 				fromString(s.substring(index));
-				ret =s.substring(0,index1);
+				
+			}catch(Exception e){
+				if(s.length()>2){
+					history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Error loading file\",N:\""+protect(s)+"\"}";
+				}
+			}
+			ret =s.substring(0,index1);
+		}else{
+			if(s.length()>2){
+				history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Untracked file loaded\",N:\""+protect(s)+"\"}";
+			}
 		}
-		//parse json AND remove comment, then return string without comment
 		
 		return ret;
 	}
