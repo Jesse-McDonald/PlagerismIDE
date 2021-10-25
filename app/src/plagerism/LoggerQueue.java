@@ -125,48 +125,67 @@ public class LoggerQueue{
 			lastPasteNote="";
 		}
 		insert.protect();
-			
+		//if(pos!=end){
+			//insert.mark();
+		//}			
 		past.addFirst(insert);
-
+	
 		return this;
 	}
 	public LoggerQueue consolidate(){
-		LinkedList<Entry> now=new LinkedList<Entry>();
-		while(!past.isEmpty()){//take off top edits
-			Entry top=past.pop();
+		LinkedList<Entry> now=new LinkedList<Entry>();//start temprary list to hold current merge
+		while(!past.isEmpty()){//if there is stuff in the past
+			Entry top=past.pop();//get it
 			if(top.landmark){
-				past.addFirst(top);
+				past.addFirst(top); 
 				break;
 			}else{
-					now.addFirst(top);
+					now.addFirst(top);//otherwise add it to the queue
 			}
 		}
-		StringBuilder newEdit=new StringBuilder(now.size());
+		StringBuilder newEdit=new StringBuilder(now.size());//prep string builder for consolkidated edit
 		boolean isTyping=false;
 		int startPos=0;
+		int endPos=-1;
 		long startTime=0;
 		while(!now.isEmpty()){
 			Entry top=now.pop();
 			if(top.label.equals("T")){//typing is the only thing that needs consolidating
+				//System.out.println("Popped: "+top);
 				if(!isTyping){
 					startPos=top.pos;
+					if(top.pos!=top.endPos){
+						endPos=top.endPos;
+					}
 					startTime=top.timeStamp;
 				}
 				newEdit.append(top.set);
 				isTyping=true;
+				
 			}else{
 				if(isTyping){
-					Entry insert=new Entry(startPos,startPos,newEdit.toString(),"T");
+	
+					if(endPos==-1){
+						endPos=startPos;
+					}
+					Entry insert=new Entry(startPos,endPos,newEdit.toString(),"T");
+					//System.out.println("Pushing: "+insert);
+					endPos=-1;
 					insert.timeStamp=startTime;
 					now.addFirst(insert);
 					isTyping=false;
 					newEdit=new StringBuilder(now.size());
 				}		
 				past.addFirst(top);
+				
 			}
 		}		
 		if(isTyping){
-			Entry insert=new Entry(startPos,startPos,newEdit.toString(),"T");
+			if(endPos==-1){
+				endPos=startPos;
+			}
+			Entry insert=new Entry(startPos,endPos,newEdit.toString(),"T");
+			//System.out.println("last push: "+insert);
 			insert.timeStamp=startTime;
 			past.addFirst(insert);	
 			
@@ -410,7 +429,9 @@ public class LoggerQueue{
 
 	public LoggerQueue backspace(int pos, int end){
 		add(pos,end,"");
-		past.peek().set="\\b";
+		if(pos==end){
+			past.peek().set="\\b";
+		}
 		return this;
 	}
 	
