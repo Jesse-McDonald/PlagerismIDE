@@ -1,5 +1,5 @@
 import itertools
-ec='​'
+ec='​'#has zws
 #I really should have documented what this does at the time
 #there where 2 options, either assign 0 to be ec and 1 to be letter
 #Or assign letter to be flip flop, and ec to be the number of 0/1 in this flip
@@ -42,3 +42,4 @@ coded=encode("Test","This is a long encoder string that should be logn enough fo
 
 print(coded)
 print(decode(coded))
+
