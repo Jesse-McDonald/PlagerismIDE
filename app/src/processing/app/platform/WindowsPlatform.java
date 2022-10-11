@@ -64,7 +64,7 @@ public class WindowsPlatform extends DefaultPlatform {
 		"\\" + APP_NAME.toLowerCase() + ".exe \"%1\"";
 	static final String REG_DOC = APP_NAME + ".Document";
 	public boolean isPortable(){
-		return (new File("../.portable").exists())||(new File("../_portable").exists())||(new File("../portable").exists()||(new File(".portable").exists())||(new File("_portable").exists())||(new File("portable").exists());
+		return (new File("../.portable").exists())||(new File("../_portable").exists())||(new File("../portable").exists())||(new File(".portable").exists())||(new File("_portable").exists())||(new File("portable").exists());
 	}
 
 	public void initBase(Base base) {
