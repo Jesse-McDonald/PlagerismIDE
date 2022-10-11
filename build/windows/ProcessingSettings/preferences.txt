@@ -1,1 +1,0 @@
-editor.keys.shift_backspace_is_delete=false
