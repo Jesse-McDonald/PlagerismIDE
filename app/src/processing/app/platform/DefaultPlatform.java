@@ -105,7 +105,7 @@ public class DefaultPlatform {
 	public File getSettingsFolder() throws Exception {
 		// otherwise make a .processing directory int the user's home dir
 		if(isPortable()){
-			File settingsFolder = new File("ProcessingSettings", "Processing");
+			File settingsFolder = new File("ProcessingSettings");
 			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
 				return settingsFolder;
 			}
@@ -121,7 +121,7 @@ public class DefaultPlatform {
 	 */
 	public File getDefaultSketchbookFolder() throws Exception {
 		if(isPortable()){
-			File settingsFolder = new File("Sketchbook", "Processing");
+			File settingsFolder = new File("Sketchbook");
 			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
 				return settingsFolder;
 			}

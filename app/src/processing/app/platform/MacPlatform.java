@@ -99,11 +99,24 @@ public class MacPlatform extends DefaultPlatform {
 
 
 	public File getSettingsFolder() throws Exception {
+		if(isPortable()){
+			File settingsFolder = new File("ProcessingSettings");
+			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
+				return settingsFolder;
+			}
+		}
 		return new File(getLibraryFolder(), "Processing");
 	}
 
 
 	public File getDefaultSketchbookFolder() throws Exception {
+		if(isPortable()){
+			File settingsFolder = new File("Sketchbook");
+			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
+				return settingsFolder;
+			}
+			
+		}
 		return new File(getDocumentsFolder(), "Processing");
 		/*
 		// looking for /Users/blah/Documents/Processing
