@@ -280,6 +280,12 @@ public class WindowsPlatform extends DefaultPlatform {
 
 	// looking for Documents and Settings/blah/Application Data/Processing
 	public File getSettingsFolder() throws Exception {
+		if(isPortable()){
+			File settingsFolder = new File("../", "ProcessingSettings");
+			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
+				return settingsFolder;
+			}
+		}
 		try {
 			String appDataRoaming = getAppDataPath();
 			if (appDataRoaming != null) {
@@ -317,6 +323,7 @@ public class WindowsPlatform extends DefaultPlatform {
 			Messages.showError("Windows JNA Problem", msg, ule);
 			return null;	// unreachable
 		}
+	
 	}
 
 
@@ -347,11 +354,19 @@ public class WindowsPlatform extends DefaultPlatform {
 
 	/** Get the Documents and Settings\name\My Documents\Processing folder. */
 	public File getDefaultSketchbookFolder() throws Exception {
-		String documentsPath = getDocumentsPath();
-		if (documentsPath != null) {
-			return new File(documentsPath, APP_NAME);
+		if(isPortable()){
+			File settingsFolder = new File("../", "Sketchbook");
+			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
+				return settingsFolder;
+			}
+			return null;
+		}else{
+			String documentsPath = getDocumentsPath();
+			if (documentsPath != null) {
+				return new File(documentsPath, APP_NAME);
+			}
+			return null;
 		}
-		return null;
 	}
 
 

@@ -3,7 +3,7 @@
 ._*
 *~
 /build/shared/reference.zip
-
+/build/windows/work/*
 # temporary, until we complete the move to IntelliJ
 *.iml
 /.idea

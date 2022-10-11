@@ -40,7 +40,7 @@ public class Entry{
 		public long limit(long timeStamp){//greatly shorten time stamps to appropriate durration
 		//for my use, Years dont matter
 		//Months dont really
-		//and days barly dont
+		//and days barly do
 		//hours matter
 		//as do minutes
 		//and seconds
@@ -84,10 +84,10 @@ public class Entry{
 			
 			ret.append("\""+set+"\"");//make edit safe for json
 			
-			ret.append("}");
 			if(notes!=null&&!notes.isEmpty()){
 				ret.append(",N:\""+notes+"\"");
 			}
+			ret.append("}");
 			return ret.toString();
 		}
 		//public Entry add(String s){

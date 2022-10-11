@@ -156,6 +156,9 @@ class ClipboardEncoder{
 	}
 	//0,1 installUUID,2 ProjectUUID,3 creatorUUID,4 infectionStack,5 allInstalls,6
 	private static boolean partialUUIDMatch(UUID a, UUID b, int bytes){
+		if(bytes<0){
+			return true;
+		}
 		return false;
 	}
 	public static String decode(String base, LoggerQueue data){

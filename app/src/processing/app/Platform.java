@@ -94,7 +94,9 @@ public class Platform {
 		}
 	}
 
-
+	public static boolean isPortable(){
+		return inst.isPortable();
+	}
 	static public void initBase(Base base) throws Exception {
 		inst.initBase(base);
 	}

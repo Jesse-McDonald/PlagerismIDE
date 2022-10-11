@@ -54,7 +54,15 @@ import processing.app.Preferences;
 public class DefaultPlatform {
 	Base base;
 
-
+	/**
+		Check if .portable (file can start with . _ or nothing )file exists in same folder as the executable.  if it is, this is a portable instance, the default sketchbook and settings file should be put in ./ not the default
+	*/
+	public boolean isPortable(){
+		return (new File(".portable").exists())||(new File("_portable").exists())||(new File("portable").exists());
+	}
+	
+	
+	
 	public void initBase(Base base) {
 		this.base = base;
 	}
@@ -96,6 +104,12 @@ public class DefaultPlatform {
 	 */
 	public File getSettingsFolder() throws Exception {
 		// otherwise make a .processing directory int the user's home dir
+		if(isPortable()){
+			File settingsFolder = new File("ProcessingSettings", "Processing");
+			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
+				return settingsFolder;
+			}
+		}
 		File home = new File(System.getProperty("user.home"));
 		return new File(home, ".processing");
 	}
@@ -106,7 +120,15 @@ public class DefaultPlatform {
 	 * @throws Exception so that subclasses can throw a fit
 	 */
 	public File getDefaultSketchbookFolder() throws Exception {
+		if(isPortable()){
+			File settingsFolder = new File("Sketchbook", "Processing");
+			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
+				return settingsFolder;
+			}
+			
+		}
 		return new File(System.getProperty("user.home"), "sketchbook");
+		
 	}
 
 
