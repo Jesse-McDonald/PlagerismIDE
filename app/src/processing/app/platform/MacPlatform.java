@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
-
 import com.apple.eio.FileManager;
 
 import processing.app.Base;
@@ -38,7 +37,12 @@ import processing.app.Messages;
  * Platform handler for Mac OS X.
  */
 public class MacPlatform extends DefaultPlatform {
-
+	String APP_PKG=new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString()).getParentFile().getParentFile().getParentFile().getParent().substring(5);
+	public boolean isPortable(){
+		
+		//System.out.println(APP_PKG+" "+new File(APP_PKG,"portable")+" "+new File(APP_PKG,"_portable").exists());
+		return (new File(APP_PKG,".portable").exists())||(new File(APP_PKG,"_portable").exists())||(new File(APP_PKG,"portable").exists());
+	}
 	// Removing for 2.0b8 because Quaqua doesn't have OS X 10.8 version.
 	/*
 	public void setLookAndFeel() throws Exception {
@@ -100,7 +104,7 @@ public class MacPlatform extends DefaultPlatform {
 
 	public File getSettingsFolder() throws Exception {
 		if(isPortable()){
-			File settingsFolder = new File("ProcessingSettings");
+			File settingsFolder = new File(APP_PKG,"ProcessingSettings");
 			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
 				return settingsFolder;
 			}
@@ -111,7 +115,7 @@ public class MacPlatform extends DefaultPlatform {
 
 	public File getDefaultSketchbookFolder() throws Exception {
 		if(isPortable()){
-			File settingsFolder = new File("Sketchbook");
+			File settingsFolder = new File(APP_PKG,"Sketchbook");
 			if (settingsFolder.exists() || settingsFolder.mkdirs()) {
 				return settingsFolder;
 			}
