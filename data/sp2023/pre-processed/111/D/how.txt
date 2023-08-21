@@ -1,0 +1,6 @@
+I initially started with using the video provided, but I found it too difficult to complete the task with
+the code provided. Also, it wasn’t functioning as the video was showing which made it more
+difficult. I began researching ways to make a code for this and ran into several problems/errors
+such as “unexpected token,” and different class and initialization problems. It took a while and a
+lot of researching, but I finally found a way to complete it. I used code from several different
+sites and combined it all to form the code that is presented to you now.

@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<TITLE>C:/Users/jamcdonald/Documents/research/sp2023/MOSS/211/F/</TITLE>
+</HEAD>
+<BODY BGCOLOR=white>
+<HR>
+C:/Users/jamcdonald/Documents/research/sp2023/MOSS/211/F/<p><PRE>
+&gt;&gt;&gt;&gt; file: F.pde
+/**
+ * I used a resource that was shared in an ICS discord
+ * processing.org/examples/mandelbrot.html
+**/
+void setup(){
+    size(640,360);
+}
+
+void draw(){
+<A NAME="0"></A><FONT color = #FF0000><A HREF="match0-1.html#0" TARGET="1"><IMG SRC="bitmaps/tm_0_94.gif" ALT="other" BORDER="0" ALIGN=left></A>
+
+    background(255,255,255);
+    
+    float w = 4;
+    float h = (w * height) / width;
+    float xmin = -w/2;
+    float ymin = -h/2;
+    loadPixels();
+    int maxiterations = 100;
+    float xmax = xmin + w;
+    float ymax = ymin + h;
+    float dx = (xmax - xmin) / (width);
+	float dy = (ymax - ymin) / (height);
+	float y = ymin;
+	for (int j = 0; j &lt; height; j++) {
+  		float x = xmin;
+ 		for (int i = 0; i &lt; width; i++) {
+
+    		// Now we test, as we iterate z = z^2 + c does z tend towards infinity?
+    		float a = x;
+    		float b = y;
+    		int n = 0;
+    		float max = 4.0;  // Infinity in our finite world is simple, let's just consider it 4
+    		float absOld = 0.0;
+    		float convergeNumber = maxiterations; // this will change if the while loop breaks due to non-convergence
+    		while (n &lt; maxiterations) {
+     	     // We suppose z = a+ib
+      			float aa = a * a;
+            	float bb = b * b;
+    	    	float abs = sqrt(aa + bb);
+    	    	if (abs &gt; max) { // |z| = sqrt(a^2+b^2)
+    	       // Now measure how much we exceeded the maximum: 
+    	    	float diffToLast = (float) (abs - absOld);
+    	    	float diffToMax  = (float) (max - absOld);
+    	    	convergeNumber = n + diffToMax/diffToLast;
+    	    	break;  // Bail
+    	      }
+      		  float twoab = 2.0 * a * b;
+      		  a = aa - bb + x; // this operation corresponds to z -&gt; z^2+c where z=a+ib c=(x,y)
+      		  b = twoab + y;
+      		  n++;
+      		  absOld = abs;
+      		 }
+
+      		 // We color each pixel based on how long it takes to get to infinity
+      		 // If we never got there, let's pick the color black
+      		 if (n == maxiterations) {
+      		 	pixels[i+j*width] = color(0);
+      		 } else {
+      		 // Gosh, we could make fancy colors here if we wanted
+      		 float norm = map(convergeNumber, 0, maxiterations, 0, 1);
+      		 pixels[i+j*width] = color(map(sqrt(norm), 0, 1, 0, 255));
+      		}
+      		x += dx;
+      	   }
+		  y += dy;
+		}
+		updatePixels();
+</FONT>}</PRE>
+</PRE>
+</BODY>
+</HTML>

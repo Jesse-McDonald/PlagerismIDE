@@ -1,0 +1,4 @@
+/**
+ * I used a resource that was shared in an ICS discord
+ * processing.org/examples/mandelbrot.html
+**/

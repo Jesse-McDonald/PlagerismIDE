@@ -1,0 +1,4 @@
+// First I look at the resources provided to try it on my own, then resorted to videos
+// I did this assigmentment by watching a video of another person creating the MandelBrot set
+// I messed around with the variables to see what changes what
+// and chaged some parts to my liking like color, zoom, etc

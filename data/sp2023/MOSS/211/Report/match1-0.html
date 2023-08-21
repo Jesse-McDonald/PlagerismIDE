@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<TITLE>C:/Users/jamcdonald/Documents/research/sp2023/MOSS/211/H/</TITLE>
+</HEAD>
+<BODY BGCOLOR=white>
+<HR>
+C:/Users/jamcdonald/Documents/research/sp2023/MOSS/211/H/<p><PRE>
+&gt;&gt;&gt;&gt; file: H.pde
+//Watched a YouTube video by The Coding Train and worked
+//with friends to make sure the syntax was correct
+
+void setup() {
+  size(640, 480);
+  colorMode(RGB, 1);
+
+  
+}
+
+void draw() {
+
+  float ca = -.7;
+<A NAME="0"></A><FONT color = #FF0000><A HREF="match1-1.html#0" TARGET="1"><IMG SRC="bitmaps/tm_0_51.gif" ALT="other" BORDER="0" ALIGN=left></A>
+
+  float cb = .212;
+
+  
+
+  background(255);
+
+  float w = 5;
+  float h = (w * height) / width;
+
+  float xmin = -w / 2;
+  float ymin = -h / 2;
+
+  loadPixels();
+
+ int maxiterations = 100;
+
+  float xmax = xmin + w;
+
+  float ymax = ymin + h;
+
+  float dx = (xmax - xmin) / width;
+  float dy = (ymax - ymin) / height;
+
+
+  float y = ymin;
+  for (int j = 0; j &lt; height; j++) {
+    
+    float x = xmin;
+    for (int i = 0; i &lt; width; i++) {
+     
+      float a = x;
+      float b = y;
+      int n = 0;
+      while (n &lt; maxiterations) { 
+        float aa = a * a;
+        float bb = b * b;
+</FONT>       
+<A NAME="1"></A><FONT color = #00FF00><A HREF="match1-1.html#1" TARGET="1"><IMG SRC="bitmaps/tm_1_17.gif" ALT="other" BORDER="0" ALIGN=left></A>
+
+        if (aa*aa + bb*bb &gt; 4.0) {
+          break; // Bail
+        }
+       float twoab = 2.0 * a * b;
+        a = aa - bb + ca;
+        b = twoab + cb;
+        n++;
+      }
+
+
+      if (n == maxiterations) {
+        pixels[i+j*width] = color(0);
+</FONT>      } else {
+          float hu = sqrt(float(n)/maxiterations);
+       pixels[i+j*width] = color(hu,255,255);
+      }
+      x += dx;
+    }
+    y += dy;
+  }
+  updatePixels();
+  println(frameRate);
+}</PRE>
+</PRE>
+</BODY>
+</HTML>

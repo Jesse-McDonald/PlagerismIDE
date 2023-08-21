@@ -1,0 +1,5 @@
+Hi Jesse, my specific thumbdrive did not contain the progress.exe file as shwon in your video. Instead I decided to download the IDE online provided
+from the link given to us. The IDE worked fine until it was time to save my work. The IDE would freeze and never save any of my code, because of this
+I decided to just copy and paste my code here 
+
+hope this helps! 

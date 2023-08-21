@@ -1,0 +1,3 @@
+// I did this assignment through looking at various examples given in the IDE
+// I was interested in user interaction so I got the code from an example that tracks your mouse location
+// I also played with various shape outputs and translations and got to an acceptable point

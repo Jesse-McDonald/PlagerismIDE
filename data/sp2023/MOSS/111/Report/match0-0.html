@@ -1,0 +1,126 @@
+<HTML>
+<HEAD>
+<TITLE>C:/Users/jamcdonald/Documents/research/sp2023/MOSS/111/C/</TITLE>
+</HEAD>
+<BODY BGCOLOR=white>
+<HR>
+C:/Users/jamcdonald/Documents/research/sp2023/MOSS/111/C/<p><PRE>
+&gt;&gt;&gt;&gt; file: C.pde
+import java.util.ArrayList;
+
+abstract class Shape {
+  protected float x, y, vx, vy;
+  protected int c;
+
+  public Shape(float x, float y, float vx, float vy) {
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.c = color((int) random(256), (int) random(256), (int) random(256));
+  }
+
+  public abstract void draw();
+
+  public void update() {
+    x += vx;
+    y += vy;
+
+    if (x &lt; 0 || x &gt; width) {
+      vx = -vx;
+    }
+    if (y &lt; 0 || y &gt; height) {
+      vy = -vy;
+    }
+  }
+}
+
+class Square extends Shape {
+  private float size;
+
+  public Square(float x, float y, float vx, float vy, float size) {
+    super(x, y, vx, vy);
+    this.size = size;
+  }
+
+  public void draw() {
+    fill(c);
+    rect(x, y, size, size);
+  }
+}
+
+class Circle extends Shape {
+  private float radius;
+
+  public Circle(float x, float y, float vx, float vy, float radius) {
+    super(x, y, vx, vy);
+    this.radius = radius;
+  }
+
+  public void draw() {
+    fill(c);
+    ellipse(x, y, 2 * radius, 2 * radius);
+  }
+}
+
+class Triangle extends Shape {
+  private float size;
+
+  public Triangle(float x, float y, float vx, float vy, float size) {
+    super(x, y, vx, vy);
+    this.size = size;
+  }
+
+  public void draw() {
+    fill(c);
+    float halfSize = size / 2;
+    triangle(x - halfSize, y + halfSize, x, y - halfSize, x + halfSize, y + halfSize);
+  }
+}
+
+<A NAME="0"></A><FONT color = #FF0000><A HREF="match0-1.html#0" TARGET="1"><IMG SRC="http://moss.stanford.edu/bitmaps/tm_0_7.gif" ALT="other" BORDER="0" ALIGN=left></A>
+
+ArrayList&lt;Shape&gt; shapes;
+
+void setup() {
+  size(500, 500);
+  shapes = new ArrayList&lt;Shape&gt;();
+}
+
+void draw() {
+  background(255);
+
+  for (Shape shape : shapes) {
+    shape.update();
+    shape.draw();
+  }
+}
+
+void mouseClicked() {
+</FONT>  float x = mouseX;
+  float y = mouseY;
+  float vx = random(-5, 5);
+  float vy = random(-5, 5);
+  int type = (int) random(3);
+  Shape shape;
+
+  switch (type) {
+    case 0:
+      shape = new Square(x, y, vx, vy, random(50, 100));
+      break;
+    case 1:
+      shape = new Circle(x, y, vx, vy, random(50, 100));
+      break;
+    case 2:
+      shape = new Triangle(x, y, vx, vy, random(50, 100));
+      break;
+    default:
+      shape = new Circle(x, y, vx, vy, random(50, 100));
+  }
+
+  shapes.add(shape);
+}
+</PRE>
+</PRE>
+</BODY>
+</HTML>

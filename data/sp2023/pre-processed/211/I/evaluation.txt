@@ -1,0 +1,5 @@
+good
+
+corrupted meta string
+
+likely part of a chain

@@ -1,0 +1,10 @@
+/**
+ * I Googled "mandelbrot set in processing" and clicked on a link from the 
+ * Processing website and copied the code.
+ * 
+ * The Mandelbrot Set
+ * by Daniel Shiffman.  
+ * (slight modification by l8l)
+ *
+ * Simple rendering of the Mandelbrot set.
+ */

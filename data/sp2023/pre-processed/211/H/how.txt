@@ -1,0 +1,6 @@
+//Watched a YouTube video by The Coding Train and worked
+//with friends to make sure the syntax was correct
+https://editor.p5js.org/codingtrain/sketches/G6qbMmaI
+https://youtu.be/fAsaSkmbF5s
+https://thecodingtrain.com/CodingChallenges/022-juliaset.html
+

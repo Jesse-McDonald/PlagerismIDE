@@ -1,0 +1,61 @@
+//Asked chatgpt the following
+/*Create a fractal with the following: size(int width,int height) call this function once in setup to set the size of the window
+background(int greyValue) or background(int red, int green, int blue) call this function as the thing in draw to erase the previous frame. If you don't call it, frames are persistent.
+fill(int greyValue), stroke(int greyValue), fill(int red, int green, int blue) stroke(int red, int green, int blue) These set the fill or outline (stroke) of all shapes drawn after it to a specific color. Each also supports a 4th alpha number for transparent colors
+line(int x1, int y1, int x2,int y2) draws a line from (x1,y1) to (x2,y2)
+int width and int height; these are 2 built in constants you can use. They are set to the current width and height of the window
+int mouseX, int mouseY not needed by this assignment, but this is the position of the mouse
+loadPixels() loads the current screen values into the 1d pixels array, updatePixels() takes that array and sets each screen pixel to the value in the array.
+println(String) shorthand for System.out.println(String)
+note: (0,0) is the top left corner, and (width,height) is the bottom right corner.
+*/ 
+ int maxIterations = 100;
+float minReal = -2;
+float maxReal = 2;
+float minImaginary = -2;
+float maxImaginary = 2;
+
+void setup() {
+  size(800, 800);
+}
+
+void draw() {
+  background(0);
+
+  loadPixels();
+
+  for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+      float cReal = map(x, 0, width, minReal, maxReal);
+      float cImaginary = map(y, 0, height, minImaginary, maxImaginary);
+
+      int iteration = 0;
+      float zReal = 0;
+      float zImaginary = 0;
+
+      while (iteration < maxIterations && zReal * zReal + zImaginary * zImaginary < 4) {
+        float nextZReal = zReal * zReal - zImaginary * zImaginary + cReal;
+        float nextZImaginary = 2 * zReal * zImaginary + cImaginary;
+
+        zReal = nextZReal;
+        zImaginary = nextZImaginary;
+
+        iteration++;
+      }
+
+      int pixelColor;
+      if (iteration == maxIterations) {
+        pixelColor = color(0);
+      } else {
+        float hue = map(iteration, 0, maxIterations, 0, 255);
+        pixelColor = color(hue, 255, 255);
+      }
+
+      pixels[x + y * width] = pixelColor;
+    }
+  }
+
+  updatePixels();
+
+  println("Fractal rendered");
+}

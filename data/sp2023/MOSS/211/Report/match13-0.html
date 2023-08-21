@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<TITLE>C:/Users/jamcdonald/Documents/research/sp2023/MOSS/211/C/</TITLE>
+</HEAD>
+<BODY BGCOLOR=white>
+<HR>
+C:/Users/jamcdonald/Documents/research/sp2023/MOSS/211/C/<p><PRE>
+&gt;&gt;&gt;&gt; file: C.pde
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import javax.swing.JFrame;
+
+public class MandelbrotSet extends JFrame {
+
+    private final int MAX_ITER = 1000;
+    private final double ZOOM = 150;
+    private BufferedImage image;
+
+    public MandelbrotSet() {
+        super("Mandelbrot Set");
+        setBounds(100, 100, 800, 600);
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        int[] colors = new int[MAX_ITER];
+        for (int i = 0; i &lt; MAX_ITER; i++) {
+            colors[i] = Color.HSBtoRGB(i/256f, 1, i/(i+8f));
+        }
+<A NAME="0"></A><FONT color = #FF0000><A HREF="match13-1.html#0" TARGET="1"><IMG SRC="bitmaps/tm_0_8.gif" ALT="other" BORDER="0" ALIGN=left></A>
+
+        for (int y = 0; y &lt; getHeight(); y++) {
+            for (int x = 0; x &lt; getWidth(); x++) {
+                double zx = 0;
+</FONT>                double zy = 0;
+                double cX = (x - 400) / ZOOM;
+                double cY = (y - 300) / ZOOM;
+                int iter = MAX_ITER;
+                while (zx*zx + zy*zy &lt; 4 && iter &gt; 0) {
+                    double tmp = zx*zx - zy*zy + cX;
+                    zy = 2.0*zx*zy + cY;
+                    zx = tmp;
+                    iter--;
+                }
+                image.setRGB(x, y, iter == 0 ? 0 : colors[iter % MAX_ITER]);
+            }
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        g.drawImage(image, 0, 0, this);
+    }
+
+    public static void main(String[] args) {
+        MandelbrotSet mandelbrot = new MandelbrotSet();
+        mandelbrot.setVisible(true);
+    }
+
+}
+
+// i found this while googling mandelbrot set code for java
+</PRE>
+</PRE>
+</BODY>
+</HTML>
