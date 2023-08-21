@@ -174,7 +174,7 @@ A potential bypass is to complete the assignment via any means that doesnt add t
 During the Spring 2023 ICS 111 and 211 Intro to Java classes, we offered an extra credit assignment to students. [[XXX what do I have to do to reference the ethics board here?]]
 Students were instructed to use the IDE and ATTEMPT to plagiarize the assignment.  We worked with the professors of the classes to give each class a project that would be slightly too difficult to the average person in the class to encourage plagiarism, but not so difficult that NO students in the class would be able to complete it on their own.  The 111 class was given a project to make 3 Polymorphic Shapes that move around the screen and bounce off the edges.  The 211 class was given the task to create any function defined fractal (such as a Mandelbrot fractal).  ChatGPT was able to generate solutions to both without assistance, and a solution for each was seeded on to an assortment of websites.  Assignments were collected completely anonymously by distributing and collecting identical thumbdrives containing the IDE which was set to save to the drive its self.  Assignment credit was given for turning in a thumbdrive without checking its content.  2 students in 211 caught this loophole and did in-fact turn in completely blank thumbdrives.
 
-Students were also asked to self report the method they used to complete the assignment and include the report on the thumbdrive.
+Students were also asked to self report the method they used to complete the assignment and include the report on the thumbdrive.  As students were asked to ``cheat'' on this assignment, the frequency of cheating its self carries no meaningful information, it only serves to reveal the Vectors and usability of our method.
 
 As the 111 and 211 classes are separate assignments and cohorts, we will treat them as 2 concurrent Case Studies. 
 
@@ -204,9 +204,15 @@ Between all the submissions meta comments we were able to identify that Student 
 
 \n\subsubsection*{\textbf{Observed Vectors}}\hfill\break\indent
 
+\n\section{\textbf{Future Work}}
+In the future, we hope to completely automate the detection of plagiarized assignments created with the IDE.  UUID tracing is easy enough to automate, but automating the whole process will require several heuristics.  For example, how much of an assignment must be copied from the internet for it to be considered plagiarized?  How big of a paste is that?  What about linear typing?  How many lines are required to say ``this isnt organic'' from just linear typing?  All of these potential questions need future research to answer.  
 
+Additionally, our primary aim is plagiarism reduction, so it may be equally useful to create a heuristic that represents the general amount of plagiarism present in a class as a whole rather than individual assignments. 
+
+However, before any of this can happen the IDE needs to be stabilized.  Several students complained about it ``freezing'' on save and there are a few notable problems.  One possible improvement would be to gzip meta comment and the embedded data.  Care should be taken in doing so, and it may be advantageous to pair this approach with Reed-Solomon ECC to combat accidental file corruption.  This may be advantageous even if there is no net decrease in meta comment size.  Additional improvements include embedding extra clipboard data that another copy of the IDE could read separate from the hidden text embedding
 \n\section{\textbf{Conclusion}}
-a
+Our approach has shown promise as a tool in detecting plagiarism within intro level CS courses.  The most useful features are paste event tracking and UUIDs.  We encourage anyone concerned with plagiarism in an intro level class to provide a modified IDE for their class that uses these tracking features.
+
 \bibliography{references}{}
  \bibliographystyle{plain}
 
