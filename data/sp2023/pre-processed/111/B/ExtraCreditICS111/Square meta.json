@@ -14,9 +14,10 @@
 			T:F9nSI=,
 			P:0,
 			L:"P",
-			E:"class Circle extends Shape {\n    float radius;\n    \n    Circle(float xPos, float yPos, float radius) {\n        x = xPos;\n        y = yPos;\n        vx = random(2, 7);\n        vy = random(2, 7);\n        colorOfShape = color(random(255), random(255), random(255));\n    }\n    \n    void drawShape() {\n        fill(colorOfShape);\n        circle(x, y, 10);\n    }\n}"
+			E:"class Circle extends Shape {\n    float radius;\n    \n    Circle(float xPos, float yPos, float radius) {\n        x = xPos;\n        y = yPos;\n        vx = random(2, 7);\n        vy = random(2, 7);\n        colorOfShape = color(random(255), random(255), random(255));\n    }\n    \n    void drawShape() {\n        fill(colorOfShape);\n        circle(x, y, 10);\n    }\n}",
+			N:"paste from project with same creator;Paste from project with UUID 5b317886-5359-48ec-ad67-d2f19e2040ba;"
+		
 		},
-		N:"paste from project with same creator;Paste from project with UUID 5b317886-5359-48ec-ad67-d2f19e2040ba;",
 		{T:F9nTY=,P:6-12,P:"T",E:"Square"},
 		{T:F9nYo=,P:56,P:"T",E:"Square"},
 		{T:F9n08=,P:39-45,P:"T",E:"l"},

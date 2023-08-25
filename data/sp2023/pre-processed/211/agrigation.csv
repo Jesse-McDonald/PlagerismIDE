@@ -1,7 +1,7 @@
 Student,Correct,Cheated,Obvious,Obvious with Esay mode,ChatGPT,large forign paste,Seeded,useless,Obvious without,MOSS detect,Chain,Notes,Moss Notes
 A,X,X,X,,,X,,,,,,,
 B,X,X,X,,,X,,,,4 R,,,False flag
-C,,X,X,,,X,,,X,8 R,,,false flag
+C,-,X,X,,,X,,,X,8 R,,,false flag
 D,X,X,X,,X,X,,,,17 Q,,,false flag
 E,X,X,,X,,,,,,"55 I, 44 H, 38 P, 38 F",,Good canidate to try essay mode detection on (Works),"EFHIP same source, potentially false flag"
 F,X,X,X,,,X,,,with work,"94 P,47 I, 47 H, 35 E",,same example used by 2 people,EFHIP same source

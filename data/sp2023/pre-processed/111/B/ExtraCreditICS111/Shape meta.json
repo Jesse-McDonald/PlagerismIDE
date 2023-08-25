@@ -67,9 +67,10 @@
 			T:F9ZVs=,
 			P:122,
 			L:"P",
-			E:"    void move() {\n        vy = 10;\n        y = y + vy;\n    }"
+			E:"    void move() {\n        vy = 10;\n        y = y + vy;\n    }",
+			N:"Paste too short to track"
 		},
-		N:"Paste too short to track",
+		
 		{T:F9ZVU=,P:117,P:"T",E:"\n    "},
 		{T:F9ZcI=,P:125,P:"T",E:"\b"},
 		{T:F9ZcY=,P:124,P:"T",E:"\b"},

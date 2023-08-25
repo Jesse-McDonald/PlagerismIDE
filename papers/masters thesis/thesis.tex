@@ -2,10 +2,11 @@
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
+\usepackage{listings}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amsfonts}
 %\usepackage{bbold}
-
+\usepackage{bera}
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
@@ -14,12 +15,57 @@
 \usepackage{dblfloatfix}
 \newcommand{\cbox}[1]{\raisebox{\depth}{\fcolorbox{black}{#1}{\null}}}
 \newcommand{\n}{\hfill\break}
-
-\newcommand{\installID}{InstallID}
-\newcommand{\projectID}{ProjectID}
-\newcommand{\infectionStack}{InfectionStack}
+\usepackage{xspace}
+\newcommand{\installID}{InstallID\xspace}
+\newcommand{\projectID}{ProjectID\xspace}
+\newcommand{\metaComment}{metaComment\xspace}
+\newcommand{\infectionStack}{InfectionStack\xspace}
 %\usepackage{svg}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 
+\lstset{frame=none,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  frame=none
+}
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+\definecolor{stringcolor}{RGB}{163,21,21}
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=none,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none,
+    %backgroundcolor=\color{background},
+    literate=
+     *{:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+      morestring=[b]"
+}
 \hypersetup{
 	colorlinks,
 	linkcolor={red!50!black},
@@ -29,6 +75,7 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
+\onecolumn
 \makeatletter
 \newlength{\logoheight}
 \setlength{\logoheight}{50pt} % set your logo height
@@ -63,7 +110,7 @@ keyword
 		\subsection{Prevalence}
 		 One may ask, "How prevalent is plagiarism in intro CS classes." So did we, In an single 60 student intro level during class 2020, we observed one assignment where 10 people turned in exactly the same assignment, and nearly a third of the class had recognizable plagiarized assignments.   This assignment will be referred to later as the ``Motivating Case.''
 		 [[xxxxx Find papers referencing plagiarism]]
-		 Additionally, we have known many high level computer science students who don't seam to understand basic programming.  While this lack of understanding may not point to plagiarism, that seams the most likely culprit.
+		 Additionally, we have known many high level computer science students who don't seam to understand basic programming.  While this lack of understanding may not point to plagiarism, that seams a likely culprit.
 		
 \n\section{\textbf{Definitions}}
 Plagiarism is generally defined as ``The practice of taking someone else's work or ideas and passing them off as one's own.''\cite{oxed}  However, for this paper we will define it exclusivity as ``coping someone else's code to complete an assignment.''  We exclude copying ideas because it is incredible difficult to determine if an idea has been copied when implemented independently, the general culture of computer science is to iterate on others ideas (often without attribution), and because in the intro level, all the required ideas have been thought of by so many people determining an origin would be next to impossible.  Additionally, we exclude the possibility a student could ``cite'' their copied code to avoid plagiarism because the intro level is attempting to teach coding, not copying existing code.  This definition works well for the intro level, however in higher levels it becomes less useful.  We will use cheating and plagiarism synonymous in this paper.  We would also like to define some theoretical plagiarism ``vectors.''
@@ -94,7 +141,7 @@ Plagiarism is generally defined as ``The practice of taking someone else's work 
 \n\section{\textbf{Current Approach}}
 	There are many existing research projects attempting to detect Plagerism The general method of plagiarism can be summarized as follows.  Given a set $A$ of submissions find a set $P$ such that  $\forall p\in A,$ if $\exists q\in A$ such that $q\not=p$ and $D(p,q)$, then $p\in P$ and $q\in P$ for some plagiarism detection function $D$.  Defining $D$ efficiently can be tricky, however several researchers have done so.
 	
-		Stanford university developed a program called MOSS (Measure of Software Simularity) which is capable of giving each assignment pair a similarity score. This approach is robust against name changes, code reorganization, and white space changes by analyzing what and how a program does something, and not relying on the exact source code.[[How?]]
+		Stanford university developed a program called MOSS (Measure of Software Similarity) which is capable of giving each assignment pair a similarity score. This approach is robust against name changes, code reorganization, and white space changes by analyzing what and how a program does something, and not relying on the exact source code.[[How?]]
 	
 	
 	There are many other efforts to define $D$ using a machine learning model.[[citations]]
@@ -119,15 +166,15 @@ There are other existing models that can potentially address these problems.  On
 
 There are also hyper-focused detection models that attempt to exclusively a detect single LLMs output.\cite{llm detect}  However, these are not particularly reliable at currently\cite{23 percent} and have a high false positive rate. \cite{and you fail}  At the time we started this research, LLMs were not a vector, and the hyper-focused and unreliability of these have prevented us from giving serious credence to this approach. 
 \n\section{\textbf{Our Approach:} Single Source Plagiarism Detection}
-For our approach, we decided that it is more useful to be able to determine if an individual file its self is plagiarized, rather than a collection.  To enable this, we created a unique IDE based on the Processing IDE.  When the IDE first launches it creates a persistent UUID on the machine that installed it.  This UUID acts as a machine or user ID, and is referred to as the \installID and is assumed to be constant throughout the class.  Additionally, whenever a project is created with the IDE, a second UUID is created unique to that project, we refer to this as the \projectID.  Both UUIDs are saved in a special hidden metadata comment in the program source file.
+For our approach, we decided that it is more useful to be able to determine if an individual file its self is plagiarized, rather than a collection.  To enable this, we created a unique IDE based on the Processing IDE.  When the IDE first launches it creates a persistent UUID on the machine that installed it.  This UUID acts as a machine or user ID, and is referred to as the \installID and is assumed to be constant throughout the class.  Additionally, whenever a project is created with the IDE, a second UUID is created unique to that project, we refer to this as the \projectID.  Both UUIDs are saved in a special hidden metadata comment in the program source file, we will refer to this as the \metaComment.
 
-Whenever a file is opened, the IDE checks the \installID of the file and machine.  If they differ, the IDE notes the new \installID in the metadata in an ordered list called the \infectionStack.  
+Whenever a file is opened, the IDE checks the \installID of the file and machine.  If they differ, the IDE notes the new \installID in the \metaComment in an ordered list called the \infectionStack (There are actually 2 stacks, one for opening files, and 1 for paste events, but functionally there is 1 stack with a way to tell events apart.).  
 
 Additionally, when any part of the code is copied zero width spaces are interspersed with the normal letters to encode as much data as possible.  The exact amount of data varies based on the size of the copy, but it can include several copies of the \installID, \projectID, and \infectionStack.  When pasted into a project, the encoded data is compared to that of the project reviving the code, and any mismatch UUID's are added to the \infectionStack. This encoding survives being sent over most messaging software such as Discord, (but notably NOT GMail), and is generally resilient to partial pastes.  Any paste without encoded data is logged as originating outside the IDE.
 
-In addition to copy tracking, the IDE also logs the time, location, and content of all edit events including copy, paste, cut, delete, and typing.  Any mismatched UUIDs are included in the log for the respective paste event.  This data is also included in the metadata.  Using this keylog, it is possible to reconstruct the entire coding process and trace all large code blocks.
+In addition to copy tracking, the IDE also logs the time, location, and content of all edit events including copy, paste, cut, delete, and typing.  Any mismatched UUIDs are included in the log for the respective paste event.  This data is also included in the \metaComment.  Using this keylog, it is possible to reconstruct the entire coding process and trace all large code blocks.
 
-Lastly, if the IDE loads a file without a metadata comment, it notes this as the first edit and logs the initial state of the file.
+Lastly, if the IDE loads a file without a \metaComment, it notes this as the first edit and logs the initial state of the file.
 
 While it is generally enough to use a single file to detect Plagiarism, the UUIDs can be used to trace code authorship through multiple student submissions.
 
@@ -142,29 +189,30 @@ This method was designed with our vectors in mind, and performs well on all of t
 	\subsubsection*{\textbf{Theft}}\hfill\break\indent
 	Theft is detected in the same way as P2P.  Unfortunately it can be tricky to discriminate it from P2P, but it is now theoretically possible with meta knowledge of the computer setup (i.e. class computers will have a known \installID) and the \infectionStack combined with timestamped log make it possible to isolate 1 copy as the origin IF it is edited on the same or a different computer.  
 	\subsubsection*{\textbf{Search}}\hfill\break\indent
-		All Search vectors are soundly defeated.  No matter how a file is found, once it is loaded by the IDE, it will be marked as external. If it is submitted without being opened by the IDE, it will lack a meta comment.  If the source code is copied into an existing project, it will be marked as external.  The only viable source that this does not detect is physically typing out the code from a reference.  This is easily detected by analyzing the timestamp data.  Organically written code has a lot of back and forth.  For example, Java's Hello World tends to be typed as 
-		[[XXX Figure out a code env for this]]
-		class HW{
+		All Search vectors are soundly defeated.  No matter how a file is found, once it is loaded by the IDE, it will be marked as external. If it is submitted without being opened by the IDE, it will lack a \metaComment.  If the source code is copied into an existing project, it will be marked as external.  The only viable source that this does not detect is physically typing out the code from a reference.  This is easily detected by analyzing the timestamp data.  Organically written code has a lot of back and forth.  For example, Java's Hello World tends to be typed as 
+
+\begin{lstlisting}[language=Java]
+class HW{
 		
-		}
-		[UP ARROW]
-		public static void main(String[] args){
-		
-		}
-		[UP ARROW]
+}
+[UP ARROW]
+	public static void main(String[] args){
+	
+	}
+[UP ARROW]
 		System.out.println("Hello World");
-		[RUN]
-		
+[RUN]
+\end{lstlisting}
 		Where as a plagiarist copying it by typing would likely write it top to bottom without backtracking significantly.
 	\subsubsection*{\textbf{Expert} }\hfill\break\indent
 	Expert sources are detected in the same way as Search.  The only way an Expert can avoid detection as an external source is by installing the IDE and using that, in which case THEY will have a different \installID from the student.  This may require multiple assignments to detect, but is likely reliable over a full class unless the student finds 1 consistent Expert, or the Expert uses the student's own computer.
 \subsection*{\textbf{Evasion}}
-There are notable ways to avoid detection by this method.  In general we have dismissed them as ``being more work than just DOING the assignment.''  The meta comment is a plain text java comment appended to the file.  Any text editor OTHER than our IDE will show this comment and allow it to be edited.  Convincingly faking the edit log would be incredible difficult, and deleting the entire string is easily detected.
+There are notable ways to avoid detection by this method.  In general we have dismissed them as ``being more work than just DOING the assignment.''  The \metaComment is a plain text java comment appended to the file.  Any text editor OTHER than our IDE will show this comment and allow it to be edited.  Convincingly faking the edit log would be incredible difficult, and deleting the entire string is easily detected.
 
 A more viable method would be to share the \installID file with an Expert.
 
 
-A corrupted meta comment is another possibility.  The comment could be tampered with in such a way that it is incomplete.  Sadly, this occasionally legitimately DOES happen so this is a legitimate concern.
+A corrupted \metaComment is another possibility.  The comment could be tampered with in such a way that it is incomplete.  Sadly, this occasionally legitimately DOES happen so this is a legitimate concern.
 
 We have dismissed these weaknesses reasoning that if an intro level student discovers AND is able to exploit them, they likely know enough to not NEED to plagiarize in the intro level.  And as the program is currently not well known, there will be no external assistance in doing so.
 
@@ -178,26 +226,26 @@ Students were also asked to self report the method they used to complete the ass
 
 As the 111 and 211 classes are separate assignments and cohorts, we will treat them as 2 concurrent Case Studies. 
 
-As part of each Case Study, the meta comment was stripped out of the files, and they were given to Stanford MOSS.
+As part of each Case Study, the \metaComment was stripped out of the files, and they were given to Stanford MOSS.
 
 For more detailed code analysis, see Appendix A [[XXXX REF THIS]].
 \subsection{\textbf{ICS 111}}
-We received 5 submissions from 111, these have each been arbitrary given a single letter designation between A and F.  Of these 5, 3 successfully completed the assignment by some means, and 2 did not.  Student A copy and pasted from ChatGPT, but prompted it wrong, and did a similar but wrong assignment.  
+We received 5 submissions from 111, these have each been arbitrary given a single letter designation between A and F.  Of these 5, 3 successfully completed the assignment by some means, and 2 did not.  Student A copy and pasted from ChatGPT, but prompted it wrong, and did a similar but wrong assignment.  Our method makes it easy to see this, there is a 75 line paste followed by about 38 minor tweaks and formatting changes.
 
-Student D appears to have gone insane, and the code they copied is a badly mangled AWT assignment and does not compile without significant modification.
+Student D appears to have struggled: the code they copied is a badly mangled AWT example and does not compile without significant modification.
 
-Of the Correct assignments Student B completed the assignment Legitimately and it is quite obvious in the meta strings.  There are multiple well organized files each organically coded with no large external pastes or irregularly linear typing sections.
+Of the Correct assignments Student B completed the assignment Legitimately and it is shows in the \metaComment{}s.  There are multiple well organized files each organically coded with no large external pastes or irregularly linear typing sections.  There are copies between files where code should be reused and modified, and follow up edits making these modifications.
 
 Student C used the copy paste exploit mentioned previously and did not leave a comment.  As such, we can not determine if their code is legitimate or not.
 
-Student E pasted a large section of code from a different project with a matching \installID and then spent considerable time debugging it.  We believe this to be a legitimate completion.
+Student E pasted a large section of code from a different project with a matching \installID and then spent considerable time (around 8 hours spread over a week or so) debugging and improving it.  We believe this to be a legitimate completion.
 
 Student F found and submitted the one of the seeded assignment file.  It is logged as a large foreign paste.
 
 \n\subsubsection*{\textbf{MOSS}}\hfill\break\indent
 Despite having 4 files containing plagiarized code, Moss only identified a small connection between Student C and E.  This connection is entirely composed of expected driver code. 
 \n\subsubsection*{\textbf{Observed Vectors}}\hfill\break\indent
-Between all the submissions meta comments we were able to identify that Student A and F Expert or Search; Student B and E completed the assignment on their own; Student D used Search; and only student C is of indeterminate origin, but has a clean \infectionStack.
+Between all the submissions \metaComment we were able to identify that Student A and F used Expert or Search vectors; Student B and E completed the assignment on their own; Student D used Search vector; and only student C is of indeterminate origin, but has a clean \infectionStack.
 
 [[Add Table]]
 \subsection*{\textbf{ICS 211}}
@@ -209,13 +257,333 @@ In the future, we hope to completely automate the detection of plagiarized assig
 
 Additionally, our primary aim is plagiarism reduction, so it may be equally useful to create a heuristic that represents the general amount of plagiarism present in a class as a whole rather than individual assignments. 
 
-However, before any of this can happen the IDE needs to be stabilized.  Several students complained about it ``freezing'' on save and there are a few notable problems.  One possible improvement would be to gzip meta comment and the embedded data.  Care should be taken in doing so, and it may be advantageous to pair this approach with Reed-Solomon ECC to combat accidental file corruption.  This may be advantageous even if there is no net decrease in meta comment size.  Additional improvements include embedding extra clipboard data that another copy of the IDE could read separate from the hidden text embedding
+However, before any of this can happen the IDE needs to be stabilized.  Several students complained about it ``freezing'' on save and there are a few notable problems.  One possible improvement would be to gzip \metaComment and the embedded data.  Care should be taken in doing so, and it may be advantageous to pair this approach with Reed-Solomon ECC to combat accidental file corruption.  This may be advantageous even if there is no net decrease in \metaComment size.  Additional improvements include embedding extra clipboard data that another copy of the IDE could read separate from the hidden text embedding
 \n\section{\textbf{Conclusion}}
 Our approach has shown promise as a tool in detecting plagiarism within intro level CS courses.  The most useful features are paste event tracking and UUIDs.  We encourage anyone concerned with plagiarism in an intro level class to provide a modified IDE for their class that uses these tracking features.
 
 \bibliography{references}{}
  \bibliographystyle{plain}
 
-\section{\textbf{Apendix A: Examples}}
+\section{\textbf{Appendix A: Examples}}
+These are examples of the data in each case study.  In general they are trimmed down \metaComment lines.  This trimming has been done to remove data that would be meaningless to a human or data that would be too long to include in this form.  When data has been removed for length, a summary of the removed data will be in the example.  The Header (the lines before the History tag) will be removed if there is nothing of interest in them.  Editorial comments and summaries will be noted inside [[double brackets.]]
+The Raw Data is available on Github at [[XXX LINK]].
+The meta comment is json-like in this format
+\begin{lstlisting}[language=JSON]
+{
+	InstallUUIDStack:[All UUIDs from opening files],
+	InfectionStack:[All UUIDs from Paste events],
+	ProjectUUID:projectID at creation time,
+	CreatorUUID:installID at creation time,
+	History:[
+		{T:Timecode,P:Position(s),L:Event Label,E:Event Content, N: Event Notes},
+		...
+	]
+	
+}
+\end{lstlisting}
+Timecodes are encoded using base 64, and are trimmed to only contain 1 month of time.  They are not really absolute timestamps, but more relative to each other. (For example, T:BDA9A=)
+
+Position can either be a single number representing the character where the carat was, or 2 numbers separated by a dash representing the character indexes selected (For example P:10-261 is all characters in the range [10,261])
+
+Event Label can be one of 4 values T P or C, T is any typing, P is a paste, and C is a copy. (For example T:"T")
+
+Event Content is the raw content changed.  For typing events, this is all text typed continuously without pausing or moving the carat (other than forward 1 character).  For Paste and Copy events, this is all characters that were copied/pasted.  There are a few unique characters, \textbackslash{}n represents a newline, \textbackslash{}d represents the delete key, \textbackslash{}b represents the backspace key, \textbackslash{}\textbackslash{}b[start-end] indicates that selection was deleted.  Pressing backspace moves the carat, so generally multiple backspaces in a row are recorded as an event each.    (For example E:"public static void main(s\textbackslash{}b")
+
+When there is a paste event, the notes field is used to note what type of paste it was (internal, same creator, other creator (with UUIDS), or external/uncoded)
+So the json file for a normal java hello world could look like this 
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:["90f768fe-e1a0-41e7-871d-8c8a1552141c"],
+	InfectionStack:["88a4222a-1694-4dc7-ab09-89b829600e00"],
+	ProjectUUID:"88a4222a-1694-4dc7-ab09-89b829600e00",
+	CreatorUUID:"90f768fe-e1a0-41e7-871d-8c8a1552141c",
+	History:[
+		{T:ofoM=,P:0,L:"T",E:"class HelloWorld{\n    \n    |"},
+		{T:ofsU=,P:27,L:"T",E:"\b"},
+		{T:ofsg=,P:23-27,L:"T",E:"\\b[23-27]}"},
+		{T:oftQ=,P:18,L:"T",E:"\b	"},
+		{T:ofuw=,P:19,L:"T",E:"public static void main(String "},
+		{T:ofzk=,P:49,L:"T",E:"\b[] args){\n "},
+		{T:of1k=,P:63,L:"T",E:"\n    "},
+		{T:of2A=,P:64-68,L:"T",E:"\\b[64-68]}"},{T:of2c=,P:64,L:"T",E:"	"},
+		{T:of2s=,P:63,L:"T",E:"	"},
+		{T:of44=,P:64,L:"T",E:"System.out.println(\"Hello World\");"}
+	]
+}
+\end{lstlisting}
+where as just pasting hello world the internet looks like this
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:["90f768fe-e1a0-41e7-871d-8c8a1552141c"],
+	InfectionStack:["0623756f-9e2a-4af5-b2d4-35354fe2eb30"],
+	ProjectUUID:"0623756f-9e2a-4af5-b2d4-35354fe2eb30",
+	CreatorUUID:"90f768fe-e1a0-41e7-871d-8c8a1552141c",
+	History:[
+	{T:oq04=,P:0,L:"P",
+		E:"class HelloWorld{\n	public static void main(String[] args){\n    	System.out.println(\"Hello World\");\n	}\n}",
+		N:"Paste from noncoded source"}
+	]
+}
+\end{lstlisting}
+\subsection{\textbf{ICS 111}}
+\subsubsection*{\textbf{Moss Match}}
+Moss only matched this section of code between C and F
+\begin{lstlisting}[language=java]
+ArrayList<Shape> shapes;
+void setup(){
+  size(800,800);
+  shapes=new ArrayList<Shape>();
+}
+
+void draw(){
+  background(255);
+  for (Shape shape : shapes){
+    shape.update();
+    shape.draw();
+  }
+}
+
+void mouseClicked(){
+
+\end{lstlisting}
+This would be fairly common Processing code for this assignment, and represents 7\% of submission C or 10\% of submission F.
+\subsubsection*{Submission A}
+Submission A doesn't meet the requirement for the assignment.  The student reported using ChatGPT for the assignment.  The file is a single large external code paste followed by minor edits.
+\begin{lstlisting}[language=json]
+{
+	ProjectUUID:"b8829857-d590-474b-a4d0-3ea33e2dc297",
+	History:[
+		{
+			T:BC2FA=,P:0,L:"P",
+			E:[[75 lines of code that represent most of the assignment]],
+			N:"Paste from noncoded source"
+		},
+		[[4 edits adjusting formatting]]
+		{T:BC6Xk=,P:1996-2075,L:"C",E:" if (shape2Y < minY || shape2Y > maxY - shape2Size) {\n      shape2SpeedY *= -1;"},
+		{T:BC6aE=,P:2086,L:"P",E:[[See Copy]],N:"internal paste;"},
+		[[4 edits adjusting formatting]]
+		{T:BC6qw=,P:2087-2165,L:"T",E:"\\b[2087-2165]"},
+		{T:BC6vM=,P:1908-2075,L:"C",E:"if (shape2X < minX || shape2X > maxX - shape2Size) {\n      shape2SpeedX *= -1;\n    }\n    if (shape2Y < minY || shape2Y > maxY - shape2Size) {\n      shape2SpeedY *= -1;"},
+		{T:BC6wg=,P:2087,L:"P",E:[[See Copy]],
+			N:"paste from project on same machine;Paste from project with UUID fragment b8829857-d590-474b-a4d0-3ea33e2dc297 10 bytes long;"},[[IDE bug, this is internal]]
+		{T:BC6zw=,P:2096,L:"T",E:"\b3"},
+		[[12 similar edits changing paramiters]]
+		{
+			T:BC8Ds=,P:0-2261,L:"C",
+			E:[[whole file copied]]
+		},
+		[[5 formatting changes]]
+		[[7 edits addding a comment]]
+		[[2 formatting changes]]
+		{T:BDC6E=,P:1-2321,L:"C",
+			E:[[whole file copied]]
+		}
+	]
+}
+
+\end{lstlisting}
+\subsubsection*{Submission B}
+Student B submitted 5 files rather than the usual 1. ExtraCreditICS111.pde, Circle.pde, Shape.pde, Square.pde, and Triangle.pde.   The files were written in an odd order, and some may have been started on a different project and then moved (\projectID are tracked per file), all files were built on the \installID.  Files were started and completed in this order.
+\begin{enumerate}
+\item Shape started
+\item Circle started 
+\item ExtraCreditICS111 started
+\item Shape Finished
+\item Circle Copy Event
+\item Square started (paste)
+\item Square copy Event
+\item Triangle started (paste)
+\item Square Finished
+\item Triangle Finished
+\item Circle Finished
+\item ExtraCreditICS111 Finished
+
+\end{enumerate}\n
+
+ExtraCreditICS111.pde,
+\begin{lstlisting}[language=json]
+{
+	InfectionStack:[
+		"ae920b65-1b57-4460-ad43-41e7dd1afc6e",
+		"b2c75a46-2e36-4fa8-8231-3fd12dd8422f"[[Unknown project]]
+	],
+	ProjectUUID:"ae920b65-1b57-4460-ad43-41e7dd1afc6e",
+	History:[
+		{T:F9QAc=,P:0,P:"T",E:"void setup() {\n    \n    \n    \n    "},
+		{T:F9QEc=,P:30-34,P:"T",E:"\\b[30-34]}"},
+		{T:F9QYI=,P:19,L:"P",E:[[Setup code from other project]],
+		N:"paste from project with same creator;Paste from project with UUID b2c75a46-2e36-4fa8-8231-3fd12dd8422f;"
+		},
+		[[4 formatting edits]]
+		{
+			T:F9Qg0=,
+			P:1,
+			L:"P",
+			E:"ArrayList<Ball> balls;\nint ballWidth = 48;",
+				N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"[[not enough room to encode UUID]]
+		},
+		[[232 assorted edits at various positions within the file, no copies or pastes]]
+	]
+}
+
+\end{lstlisting}
+Shape.pde
+
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:[
+		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
+	],
+	InfectionStack:[
+		"198cd19d-7e5a-4650-baf1-bc4c59c79c87",
+		"0644c77c-4389-47a7-9a6b-e02b23ff87c0"[[Unknown project]]
+	],
+	ProjectUUID:"198cd19d-7e5a-4650-baf1-bc4c59c79c87",
+	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	History:[
+		[[54 assorted edits at various positions within the file, no copies or pastes]]
+		{
+			T:F9ZVs=,P:122,L:"P",E:"    void move() {\n        vy = 10;\n        y = y + vy;\n    }",N:"Paste too short to track"[[Came from a Cut in Circle]]
+		},
+		[[117 assorted edits at various positions within the file, no copies or pastes]]
+		
+	]
+}
+\end{lstlisting}
+Circle.pde
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:[
+		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
+	],
+	InfectionStack:[
+		"5b317886-5359-48ec-ad67-d2f19e2040ba"
+	],
+	ProjectUUID:"5b317886-5359-48ec-ad67-d2f19e2040ba",
+	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	History:[
+		[[44 assorted edits at various positions within the file, no copies or pastes]]
+		{T:F9ZSw=,P:237-297,P:"X",E:"    void move() {\n        vy = 10;\n        y = y + vy;\n    }"[[Cut code goes to Shape]]},
+		[[29 assorted edits at various positions within the file, no copies or pastes]]
+		{T:F9nQc=,P:0-357,P:"C",E:[[Copied all 15 lines of file, pasted into Square]]},
+		[[34 assorted edits at various positions within the file, no copies or pastes]]
+	]
+}
+\end{lstlisting}
+Square.PDE
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:[
+		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
+	],
+	InfectionStack:[
+		"b4ffd6f1-48c4-47ef-8a17-a88eaab91def",
+		"5b317886-5359-48ec-ad67-d2f19e2040ba",[[Circle.pde]]
+		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"[[Creator ID]]
+	],
+	ProjectUUID:"b4ffd6f1-48c4-47ef-8a17-a88eaab91def",
+	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	History:[
+		{
+			T:F9nSI=,P:0,L:"P",E:[[Pasted 15 lines of from Circle]],N:"paste from project with same creator;Paste from project with UUID 5b317886-5359-48ec-ad67-d2f19e2040ba;"
+		
+		},
+		[[11 assorted editsat various positions, modifying existing code, no copies or pastes]]	
+		{T:F9rio=,P:0-380,P:"C",E:[[Copied all 16 lines of file, pasted into Triangle]]},
+		[[18 assorted edit sat various positions, modifying existing code, no copies or pastes]]
+	]
+}
+\end{lstlisting}
+Triangle
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:[
+		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
+	],
+	InfectionStack:[
+		"84a1b3d6-a371-4cb5-834a-8d4994755b3a",
+		"b4ffd6f1-48c4-47ef-8a17-a88eaab91def",[[Square.pde]]
+		"5b317886-5359-48ec-ad67-d2f19e2040ba",[[Circle.pde]]
+		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"[[Creator ID]]
+	],
+	ProjectUUID:"84a1b3d6-a371-4cb5-834a-8d4994755b3a",
+	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	History:[
+		{
+			T:F9rjk=,
+			P:0,
+			L:"P",
+			E:"class Square extends Shape {\n    float side;\n    \n    Square(float xPos, float yPos) {\n        side = random(height * 0.1);\n        x = xPos;\n        y = yPos;\n        vx = random(2, 7);\n        vy = random(2, 7);\n        colorOfShape = color(random(255), random(255), random(255));\n    }\n    \n    void drawShape() {\n        fill(colorOfShape);\n        square(x, y, side);\n    }\n}",
+			N:"paste from project with same creator;Paste from project with UUID b4ffd6f1-48c4-47ef-8a17-a88eaab91def;"
+		},
+		[[34 assorted edits at various positions, modifying existing code, no copies or pastes]]
+		
+	]
+}
+\end{lstlisting}
+
+\subsubsection*{Submission C}
+Student C pasted their entire file from another project of theirs.  This obfuscated \textit{how} the previous file was created.  All that is evident is that the student \textit{did not} copy from another student since the infection stack is clean.  However, copying from an external source would not leave a trace, as would completing the assignment legitimately.  Additionally, the student did not self report, so the state of this assignment is completely unknown.
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:[
+		"109990d7-8395-40aa-b3fb-f057653161b4"
+	],
+	InfectionStack:[
+		"60d8b28d-52e5-4620-a042-c78efab7d485",
+		"3f942ced-3300-4ffc-b35e-d9da4c623f30",[[Previous Unknown Project]]
+		"109990d7-8395-40aa-b3fb-f057653161b4"[[creator ID]]
+	],
+	ProjectUUID:"60d8b28d-52e5-4620-a042-c78efab7d485",
+	CreatorUUID:"109990d7-8395-40aa-b3fb-f057653161b4",
+	History:[
+		{T:BDkjc=,P:0,L:"P",E:[[112 lines pasted, entire final code file]],N:"paste from project with same creator;Paste from project with UUID 3f942ced-3300-4ffc-b35e-d9da4c623f30;"}
+	]
+}
+\end{lstlisting}
+\subsubsection*{Submission E}
+Student E is a tricky one, like C they start with a paste of a full working solution, but unlike C, they then spend around 8 hours over the next week editing and improving the code with nearly 1000 additional edits.  They self report doing it themselves, and based on the \metaComment, we believe this to be the case, and the paste event was simply motivated by an ide error.  From the UUID log, it appears that they may have done a similar copy once before.
+\begin{lstlisting}[language=json]
+{
+	InstallUUIDStack:[
+		"324d4dda-f301-4da2-9351-a9c1a9315b51"
+	],
+	InfectionStack:[
+		"3e3b70bd-50c2-4a74-b507-ccd8864c3a47",[[Unknown ID]]
+		"ccd27524-d804-4860-8c7b-8c4c0bd2c82d",[[Unknown ID]]
+		"eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a",[[Project ID]]
+		"208c187d-829e-4879-b503-0f0087b33eb0",[[Source Project ID]]
+		"324d4dda-f301-4da2-9351-a9c1a9315b51"[[Creator ID]]
+	],
+	ProjectUUID:"eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a",
+	CreatorUUID:"324d4dda-f301-4da2-9351-a9c1a9315b51",
+	History:[
+		{
+			T:xmsI=,P:0,L:"P",E:[[95 lines pasted, code pasted is a valid solution, but not the final]]}",N:"paste from project with same creator;Paste from project with UUID 208c187d-829e-4879-b503-0f0087b33eb0;"
+		},
+		[[139 assorted edits at various positions, modifying existing code, and adding new code/comments, no copies or pastes]]
+		{T:x19Y=,P:822-1168,P:"X",E:[[14 lines having to do with bouncing]]},
+		{T:x19Y=,P:822-1168,P:"X",E:""},[[Artifact, probiably pressed ctrl X twice]]
+		{T:x19o=,P:821,P:"T",E:"\b"},
+		{
+			T:x1/E=,P:641,L:"P",E:[[See above 14 line cut]]",N:"internal paste;"
+		},
+		[[498 assorted edits at various positions, modifying existing code, and adding new code/comments including many short interal copy paste]]
+		{T:1rlg=,P:68,L:"P",E:"https://processing.org/reference/",N:"Paste from noncoded source"[[copied URL from browser in comment]]
+		},
+		[[286 assorted edits at various positions, modifying existing code, and adding new code/comments including many short interal copy paste]]
+	]
+}
+\end{lstlisting}
+\subsubsection*{Submission F}
+Submission F is entirely a single external copy event.  There only reasonable explanation is that the code was copied from an online source, this code matches the seeded code exactly.  The student self reports that they "went digging into the parent directory and [they] found the solutions."  This indicates they used a subvector of Search that could be termed Manual Search.
+\begin{lstlisting}[language=json]
+{
+	History:[
+		{
+			T:BC0mM=,P:0,L:"P",E:[[86 lines pasted, entire final code file]],N:"Paste from noncoded source"}
+	]
+}
+\end{lstlisting}
 \end{document}
 
