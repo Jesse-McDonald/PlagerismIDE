@@ -1,6 +1,5 @@
-\documentclass[conference]{IEEEtran}
-\IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+
+\documentclass[12pt,final,thesis,actual]{uhthesis}
 \usepackage{cite}
 \usepackage{listings}
 \usepackage[T1]{fontenc}
@@ -8,10 +7,13 @@
 %\usepackage{bbold}
 \usepackage{bera}
 \usepackage{algorithmic}
+
+\usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage{xcolor,colortbl}
+\usepackage{enumitem}
 \usepackage{dblfloatfix}
 \newcommand{\cbox}[1]{\raisebox{\depth}{\fcolorbox{black}{#1}{\null}}}
 \newcommand{\n}{\hfill\break}
@@ -72,49 +74,71 @@
 	citecolor={green!75!black},
 	urlcolor={blue!80!black}
 }
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\title{Title}
+
+\author{Jesse A. McDonald}
+\degreemonth{December}
+%% Year of expected graduation.
+\degreeyear{2023}
+%% Type of degree to be conferred.
+\degree{Master of Science}
+%% This is the chairperson of your committee. Do not use titles like Dr.
+\chair{Scott Robertson}
+\othermembers{Philip Johnson\\
+Anthony Peruma}
+%% The field in which you are obtaining your degree, capitalized normally.
+\field{Computer Science}
+
+%% 4-6 optional keywords/phrases for use in indexing or as search terms
+\keywords{}
+
+\versionnum{1.0.0}
 \begin{document}
-\onecolumn
-\makeatletter
-\newlength{\logoheight}
-\setlength{\logoheight}{50pt} % set your logo height
-
-    
-
-\title{
-    \textbf{Title}}
-
-\author{\IEEEauthorblockN{McDonald, Jesse}
-	\IEEEauthorblockA{
-	University of Hawai`i M\=anoa\\
-	jamcd@hawaii.edu
-	}
-}
-
 \maketitle
+\begin{frontmatter}
 
+%%% Note, there is no longer a signature page included in the document, it
+%%% has been replaced by Form IV
+
+%%% Create the copyright page (optional)
+\copyrightpage
+
+%%% Bring in the dedication page from external file (optional)
+%%\include{dedication}
+
+%%% Bring in the acknowledgments section from external file (optional)
+%%\include{acknowledgments}
+
+%%% Bring in the abstract section from external file
 \begin{abstract}
 abstract
 \end{abstract}
+%%% Generate table of contents
+\tableofcontents
 
-\begin{IEEEkeywords}
-keyword
-\end{IEEEkeywords}
+%%% Generate list of tables
+\listoftables
 
-\section{\textbf{Introduction}}
+%%% Generate list of figures
+\listoffigures
+
+\end{frontmatter}
+
+\chapter{\textbf{Introduction}}
 	Introductory Computer Science classes are often students first look at programming.  In these classes people who dont know how to program, learn to program for the first time.  Or that is the assumption.  However, due to the nature of computer science it is often possible to pass an intro to computer science course without writing a single line of code by plagiarizing assignments.
-	\subsection{Plagiarisms Logical Consequences}
+	\section{Plagiarisms Logical Consequences}
 		Plagiarism is particularly troublesome in intro classes.  Since the intro classes are often a students first experience programming, if a student passes an intro class by plagiarizing it is likely that student does not understand part or all of the course.  Since higher programming courses assume you have the basics, these students have only 2 choices going forward.  Firstly they can work hard and put in extra time to teach themselves the missed information.  This is unlikely, as this student has already demonstrated they are unwilling to or unable to learn the basics by cheating on them to begin with.
 		Or Second, they must keep plagiarizing.  This option ultimately leads to a student who does not know how to program potentially graduating with a Computer Science degree.  If this student attempts to use this degree to apply for a job, the interview process, or even worst the opening weeks of a job, will reveal this lack of knowledge.  Such a revelation is harmful to the entire community of computer science as it erodes confidence in the degree, and raises the bar for "entry level" job experience.
-		\subsection{Prevalence}
+		\section{Prevalence}
 		 One may ask, "How prevalent is plagiarism in intro CS classes." So did we, In an single 60 student intro level during class 2020, we observed one assignment where 10 people turned in exactly the same assignment, and nearly a third of the class had recognizable plagiarized assignments.   This assignment will be referred to later as the ``Motivating Case.''
 		 [[xxxxx Find papers referencing plagiarism]]
 		 Additionally, we have known many high level computer science students who don't seam to understand basic programming.  While this lack of understanding may not point to plagiarism, that seams a likely culprit.
 		
-\n\section{\textbf{Definitions}}
+\n\chapter{\textbf{Definitions}}
 Plagiarism is generally defined as ``The practice of taking someone else's work or ideas and passing them off as one's own.''\cite{oxed}  However, for this paper we will define it exclusivity as ``coping someone else's code to complete an assignment.''  We exclude copying ideas because it is incredible difficult to determine if an idea has been copied when implemented independently, the general culture of computer science is to iterate on others ideas (often without attribution), and because in the intro level, all the required ideas have been thought of by so many people determining an origin would be next to impossible.  Additionally, we exclude the possibility a student could ``cite'' their copied code to avoid plagiarism because the intro level is attempting to teach coding, not copying existing code.  This definition works well for the intro level, however in higher levels it becomes less useful.  We will use cheating and plagiarism synonymous in this paper.  We would also like to define some theoretical plagiarism ``vectors.''
-\subsection*{\textbf{Vectors}}
+\section{\textbf{Vectors}}
 \begin{itemize}
 \item \textbf{P2P} Peer to Peer file sharing seems the most obvious vector.  This is where one student writes the code and shares it with a peer who then submits the copy.  In this instance one student is the author, and the other is the plagiarizer.  Although both students are at fault, the plagiarizer is more so than the author.  
 	
@@ -138,7 +162,7 @@ Plagiarism is generally defined as ``The practice of taking someone else's work 
  It should be noted that all of these vectors can affect anything from single lines of code to entire assignments, and multiple vectors might be present in a single assignment.
 	This makes it difficult to detect when they are happening, not only because it involves detecting plagiarism, but also because students are encouraged to use many of these vectors to aid their own work.  As such we will be focused more on substantial cases where a potential plagiarizer acquires a significant amount of an assignment from the vector.  For example, if a single line of code or a non required helper function is copied, probably not a problem; but if an entire required function is copied, that is a problem.
 
-\n\section{\textbf{Current Approach}}
+\n\chapter{\textbf{Current Approach}}
 	There are many existing research projects attempting to detect Plagerism The general method of plagiarism can be summarized as follows.  Given a set $A$ of submissions find a set $P$ such that  $\forall p\in A,$ if $\exists q\in A$ such that $q\not=p$ and $D(p,q)$, then $p\in P$ and $q\in P$ for some plagiarism detection function $D$.  Defining $D$ efficiently can be tricky, however several researchers have done so.
 	
 		Stanford university developed a program called MOSS (Measure of Software Similarity) which is capable of giving each assignment pair a similarity score. This approach is robust against name changes, code reorganization, and white space changes by analyzing what and how a program does something, and not relying on the exact source code.[[How?]]
@@ -147,25 +171,25 @@ Plagiarism is generally defined as ``The practice of taking someone else's work 
 	There are many other efforts to define $D$ using a machine learning model.[[citations]]
 	
 	Unfortunately, regardless of the definition of $D$ used, all of these models have similar results when attempting to detect a given vector.
-\subsection*{\textbf{Theoretical Per Vector Performance}}
-	\subsubsection*{\textbf{P2P}}\hfill\break\indent
+\section{\textbf{Theoretical Per Vector Performance}}
+	\subsection{\textbf{P2P}}
 		P2P is handled fairly well by these models.  This vector is well suited for a source code analysis so long as $D$ is resistant to minor changes and all sources used are submitted by someone.  However, these models can not detect the author specifically.
-	\subsubsection*{\textbf{Collaboration}}\hfill\break\indent
+	\subsection{\textbf{Collaboration}}
 		Similarly to P2P, Collaboration is often detected by these models as the source code is quite similar.  $D$ however is harder to build for these as the ``minor'' changes can become more extreme with collaboration than with copying.  Additionally, when they do detect plagiarism, these models can not discriminate between P2P and Collaboration.
-	\subsubsection*{\textbf{Theft}}\hfill\break\indent
+	\subsection{\textbf{Theft}}
 		Theft is as easy to detect as P2P and these models detect it well, however they can not discriminate between the plagiarizer and the victim, nor can they discriminate between P2P and Theft.
-	\subsubsection*{\textbf{Search}}\hfill\break\indent
+	\subsection{\textbf{Search}}
 		Search is where existing models begin to substantially fail.  No matter how sophisticated $D$ is, it requires all potential sources to be present to consider.  Considering the vast number of potential sources that can be found on the internet, detecting this vector is extremely difficult for $D$ and generally requires a human to put in the leg work to scrape together the list of potential sources.  Additionally, these searches generally take $O(s^2+se)$ Time (where $s$ is student submissions, and $e$ is external examples), for large values of $e$, this can be prohibitively long.
-	\subsubsection*{\textbf{Expert} }\hfill\break\indent
+	\subsection{\textbf{Expert} }
 	Expert is where existing models unambiguously fail the hardest.  A properly executed Expert vector is indistinguishable from a legitimate attempt for all possibly $D$.  As this content is Bespoke or behind a Paywall, it is genuinely impossible to seed the model with all relevant sources.  The only way these models can detect an Expert vector is if 2 students both submit the same Expert source by accident.
-\subsection*{\textbf{General Shortcomings}}
+\section{\textbf{General Shortcomings}}
 In addition to the per vector performance, all of these models suffer from frequent false positives especially in the intro level.  Consider Hello World in java.  There is effectively 1 way to write hello world in java, you have your class, your main, and your print.  This is similar for nearly all other languages.  Since nearly all intro classes start with hello world, if the first assignment is checked with the above methods, it is likely that every student will be marked as plagiarized, even if they all attempted the assignment properly and individually.
 
-\subsection*{\textbf{Notable Alternatives}}
+\section{\textbf{Notable Alternatives}}
 There are other existing models that can potentially address these problems.  One research group used machine learning to detect stylistic variation in non-code reports. \cite{english}  This approach has potential, especially when applied across a student's entire code corpus[[double check usage of corpus]], and might be able to detect a change of Author compared to other assignments.  However, this vector is still weak to a serial plagiarist using a single source consistently.  Additionally our target is intro level students who may not yet have a defined ``style.''  We believe it would be reasonable to suppose an intro level student's style would drift significantly during their first few courses.  As such, we did not consider this approach.
 
 There are also hyper-focused detection models that attempt to exclusively a detect single LLMs output.\cite{llm detect}  However, these are not particularly reliable at currently\cite{23 percent} and have a high false positive rate. \cite{and you fail}  At the time we started this research, LLMs were not a vector, and the hyper-focused and unreliability of these have prevented us from giving serious credence to this approach. 
-\n\section{\textbf{Our Approach:} Single Source Plagiarism Detection}
+\n\chapter{\textbf{Our Approach:} Single Source Plagiarism Detection}
 For our approach, we decided that it is more useful to be able to determine if an individual file its self is plagiarized, rather than a collection.  To enable this, we created a unique IDE based on the Processing IDE.  When the IDE first launches it creates a persistent UUID on the machine that installed it.  This UUID acts as a machine or user ID, and is referred to as the \installID and is assumed to be constant throughout the class.  Additionally, whenever a project is created with the IDE, a second UUID is created unique to that project, we refer to this as the \projectID.  Both UUIDs are saved in a special hidden metadata comment in the program source file, we will refer to this as the \metaComment.
 
 Whenever a file is opened, the IDE checks the \installID of the file and machine.  If they differ, the IDE notes the new \installID in the \metaComment in an ordered list called the \infectionStack (There are actually 2 stacks, one for opening files, and 1 for paste events, but functionally there is 1 stack with a way to tell events apart.).  
@@ -178,17 +202,17 @@ Lastly, if the IDE loads a file without a \metaComment, it notes this as the fir
 
 While it is generally enough to use a single file to detect Plagiarism, the UUIDs can be used to trace code authorship through multiple student submissions.
 
-\subsection*{\textbf{Theoretical Per Vector Performance}}
+\section{\textbf{Theoretical Per Vector Performance}}
 This method was designed with our vectors in mind, and performs well on all of them.
-\subsubsection*{\textbf{P2P}}\hfill\break\indent
+\subsection{\textbf{P2P}}
 		As with existing methods, P2P is easy to detect.  There is no easy way to submit someone else's unmodified file without the UUIDs being a clear red flag.  Any attempt to edit the file will mark it as infected.  Intro classes frequently have students add an ``Author'' comment to the top of their files.  This would be need to be edited by anyone attempting to cheat, and the original comment is preserved in the log. Finally any code shared via IMing will be flagged at they very least, and generally, traced.   If a student copies from a previous assignment, it will be traceable which, and who authored that assignment.
 		
 		Even simple files such as Hello World would be detected, as the detection does not rely on code comparison.
-	\subsubsection*{\textbf{Collaboration}}\hfill\break\indent
+	\subsection{\textbf{Collaboration}}
 		Collaborating students will have similar code with overlapping timestamps at each edit.  Additionally, collaborating students tend to send code back and forth, meaning both side's \infectionStack will be populated with each other's UUIDs.  This back and forth makes it easy to distinguish from P2P.
-	\subsubsection*{\textbf{Theft}}\hfill\break\indent
+	\subsection{\textbf{Theft}}
 	Theft is detected in the same way as P2P.  Unfortunately it can be tricky to discriminate it from P2P, but it is now theoretically possible with meta knowledge of the computer setup (i.e. class computers will have a known \installID) and the \infectionStack combined with timestamped log make it possible to isolate 1 copy as the origin IF it is edited on the same or a different computer.  
-	\subsubsection*{\textbf{Search}}\hfill\break\indent
+	\subsection{\textbf{Search}}
 		All Search vectors are soundly defeated.  No matter how a file is found, once it is loaded by the IDE, it will be marked as external. If it is submitted without being opened by the IDE, it will lack a \metaComment.  If the source code is copied into an existing project, it will be marked as external.  The only viable source that this does not detect is physically typing out the code from a reference.  This is easily detected by analyzing the timestamp data.  Organically written code has a lot of back and forth.  For example, Java's Hello World tends to be typed as 
 
 \begin{lstlisting}[language=Java]
@@ -204,9 +228,9 @@ class HW{
 [RUN]
 \end{lstlisting}
 		Where as a plagiarist copying it by typing would likely write it top to bottom without backtracking significantly.
-	\subsubsection*{\textbf{Expert} }\hfill\break\indent
+	\subsection{\textbf{Expert} }
 	Expert sources are detected in the same way as Search.  The only way an Expert can avoid detection as an external source is by installing the IDE and using that, in which case THEY will have a different \installID from the student.  This may require multiple assignments to detect, but is likely reliable over a full class unless the student finds 1 consistent Expert, or the Expert uses the student's own computer.
-\subsection*{\textbf{Evasion}}
+\section{\textbf{Evasion}}
 There are notable ways to avoid detection by this method.  In general we have dismissed them as ``being more work than just DOING the assignment.''  The \metaComment is a plain text java comment appended to the file.  Any text editor OTHER than our IDE will show this comment and allow it to be edited.  Convincingly faking the edit log would be incredible difficult, and deleting the entire string is easily detected.
 
 A more viable method would be to share the \installID file with an Expert.
@@ -218,7 +242,7 @@ We have dismissed these weaknesses reasoning that if an intro level student disc
 
 A potential bypass is to complete the assignment via any means that doesnt add to the \infectionStack, and then copy and paste the file content into another copy of the IDE, this then gets logged as an internal paste events between assignments and all keystroke logging is lost.  This method we dismiss as there is little reason to do it (other than IDE bugs) and it is easily detectable as an event of interest.
 
-\n\section*{\textbf{Case Study}}
+\n\chapter*{\textbf{Case Study}}
 During the Spring 2023 ICS 111 and 211 Intro to Java classes, we offered an extra credit assignment to students. [[XXX what do I have to do to reference the ethics board here?]]
 Students were instructed to use the IDE and ATTEMPT to plagiarize the assignment.  We worked with the professors of the classes to give each class a project that would be slightly too difficult to the average person in the class to encourage plagiarism, but not so difficult that NO students in the class would be able to complete it on their own.  The 111 class was given a project to make 3 Polymorphic Shapes that move around the screen and bounce off the edges.  The 211 class was given the task to create any function defined fractal (such as a Mandelbrot fractal).  ChatGPT was able to generate solutions to both without assistance, and a solution for each was seeded on to an assortment of websites.  Assignments were collected completely anonymously by distributing and collecting identical thumbdrives containing the IDE which was set to save to the drive its self.  Assignment credit was given for turning in a thumbdrive without checking its content.  2 students in 211 caught this loophole and did in-fact turn in completely blank thumbdrives.
 
@@ -229,7 +253,7 @@ As the 111 and 211 classes are separate assignments and cohorts, we will treat t
 As part of each Case Study, the \metaComment was stripped out of the files, and they were given to Stanford MOSS.
 
 For more detailed code analysis, see Appendix A [[XXXX REF THIS]].
-\subsection{\textbf{ICS 111}}
+\section{\textbf{ICS 111}}
 We received 5 submissions from 111, these have each been arbitrary given a single letter designation between A and F.  Of these 5, 3 successfully completed the assignment by some means, and 2 did not.  Student A copy and pasted from ChatGPT, but prompted it wrong, and did a similar but wrong assignment.  Our method makes it easy to see this, there is a 75 line paste followed by about 38 minor tweaks and formatting changes.
 
 Student D appears to have struggled: the code they copied is a badly mangled AWT example and does not compile without significant modification.
@@ -242,29 +266,29 @@ Student E pasted a large section of code from a different project with a matchin
 
 Student F found and submitted the one of the seeded assignment file.  It is logged as a large foreign paste.
 
-\n\subsubsection*{\textbf{MOSS}}\hfill\break\indent
+\n\subsection{\textbf{MOSS}}
 Despite having 4 files containing plagiarized code, Moss only identified a small connection between Student C and E.  This connection is entirely composed of expected driver code. 
-\n\subsubsection*{\textbf{Observed Vectors}}\hfill\break\indent
+\n\subsection{\textbf{Observed Vectors}}
 Between all the submissions \metaComment we were able to identify that Student A and F used Expert or Search vectors; Student B and E completed the assignment on their own; Student D used Search vector; and only student C is of indeterminate origin, but has a clean \infectionStack.
 
 [[Add Table]]
-\subsection*{\textbf{ICS 211}}
+\section{\textbf{ICS 211}}
 
-\n\subsubsection*{\textbf{Observed Vectors}}\hfill\break\indent
+\n\subsection{\textbf{Observed Vectors}}
 
-\n\section{\textbf{Future Work}}
+\n\chapter{\textbf{Future Work}}
 In the future, we hope to completely automate the detection of plagiarized assignments created with the IDE.  UUID tracing is easy enough to automate, but automating the whole process will require several heuristics.  For example, how much of an assignment must be copied from the internet for it to be considered plagiarized?  How big of a paste is that?  What about linear typing?  How many lines are required to say ``this isnt organic'' from just linear typing?  All of these potential questions need future research to answer.  
 
 Additionally, our primary aim is plagiarism reduction, so it may be equally useful to create a heuristic that represents the general amount of plagiarism present in a class as a whole rather than individual assignments. 
 
 However, before any of this can happen the IDE needs to be stabilized.  Several students complained about it ``freezing'' on save and there are a few notable problems.  One possible improvement would be to gzip \metaComment and the embedded data.  Care should be taken in doing so, and it may be advantageous to pair this approach with Reed-Solomon ECC to combat accidental file corruption.  This may be advantageous even if there is no net decrease in \metaComment size.  Additional improvements include embedding extra clipboard data that another copy of the IDE could read separate from the hidden text embedding
-\n\section{\textbf{Conclusion}}
+\n\chapter{\textbf{Conclusion}}
 Our approach has shown promise as a tool in detecting plagiarism within intro level CS courses.  The most useful features are paste event tracking and UUIDs.  We encourage anyone concerned with plagiarism in an intro level class to provide a modified IDE for their class that uses these tracking features.
 
 \bibliography{references}{}
  \bibliographystyle{plain}
-
-\section{\textbf{Appendix A: Examples}}
+\appendix
+\chapter{\textbf{Appendix A: Examples}}
 These are examples of the data in each case study.  In general they are trimmed down \metaComment lines.  This trimming has been done to remove data that would be meaningless to a human or data that would be too long to include in this form.  When data has been removed for length, a summary of the removed data will be in the example.  The Header (the lines before the History tag) will be removed if there is nothing of interest in them.  Editorial comments and summaries will be noted inside [[double brackets.]]
 The Raw Data is available on Github at [[XXX LINK]].
 The meta comment is json-like in this format
@@ -325,29 +349,9 @@ where as just pasting hello world the internet looks like this
 	]
 }
 \end{lstlisting}
-\subsection{\textbf{ICS 111}}
-\subsubsection*{\textbf{Moss Match}}
-Moss only matched this section of code between C and F
-\begin{lstlisting}[language=java]
-ArrayList<Shape> shapes;
-void setup(){
-  size(800,800);
-  shapes=new ArrayList<Shape>();
-}
+\section{\textbf{ICS 111}}
 
-void draw(){
-  background(255);
-  for (Shape shape : shapes){
-    shape.update();
-    shape.draw();
-  }
-}
-
-void mouseClicked(){
-
-\end{lstlisting}
-This would be fairly common Processing code for this assignment, and represents 7\% of submission C or 10\% of submission F.
-\subsubsection*{Submission A}
+\subsection{Submission A}
 Submission A doesn't meet the requirement for the assignment.  The student reported using ChatGPT for the assignment.  The file is a single large external code paste followed by minor edits.
 \begin{lstlisting}[language=json]
 {
@@ -382,9 +386,9 @@ Submission A doesn't meet the requirement for the assignment.  The student repor
 }
 
 \end{lstlisting}
-\subsubsection*{Submission B}
+\subsection{Submission B}
 Student B submitted 5 files rather than the usual 1. ExtraCreditICS111.pde, Circle.pde, Shape.pde, Square.pde, and Triangle.pde.   The files were written in an odd order, and some may have been started on a different project and then moved (\projectID are tracked per file), all files were built on the \installID.  Files were started and completed in this order.
-\begin{enumerate}
+\begin{enumerate}[nosep]
 \item Shape started
 \item Circle started 
 \item ExtraCreditICS111 started
@@ -399,7 +403,7 @@ Student B submitted 5 files rather than the usual 1. ExtraCreditICS111.pde, Circ
 \item ExtraCreditICS111 Finished
 
 \end{enumerate}\n
-
+\pagebreak
 ExtraCreditICS111.pde,
 \begin{lstlisting}[language=json]
 {
@@ -427,6 +431,7 @@ ExtraCreditICS111.pde,
 }
 
 \end{lstlisting}
+\pagebreak
 Shape.pde
 
 \begin{lstlisting}[language=json]
@@ -450,6 +455,7 @@ Shape.pde
 	]
 }
 \end{lstlisting}
+\pagebreak
 Circle.pde
 \begin{lstlisting}[language=json]
 {
@@ -470,6 +476,7 @@ Circle.pde
 	]
 }
 \end{lstlisting}
+\pagebreak
 Square.PDE
 \begin{lstlisting}[language=json]
 {
@@ -494,6 +501,7 @@ Square.PDE
 	]
 }
 \end{lstlisting}
+\pagebreak
 Triangle
 \begin{lstlisting}[language=json]
 {
@@ -521,8 +529,8 @@ Triangle
 	]
 }
 \end{lstlisting}
-
-\subsubsection*{Submission C}
+\pagebreak
+\subsection{Submission C}
 Student C pasted their entire file from another project of theirs.  This obfuscated \textit{how} the previous file was created.  All that is evident is that the student \textit{did not} copy from another student since the infection stack is clean.  However, copying from an external source would not leave a trace, as would completing the assignment legitimately.  Additionally, the student did not self report, so the state of this assignment is completely unknown.
 \begin{lstlisting}[language=json]
 {
@@ -541,8 +549,9 @@ Student C pasted their entire file from another project of theirs.  This obfusca
 	]
 }
 \end{lstlisting}
-\subsubsection*{Submission E}
-Student E is a tricky one, like C they start with a paste of a full working solution, but unlike C, they then spend around 8 hours over the next week editing and improving the code with nearly 1000 additional edits.  They self report doing it themselves, and based on the \metaComment, we believe this to be the case, and the paste event was simply motivated by an ide error.  From the UUID log, it appears that they may have done a similar copy once before.
+\pagebreak
+\subsection{Submission E}
+Student E is a tricky one, like C they start with a paste of a full working solution, but unlike C, they then spend around 8 hours over the next week editing and improving the code with nearly 1000 additional edits.  They self report doing it themselves, and based on the \metaComment, we believe this to be the case, and the paste event was simply motivated by an ide error.  From the UUID log, it appears that they may have done a similar copy once before.\pagebreak
 \begin{lstlisting}[language=json]
 {
 	InstallUUIDStack:[
@@ -575,7 +584,7 @@ Student E is a tricky one, like C they start with a paste of a full working solu
 	]
 }
 \end{lstlisting}
-\subsubsection*{Submission F}
+\subsection{Submission F}
 Submission F is entirely a single external copy event.  There only reasonable explanation is that the code was copied from an online source, this code matches the seeded code exactly.  The student self reports that they "went digging into the parent directory and [they] found the solutions."  This indicates they used a subvector of Search that could be termed Manual Search.
 \begin{lstlisting}[language=json]
 {
@@ -585,5 +594,44 @@ Submission F is entirely a single external copy event.  There only reasonable ex
 	]
 }
 \end{lstlisting}
+\subsection{\textbf{Moss Match}}
+Moss only matched this section of code between C and F
+\begin{multicols}{2}
+\noindent{}Submission C
+\begin{lstlisting}[language=java]
+ArrayList<Shape> shapes;
+void setup(){
+  size(500,500);
+  shapes=new ArrayList<Shape>();
+}
+void draw(){
+  background(255);
+  for (Shape shape : shapes){
+    shape.update();
+    shape.draw();
+  }
+}
+void mouseClicked(){
+
+\end{lstlisting}
+Submission F
+\begin{lstlisting}[language=java]
+ArrayList<Shape> shapes;
+void setup() {
+  size(800, 800);
+  shapes = new ArrayList<Shape>();
+}
+void draw() {
+  background(255);
+  for (Shape shape : shapes) {
+    shape.update();
+    shape.draw();
+  }
+}
+void mouseClicked() {
+\end{lstlisting}
+\end{multicols}
+This would be fairly common Processing code for this assignment, and represents 7\% of submission C or 10\% of submission F.
+
 \end{document}
 
