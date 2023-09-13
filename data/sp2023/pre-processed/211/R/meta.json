@@ -162,9 +162,9 @@
 			T:CTE7E=,
 			P:579,
 			L:"P",
-			E:"double cr = minRe + "
+			E:"double cr = minRe + ",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CTE9A=,P:599,P:"T",E:" "},
 		{T:CTE9g=,P:599,P:"T",E:"\b"},
 		{T:CTE/w=,P:587,P:"T",E:"\bi"},
@@ -274,9 +274,9 @@
 			T:CTKkU=,
 			P:425,
 			L:"P",
-			E:"leftPressed = true;\n        zoomWindow(5.0);\n        zoom *= 5;"
+			E:"leftPressed = true;\n        zoomWindow(5.0);\n        zoom *= 5;",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CTKmA=,P:425-436,P:"T",E:"rightPressed"},
 		{T:CTKqQ=,P:484,P:"T",E:"\b/"},
 		{T:CTKv0=,P:465,P:"T",E:"\b1"},
@@ -295,9 +295,9 @@
 			T:CTLqM=,
 			P:228-249,
 			L:"P",
-			E:"double cr = minRe + (maxRe - minRe) * x / width;\n    		double ci = minIm + (maxIm - minIm) * y / height;"
+			E:"double cr = minRe + (maxRe - minRe) * x / width;\n    		double ci = minIm + (maxIm - minIm) * y / height;",
+			N:"paste from project on same machine;Paste from project with UUID fragment 6d702833-3fef-42fa-0000-000000000000 -1 bytes long;"
 		},
-		N:"paste from project on same machine;Paste from project with UUID fragment 6d702833-3fef-42fa-0000-000000000000 -1 bytes long;",
 		{T:CTLrE=,P:282,P:"T",E:"\b"},
 		{T:CTLrM=,P:281,P:"T",E:"\b"},
 		{T:CTLrU=,P:280,P:"T",E:"\b	"},
@@ -350,9 +350,9 @@
 			T:CTNJs=,
 			P:521,
 			L:"P",
-			E:"double tempMinr = cr - (maxRe - minRe) / 2 / z;\n   	maxRe = cr + (maxRe - minRe) / 2 / z;\n    minRe = tempMinr;"
+			E:"double tempMinr = cr - (maxRe - minRe) / 2 / z;\n   	maxRe = cr + (maxRe - minRe) / 2 / z;\n    minRe = tempMinr;",
+			N:"paste from project on same machine;Paste from project with UUID fragment 6d702833-3fef-42fa-ae00-000000000000 -1 bytes long;"
 		},
-		N:"paste from project on same machine;Paste from project with UUID fragment 6d702833-3fef-42fa-ae00-000000000000 -1 bytes long;",
 		{T:CTNHg=,P:511,P:"T",E:"\n    \n    "},
 		{T:CTNOI=,P:535,P:"T",E:"\bi"},
 		{T:CTNU4=,P:540,P:"T",E:"\bi"},
@@ -378,9 +378,9 @@
 			T:CTOMI=,
 			P:1062,
 			L:"P",
-			E:"void zoomWindow(double z) {\n    // set new center point at mouse point\n    double cr = minRe + (maxRe - minRe) * mouseX / width;\n   	double ci = minIm + (maxIm - minIm) * mouseY / height;\n   	// zoom\n   	double tempMinr = cr - (maxRe - minRe) / 2 / z;\n   	maxRe = cr + (maxRe - minRe) / 2 / z;\n    minRe = tempMinr;\n    \n    double tempMini = ci - (maxIm - minIm) / 2 / z;\n   	maxIm = ci + (maxIm - minIm) / 2 / z;\n    minIm = tempMini;\n}"
+			E:"void zoomWindow(double z) {\n    // set new center point at mouse point\n    double cr = minRe + (maxRe - minRe) * mouseX / width;\n   	double ci = minIm + (maxIm - minIm) * mouseY / height;\n   	// zoom\n   	double tempMinr = cr - (maxRe - minRe) / 2 / z;\n   	maxRe = cr + (maxRe - minRe) / 2 / z;\n    minRe = tempMinr;\n    \n    double tempMini = ci - (maxIm - minIm) / 2 / z;\n   	maxIm = ci + (maxIm - minIm) / 2 / z;\n    minIm = tempMini;\n}",
+			N:"internal paste;"
 		},
-		N:"internal paste;",
 		{T:CTOL8=,P:1061,P:"T",E:"\n"},
 		{T:CTONI=,P:1061,P:"T",E:"\n"},
 		{T:CTOuw=,P:1501,P:"T",E:"\n\nvoid mouseReleased() {\n    "},
@@ -448,9 +448,9 @@
 			T:CTUEk=,
 			P:1147,
 			L:"P",
-			E:"if (event.getCount() > 0) maxIter /= 2;"
+			E:"if (event.getCount() > 0) maxIter /= 2;",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CTUHE=,P:1168,P:"T",E:"\b<"},
 		{T:CTUJo=,P:1181,P:"T",E:"\b*"},
 		{T:CTUL4=,P:1186,P:"T",E:"\n    \n    maxIter = copns"},
@@ -480,9 +480,9 @@
 			T:CTWII=,
 			P:1218,
 			L:"P",
-			E:"text(iterMsg, 40, 40, 280, 40);"
+			E:"text(iterMsg, 40, 40, 280, 40);",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CTWIA=,P:1217,P:"T",E:"\n"},
 		{T:CTWJc=,P:1218,P:"T",E:"	"},
 		{T:CTWMw=,P:1227,P:"T",E:"\b"},

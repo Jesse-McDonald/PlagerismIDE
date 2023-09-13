@@ -58,9 +58,9 @@
 			T:CrlFc=,
 			P:38,
 			L:"P",
-			E:" size(500,500);"
+			E:" size(500,500);",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CrlHE=,P:69,T:"T",E:"	background("},
 		{T:CrlKU=,P:81,T:"T",E:"255,255,255):"},
 		{T:CrlNA=,P:93,T:"T",E:"\b;"},
@@ -122,9 +122,9 @@
 			T:Crrg8=,
 			P:116,
 			L:"P",
-			E:"translate(width/2, height/2);\n  float zoom = map(mouseX, 0, width, 0.1, 4.5);\n  scale(zoom);\n  shape(bot, -140, -140);"
+			E:"translate(width/2, height/2);\n  float zoom = map(mouseX, 0, width, 0.1, 4.5);\n  scale(zoom);\n  shape(bot, -140, -140);",
+			N:"paste from project on same machine;Paste from project with UUID fragment f6879ba3-30aa-45ce-932c-1803bcbd8000 -1 bytes long;"
 		},
-		N:"paste from project on same machine;Paste from project with UUID fragment f6879ba3-30aa-45ce-932c-1803bcbd8000 -1 bytes long;",
 		{T:Crrf0=,P:115,T:"T",E:"\n"},
 		{T:CrrjQ=,P:116,T:"T",E:"	"},
 		{T:CrrkU=,P:149,T:"T",E:"	"},
@@ -147,9 +147,9 @@
 			T:CrsqI=,
 			P:51,
 			L:"P",
-			E:"bot = loadShape(\"bot1.svg\");"
+			E:"bot = loadShape(\"bot1.svg\");",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:Crsps=,P:45,T:"T",E:"\n     "},
 		{T:Crs3c=,P:259-282,T:"T",E:"\\"},
 		{T:Crs3c=,P:259,T:"T",E:"\b"},
@@ -230,16 +230,16 @@
 			T:CsJ4g=,
 			P:256,
 			L:"P",
-			E:"divide(x, y, l/2, lvl + 1, max);"
+			E:"divide(x, y, l/2, lvl + 1, max);",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{
 			T:CsJ4w=,
 			P:293,
 			L:"P",
-			E:"divide(x, y, l/2, lvl + 1, max);"
+			E:"divide(x, y, l/2, lvl + 1, max);",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CsJ4U=,P:251,T:"T",E:"\n    \n    "},
 		{T:CsKAA=,P:264,T:"T",E:" + "},
 		{T:CsKCA=,P:267,T:"T",E:"l/2"},

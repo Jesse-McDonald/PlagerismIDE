@@ -18,9 +18,9 @@
 			T:Cwb3Q=,
 			P:0-43,
 			L:"P",
-			E:"// Julia Set\n// The Coding Train / Daniel Shiffman\n// https://thecodingtrain.com/CodingChallenges/022-juliaset.html\n// https://youtu.be/fAsaSkmbF5s\n// https://editor.p5js.org/codingtrain/sketches/G6qbMmaI\n\n// The biggest difference from the Processing version this is based on\n// is that the pixel arrays do not have one index for each pixel, but\n// instead have 4 indices for each pixel, representing the 4 color\n// components for that pixel (red, green, blue and alpha).\n//\n// To set a single pixel, this code therefore has to multiply the\n// indexes by 4, and then set 4 consecutive entries in the pixel array.\n//\n// However, since we're not using transparency here, and we have a\n// background() call that fills the entire canvas with a color, we\n// don't need to change the alpha value, so can set only the first 3.\n//\n//\n// The next big difference is that this version of the code has three\n// global arrays that it uses to set those entries in the pixels array,\n// instead of calculating the color values to use for every pixel.\n//\n// This change was done because the code used to to calculate the color\n// values is a bit slow. Since there are only 100 different values\n// (from 0 up to maxiterations), there are only 100 different colors,\n// so we can easily calculate them in advance and then use them later.\n//\n// To do this, the code for creating a color from how long it took to\n// get to infinity was moved from draw() to setup(), with a loop that\n// saves the color for every possible iteration count (aka value of n).\n//\n// Also, the maxiterations constant was moved to the top to be reused.\n\nlet angle = 0;\n\n// Maximum number of iterations for each point on the complex plane\nconst maxiterations = 100;\n\n// Colors to be used for each possible iteration count\nconst colorsRed = [];\nconst colorsGreen = [];\nconst colorsBlue = [];\n\nfunction setup() {\n  pixelDensity(1);\n  createCanvas(640, 360);\n  colorMode(HSB, 1);\n\n  // Create the colors to be used for each possible iteration count\n  for (let n = 0; n < maxiterations; n++) {\n    // Gosh, we could make fancy colors here if we wanted\n    let hu = sqrt(n / maxiterations);\n    let col = color(hu, 255, 150);\n    colorsRed[n] = red(col);\n    colorsGreen[n] = green(col);\n    colorsBlue[n] = blue(col);\n  }\n}\n\nfunction draw() {\n  // let ca = map(mouseX, 0, width, -1, 1); //-0.70176;\n  // let cb = map(mouseY, 0, height, -1, 1); //-0.3842;\n\n  let ca = cos(angle * 3.213); //sin(angle);\n  let cb = sin(angle);\n\n  angle += 0.02;\n\n  background(255);\n\n  // Establish a range of values on the complex plane\n  // A different range will allow us to \"zoom\" in or out on the fractal\n\n  // It all starts with the width, try higher or lower values\n  //let w = abs(sin(angle)) * 5;\n  let w = 5;\n  let h = (w * height) / width;\n\n  // Start at negative half the width and height\n  let xmin = -w / 2;\n  let ymin = -h / 2;\n\n  // Make sure we can write to the pixels[] array.\n  // Only need to do this once since we don't do any other drawing.\n  loadPixels();\n\n  // x goes from xmin to xmax\n  let xmax = xmin + w;\n  // y goes from ymin to ymax\n  let ymax = ymin + h;\n\n  // Calculate amount we increment x,y for each pixel\n  let dx = (xmax - xmin) / width;\n  let dy = (ymax - ymin) / height;\n\n  // Start y\n  let y = ymin;\n  for (let j = 0; j < height; j++) {\n    // Start x\n    let x = xmin;\n    for (let i = 0; i < width; i++) {\n      // Now we test, as we iterate z = z^2 + cm does z tend towards infinity?\n      let a = x;\n      let b = y;\n      let n = 0;\n      while (n < maxiterations) {\n        let aa = a * a;\n        let bb = b * b;\n        // Infinity in our finite world is simple, let's just consider it 16\n        if (aa + bb > 4.0) {\n          break; // Bail\n        }\n        let twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;\n        n++;\n      }\n\n      // We color each pixel based on how long it takes to get to infinity\n      // If we never got there, let's pick the color black\n      let pix = (i + j * width) * 4;\n      if (n == maxiterations) {\n        pixels[pix + 0] = 0;\n        pixels[pix + 1] = 0;\n        pixels[pix + 2] = 0;\n      } else {\n        // Otherwise, use the colors that we made in setup()\n        pixels[pix + 0] = colorsRed[n];\n        pixels[pix + 1] = colorsGreen[n];\n        pixels[pix + 2] = colorsBlue[n];\n      }\n      x += dx;\n    }\n    y += dy;\n  }\n  updatePixels();\n  console.log(frameRate());\n}"
+			E:"// Julia Set\n// The Coding Train / Daniel Shiffman\n// https://thecodingtrain.com/CodingChallenges/022-juliaset.html\n// https://youtu.be/fAsaSkmbF5s\n// https://editor.p5js.org/codingtrain/sketches/G6qbMmaI\n\n// The biggest difference from the Processing version this is based on\n// is that the pixel arrays do not have one index for each pixel, but\n// instead have 4 indices for each pixel, representing the 4 color\n// components for that pixel (red, green, blue and alpha).\n//\n// To set a single pixel, this code therefore has to multiply the\n// indexes by 4, and then set 4 consecutive entries in the pixel array.\n//\n// However, since we're not using transparency here, and we have a\n// background() call that fills the entire canvas with a color, we\n// don't need to change the alpha value, so can set only the first 3.\n//\n//\n// The next big difference is that this version of the code has three\n// global arrays that it uses to set those entries in the pixels array,\n// instead of calculating the color values to use for every pixel.\n//\n// This change was done because the code used to to calculate the color\n// values is a bit slow. Since there are only 100 different values\n// (from 0 up to maxiterations), there are only 100 different colors,\n// so we can easily calculate them in advance and then use them later.\n//\n// To do this, the code for creating a color from how long it took to\n// get to infinity was moved from draw() to setup(), with a loop that\n// saves the color for every possible iteration count (aka value of n).\n//\n// Also, the maxiterations constant was moved to the top to be reused.\n\nlet angle = 0;\n\n// Maximum number of iterations for each point on the complex plane\nconst maxiterations = 100;\n\n// Colors to be used for each possible iteration count\nconst colorsRed = [];\nconst colorsGreen = [];\nconst colorsBlue = [];\n\nfunction setup() {\n  pixelDensity(1);\n  createCanvas(640, 360);\n  colorMode(HSB, 1);\n\n  // Create the colors to be used for each possible iteration count\n  for (let n = 0; n < maxiterations; n++) {\n    // Gosh, we could make fancy colors here if we wanted\n    let hu = sqrt(n / maxiterations);\n    let col = color(hu, 255, 150);\n    colorsRed[n] = red(col);\n    colorsGreen[n] = green(col);\n    colorsBlue[n] = blue(col);\n  }\n}\n\nfunction draw() {\n  // let ca = map(mouseX, 0, width, -1, 1); //-0.70176;\n  // let cb = map(mouseY, 0, height, -1, 1); //-0.3842;\n\n  let ca = cos(angle * 3.213); //sin(angle);\n  let cb = sin(angle);\n\n  angle += 0.02;\n\n  background(255);\n\n  // Establish a range of values on the complex plane\n  // A different range will allow us to \"zoom\" in or out on the fractal\n\n  // It all starts with the width, try higher or lower values\n  //let w = abs(sin(angle)) * 5;\n  let w = 5;\n  let h = (w * height) / width;\n\n  // Start at negative half the width and height\n  let xmin = -w / 2;\n  let ymin = -h / 2;\n\n  // Make sure we can write to the pixels[] array.\n  // Only need to do this once since we don't do any other drawing.\n  loadPixels();\n\n  // x goes from xmin to xmax\n  let xmax = xmin + w;\n  // y goes from ymin to ymax\n  let ymax = ymin + h;\n\n  // Calculate amount we increment x,y for each pixel\n  let dx = (xmax - xmin) / width;\n  let dy = (ymax - ymin) / height;\n\n  // Start y\n  let y = ymin;\n  for (let j = 0; j < height; j++) {\n    // Start x\n    let x = xmin;\n    for (let i = 0; i < width; i++) {\n      // Now we test, as we iterate z = z^2 + cm does z tend towards infinity?\n      let a = x;\n      let b = y;\n      let n = 0;\n      while (n < maxiterations) {\n        let aa = a * a;\n        let bb = b * b;\n        // Infinity in our finite world is simple, let's just consider it 16\n        if (aa + bb > 4.0) {\n          break; // Bail\n        }\n        let twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;\n        n++;\n      }\n\n      // We color each pixel based on how long it takes to get to infinity\n      // If we never got there, let's pick the color black\n      let pix = (i + j * width) * 4;\n      if (n == maxiterations) {\n        pixels[pix + 0] = 0;\n        pixels[pix + 1] = 0;\n        pixels[pix + 2] = 0;\n      } else {\n        // Otherwise, use the colors that we made in setup()\n        pixels[pix + 0] = colorsRed[n];\n        pixels[pix + 1] = colorsGreen[n];\n        pixels[pix + 2] = colorsBlue[n];\n      }\n      x += dx;\n    }\n    y += dy;\n  }\n  updatePixels();\n  console.log(frameRate());\n}",
+			N:"Paste from noncoded source"
 		},
-		N:"Paste from noncoded source",
 		{T:Cwb5A=,P:4416,P:"T",E:"\b"},
 		{T:CwcJ4=,P:1906,P:"T",E:"\b"},
 		{T:CwcJ8=,P:1905,P:"T",E:"\b4"},
@@ -42,9 +42,9 @@
 			T:Cwel0=,
 			P:2083-2116,
 			L:"P",
-			E:"/-0.70176"
+			E:"/-0.70176",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:Cwez4=,P:2083,P:"T",E:"\b"},
 		{T:Cwe1k=,P:2091,P:"T",E:";"},
 		{T:Cwe30=,P:2059-2067,P:"C",E:"/-0.3842"},
@@ -52,9 +52,9 @@
 			T:Cwe44=,
 			P:2104-2115,
 			L:"P",
-			E:"/-0.3842"
+			E:"/-0.3842",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:Cwe54=,P:2112,P:"T",E:";"},
 		{T:Cwe7E=,P:2104,P:"T",E:"\b"},
 		{T:Cwe8Q=,P:1957-2068,P:"T",E:"\\b[1957-2068]"},
@@ -141,9 +141,9 @@
 			T:CwohM=,
 			P:2916,
 			L:"P",
-			E:"  float twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;"
+			E:"  float twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;",
+			N:"paste from project on same machine;Paste from project with UUID fragment 48a00000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"paste from project on same machine;Paste from project with UUID fragment 48a00000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CwohE=,P:2907,P:"T",E:"\n        "},
 		{T:CwoiQ=,P:2917,P:"T",E:"\b"},
 		{T:Cwoio=,P:2916,P:"T",E:"\b"},
@@ -156,9 +156,9 @@
 			T:CwqJc=,
 			P:3070,
 			L:"P",
-			E:" float twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;"
+			E:" float twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;",
+			N:"paste from project on same machine;Paste from project with UUID fragment 48a00000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"paste from project on same machine;Paste from project with UUID fragment 48a00000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CwqMY=,P:3022,P:"T",E:"\b"},
 		{T:CwqMc=,P:3021,P:"T",E:"\b4"},
 		{T:Cwqd0=,P:2143-2261,P:"T",E:"\\b[2143-2261]"},
@@ -201,9 +201,9 @@
 			T:CwsKw=,
 			P:1020,
 			L:"P",
-			E:"[i+j*width] = color(0);"
+			E:"[i+j*width] = color(0);",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CwsNo=,P:1041,P:"T",E:"\b"},
 		{T:CwsOE=,P:1040,P:"T",E:"\bsqrt(float(n)"},
 		{T:CwsUA=,P:1053,P:"T",E:"/mawiterations"},
@@ -221,9 +221,9 @@
 			T:CwuMU=,
 			P:1026,
 			L:"P",
-			E:"sqrt(float(n)/maxiterations"
+			E:"sqrt(float(n)/maxiterations",
+			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		},
-		N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;",
 		{T:CwuK8=,P:1024,P:"T",E:"\b= "},
 		{T:Cwud4=,P:1053,P:"T",E:");"},
 		{T:CwujY=,P:1089-1117,P:"T",E:"hu,255,255"},
@@ -238,18 +238,18 @@
 			T:CwwbE=,
 			P:0-1153,
 			L:"P",
-			E:"// Daniel Shiffman\n// http://codingtra.in\n// http://patreon.com/codingtrain\n// Code for: https://youtu.be/6z7GQewK-Ks\n\nvar minval = -0.5;\nvar maxval = 0.5;\n\nvar minSlider;\nvar maxSlider;\n\nvar frDiv;\n\nfunction setup() {\n  createCanvas(200, 200);\n  pixelDensity(1);\n\n  minSlider = createSlider(-2.5, 0, -2.5, 0.01);\n  maxSlider = createSlider(0, 2.5, 2.5, 0.01);\n\n  frDiv = createDiv('');\n}\n\nfunction draw() {\n  var maxiterations = 100;\n\n  loadPixels();\n  for (var x = 0; x < width; x++) {\n    for (var y = 0; y < height; y++) {\n\n      var a = map(x, 0, width, minSlider.value(), maxSlider.value());\n      var b = map(y, 0, height, minSlider.value(), maxSlider.value());\n\n      var ca = a;\n      var cb = b;\n\n      var n = 0;\n\n      while (n < maxiterations) {\n        var aa = a * a - b * b;\n        var bb = 2 * a * b;\n        a = aa + ca;\n        b = bb + cb;\n        if (a * a + b * b > 16) {\n          break;\n        }\n        n++;\n      }\n\n      var bright = map(n, 0, maxiterations, 0, 1);\n      bright = map(sqrt(bright), 0, 1, 0, 255);\n\n      if (n == maxiterations) {\n        bright = 0;\n      }\n\n      var pix = (x + y * width) * 4;\n      pixels[pix + 0] = bright;\n      pixels[pix + 1] = bright;\n      pixels[pix + 2] = bright;\n      pixels[pix + 3] = 255;\n    }\n  }\n  updatePixels();\n\n  frDiv.html(floor(frameRate()));\n}"
+			E:"// Daniel Shiffman\n// http://codingtra.in\n// http://patreon.com/codingtrain\n// Code for: https://youtu.be/6z7GQewK-Ks\n\nvar minval = -0.5;\nvar maxval = 0.5;\n\nvar minSlider;\nvar maxSlider;\n\nvar frDiv;\n\nfunction setup() {\n  createCanvas(200, 200);\n  pixelDensity(1);\n\n  minSlider = createSlider(-2.5, 0, -2.5, 0.01);\n  maxSlider = createSlider(0, 2.5, 2.5, 0.01);\n\n  frDiv = createDiv('');\n}\n\nfunction draw() {\n  var maxiterations = 100;\n\n  loadPixels();\n  for (var x = 0; x < width; x++) {\n    for (var y = 0; y < height; y++) {\n\n      var a = map(x, 0, width, minSlider.value(), maxSlider.value());\n      var b = map(y, 0, height, minSlider.value(), maxSlider.value());\n\n      var ca = a;\n      var cb = b;\n\n      var n = 0;\n\n      while (n < maxiterations) {\n        var aa = a * a - b * b;\n        var bb = 2 * a * b;\n        a = aa + ca;\n        b = bb + cb;\n        if (a * a + b * b > 16) {\n          break;\n        }\n        n++;\n      }\n\n      var bright = map(n, 0, maxiterations, 0, 1);\n      bright = map(sqrt(bright), 0, 1, 0, 255);\n\n      if (n == maxiterations) {\n        bright = 0;\n      }\n\n      var pix = (x + y * width) * 4;\n      pixels[pix + 0] = bright;\n      pixels[pix + 1] = bright;\n      pixels[pix + 2] = bright;\n      pixels[pix + 3] = 255;\n    }\n  }\n  updatePixels();\n\n  frDiv.html(floor(frameRate()));\n}",
+			N:"Paste from noncoded source"
 		},
-		N:"Paste from noncoded source",
 		{T:Cwwdg=,P:1330,P:"T",E:"\b"},
 		{T:CwweA=,P:1329,P:"T",E:"\b"},
 		{
 			T:CwxJY=,
 			P:0-1329,
 			L:"P",
-			E:"void setup() {\n  pixelDensity(1);\n  size(640, 480);\n  colorMode(HSB, 1);\n\n  \n}\n\nvoid draw() {\n\n  float ca = -0.70176;\n  float cb = -0.3842;\n\n  \n\n  background(255);\n\n  float w = 5;\n  float h = (w * height) / width;\n\n  float xmin = -w / 2;\n  float ymin = -h / 2;\n\n  loadPixels();\n\n int maxiterations = 100;\n\n  float xmax = xmin + w;\n\n  float ymax = ymin + h;\n\n  float dx = (xmax - xmin) / width;\n  float dy = (ymax - ymin) / height;\n\n\n  float y = ymin;\n  for (int j = 0; j < height; j++) {\n    \n    float x = xmin;\n    for (int i = 0; i < width; i++) {\n     \n      float a = x;\n      float b = y;\n      int n = 0;\n      while (n < maxiterations) { \n        float aa = a * a;\n        float bb = b * b;\n       \n        if (aa*aa + bb*bb > 4.0) {\n          break; // Bail\n        }\n       float twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;\n        n++;\n      }\n\n\n      if (n == maxiterations) {\n        pixels[i+j*width] = color(0);\n      } else {\n          float hu = sqrt(float(n)/maxiterations);\n       pixels[i+j*width] = color(hu,255,150);\n      }\n      x += dx;\n    }\n    y += dy;\n  }\n  updatePixels();\n  println(frameRate);\n}\n"
+			E:"void setup() {\n  pixelDensity(1);\n  size(640, 480);\n  colorMode(HSB, 1);\n\n  \n}\n\nvoid draw() {\n\n  float ca = -0.70176;\n  float cb = -0.3842;\n\n  \n\n  background(255);\n\n  float w = 5;\n  float h = (w * height) / width;\n\n  float xmin = -w / 2;\n  float ymin = -h / 2;\n\n  loadPixels();\n\n int maxiterations = 100;\n\n  float xmax = xmin + w;\n\n  float ymax = ymin + h;\n\n  float dx = (xmax - xmin) / width;\n  float dy = (ymax - ymin) / height;\n\n\n  float y = ymin;\n  for (int j = 0; j < height; j++) {\n    \n    float x = xmin;\n    for (int i = 0; i < width; i++) {\n     \n      float a = x;\n      float b = y;\n      int n = 0;\n      while (n < maxiterations) { \n        float aa = a * a;\n        float bb = b * b;\n       \n        if (aa*aa + bb*bb > 4.0) {\n          break; // Bail\n        }\n       float twoab = 2.0 * a * b;\n        a = aa - bb + ca;\n        b = twoab + cb;\n        n++;\n      }\n\n\n      if (n == maxiterations) {\n        pixels[i+j*width] = color(0);\n      } else {\n          float hu = sqrt(float(n)/maxiterations);\n       pixels[i+j*width] = color(hu,255,150);\n      }\n      x += dx;\n    }\n    y += dy;\n  }\n  updatePixels();\n  println(frameRate);\n}\n",
+			N:"internal paste;"
 		},
-		N:"internal paste;",
 		{T:Cwy+o=,P:0,P:"T",E:"\n"},
 		{T:Cwy/M=,P:0,P:"T",E:"\n"},
 		{T:CwzAM=,P:0,P:"T",E:"float angle = 0;"},
