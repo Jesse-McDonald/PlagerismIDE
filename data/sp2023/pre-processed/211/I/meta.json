@@ -145,7 +145,7 @@
 		{"T":"CwkoU=","P":981,"L":"T","E":"\\b(n == maxiterations) {\\n                pixels[pix+0"},
 		{"T":"Cwkzg=","P":1032,"L":"T","E":"] = 0;\\n                pixels"},
 		{
-			"T":Cwk/E=,
+			"T":"Cwk/E=",
 			"P":1061,
 			"L":"P",
 			"E":"[pix + 1] = 0;\\n        pixels[pix + 2] = 0;\\n      } else {\\n        // Otherwise, use the colors that we made in setup()\\n        pixels[pix + 0] = colorsRed[n];\\n        pixels[pix + 1] = colorsGreen[n];\\n        pixels[pix + 2] = colorsBlue[n];\\n      }\\n      x += dx;\\n    }\\n    y += dy;\\n  }\\n  updatePixels();\\n  console.log(frameRate());\\n}",
@@ -325,7 +325,7 @@
 		{"T":"CwzL8=","P":"261-266","L":"T","E":"int"},
 		{"T":"CwzyI=","P":"350-353","L":"T","E":"color"},
 		{
-			"T":Cwz/4=,
+			"T":"Cwz/4=",
 			"P":0,
 			"L":"P",
 			"E":"float angle = 0;\\n\\nfinal int maxiterations = 100;\\n\\nfinal int[] colorsRed = new int[maxiterations];\\nfinal int[] colorsGreen = new int[maxiterations];\\nfinal int[] colorsBlue = new int[maxiterations];\\n\\nvoid setup() {\\n  pixelDensity(1);\\n  size(640, 360);\\n  colorMode(HSB, 1);\\n\\n  for (int n = 0; n < maxiterations; n++) {\\n    float hu = sqrt(n / float(maxiterations));\\n    color col = color(hu, 255, 150);\\n    colorsRed[n] = red(col);\\n    colorsGreen[n] = green(col);\\n    colorsBlue[n] = blue(col);\\n  }\\n}\\n\\nvoid draw() {\\n  float ca = cos(angle * 3.213); //sin(angle);\\n  float cb = sin(angle);\\n\\n  angle += 0.02;\\n\\n  background(255);\\n\\n  float w = 5;\\n  float h = (w * height) / width;\\n\\n  float xmin = -w / 2;\\n  float ymin = -h / 2;\\n\\n  loadPixels();\\n\\n  float xmax = xmin + w;\\n  float ymax = ymin + h;\\n\\n  float dx = (xmax - xmin) / width;\\n  float dy = (ymax - ymin) / height;\\n\\n  float y = ymin;\\n  for (int j = 0; j < height; j++) {\\n    float x = xmin;\\n    for (int i = 0; i < width; i++) {\\n      float a = x;\\n      float b = y;\\n      int n = 0;\\n      while (n < maxiterations) {\\n        float aa = a * a;\\n        float bb = b * b;\\n\\n        if (aa + bb > 4.0) {\\n          break;\\n        }\\n        float twoab = 2.0 * a * b;\\n        a = aa - bb + ca;\\n        b = twoab + cb;\\n        n++;\\n      }\\n\\n      int pix = (i + j * width) * 4;\\n      if (n == maxiterations) {\\n        pixels[pix + 0] = 0;\\n        pixels[pix + 1] = 0;\\n        pixels[pix + 2] = 0;\\n      } else {\\n        pixels[pix + 0] = colorsRed[n];\\n        pixels[pix + 1] = colorsGreen[n];\\n        pixels[pix + 2] = colorsBlue[n];\\n      }\\n      x += dx;\\n    }\\n    y += dy;\\n  }\\n  updatePixels();\\n  println(frameRate);\\n}",
@@ -350,7 +350,12 @@
 		{"T":"Cw1pM=","P":"0-3","L":"T","E":"float"},
 		{"T":"Cw2y8=","P":"0-1607","L":"T","E":"\\\\b[0-1607]"},
 		{
-			"T":Cw2/I=,
+			"T":"Cw2/I=",
 			"P":0,
 			"L":"P",
-			"E":"float minval = -0.5;\\nfloat maxval = 0.5;\\n\\nSlider minSlider;\\nSlider maxSlider;\\n\\nDiv frDiv;\\n\\nvoid setup() {\\n  size(200, 200);\\n  pixelDensity(1);\\n\\n  minSlider = new Slider(-2.5, 0, -2.5, 0.01);\\n  maxSlider = new Slider(0, 2.5, 2.5, 0.01);\\n\\n  frDiv = new Div(\"\");\\n}\\n\\nvoid draw() {\\n  int maxiterations = 100;\\n\\n  loadPixels();\\n  for (int x = 0; x < width; x++) {\\n    for (int y = 0; y < height; y++) {\\n\\n      float a = map(x, 0, width, minSlider.getValue(), maxSlider.getValue());\\n      float b = map(y, 0, height, minSlider.getValue(), maxSlider.getValue());\\n\\n      float ca = a;\\n      float cb = b;\\n\\n      int n = 0;\\n\\n      while (n < maxiterations) {\\n        float aa = a * a - b * b;\\n        float bb = 2 * a * b;\\n        a = aa + ca;\\n        b = bb + cb;\\n        if (a * a + b * b > 16) {\\n          break;\\n        }\\n        n++;\\n      }\\n\\n      float bright = map(n, 0, maxiterations, 0, 1);\\n      bright = map(sqrt(bright), 0, 1, 0, 255);\\n\\n      if (n == maxiterations) {\\n        bright = 0;\\n      }\\n\\n      int pix = (x + y * width) * 4;\\n      pixels[pix + 0]}
+			"E":"float minval = -0.5;\\nfloat maxval = 0.5;\\n\\nSlider minSlider;\\nSlider maxSlider;\\n\\nDiv frDiv;\\n\\nvoid setup() {\\n  size(200, 200);\\n  pixelDensity(1);\\n\\n  minSlider = new Slider(-2.5, 0, -2.5, 0.01);\\n  maxSlider = new Slider(0, 2.5, 2.5, 0.01);\\n\\n  frDiv = new Div(\"\");\\n}\\n\\nvoid draw() {\\n  int maxiterations = 100;\\n\\n  loadPixels();\\n  for (int x = 0; x < width; x++) {\\n    for (int y = 0; y < height; y++) {\\n\\n      float a = map(x, 0, width, minSlider.getValue(), maxSlider.getValue());\\n      float b = map(y, 0, height, minSlider.getValue(), maxSlider.getValue());\\n\\n      float ca = a;\\n      float cb = b;\\n\\n      int n = 0;\\n\\n      while (n < maxiterations) {\\n        float aa = a * a - b * b;\\n        float bb = 2 * a * b;\\n        a = aa + ca;\\n        b = bb + cb;\\n        if (a * a + b * b > 16) {\\n          break;\\n        }\\n        n++;\\n      }\\n\\n      float bright = map(n, 0, maxiterations, 0, 1);\\n      bright = map(sqrt(bright), 0, 1, 0, 255);\\n\\n      if (n == maxiterations) {\\n        bright = 0;\\n      }\\n\\n      int pix = (x + y * width) * 4;\\n      pixels[pix + 0]}",
+			"N":"Rest of file corrupt"
+		}
+	],
+	"note":"File is corrupt, line 356 is the last line"
+}

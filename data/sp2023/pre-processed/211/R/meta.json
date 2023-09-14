@@ -492,4 +492,20 @@
 		{"T":"CTWiE=","P":1246,"L":"T","E":"\\b8"},
 		{"T":"CTWmk=","P":1237,"L":"T","E":"\\b8"},
 		{"T":"CTXHs=","P":492,"L":"T","E":".0"},
-		{"T":"CTXZ4=","P":"81-84","L":"T","E":"\\\\b[81-84,{"T":"CU708=",P:0,L:"T",E:"\\n\\n\\n"},{"T":"CU72U=",P:0,L:"T",E:"/**\\n*/"},{"T":"CU75g=",P:3,L:"T",E:"\\nSummary:\\nThis assignment was solved"},{"T":"CU8J4=",P:39,L:"T",E:"\\b"},{"T":"CU8KE=",P:38,L:"T",E:"\\b"},{"T":"CU8KI=",P:37,L:"T",E:"\\b"},{"T":"CU8KQ=",P:36,L:"T",E:"\\b"},{"T":"CU8KU=",P:35,L:"T",E:"\\b"},{"T":"CU8Kc=",P:34,L:"T",E:"\\bcompleted"},{"T":"CU8Oc=",P:44,L:"T",E:"with the help of a youtube video"},{"T":"CU8Uc=",P:77,L:"T",E:"solving the assignmennt"},{"T":"CU8W8=",P:100,L:"T",E:"\\b"},{"T":"CU8XA=",P:99,L:"T",E:"\\b"},{"T":"CU8XI=",P:98,L:"T",E:"\\bt and the requirements."}]}
+		{"T":"CTXZ4=","P":"81-84","L":"T","E":"\\\\b[81-84]"},
+		{"T":"CU708=","P":0,"L":"T","E":"\\n\\n\\n"},
+		{"T":"CU72U=","P":0,"L":"T","E":"/**\\n*/"},
+		{"T":"CU75g=","P":3,"L":"T","E":"\\nSummary:\\nThis assignment was solved"},
+		{"T":"CU8J4=","P":39,"L":"T","E":"\\b"},
+		{"T":"CU8KE=","P":38,"L":"T","E":"\\b"},
+		{"T":"CU8KI=","P":37,"L":"T","E":"\\b"},
+		{"T":"CU8KQ=","P":36,"L":"T","E":"\\b"},
+		{"T":"CU8KU=","P":35,"L":"T","E":"\\b"},
+		{"T":"CU8Kc=","P":34,"L":"T","E":"\\bcompleted"},
+		{"T":"CU8Oc=","P":44,"L":"T","E":"with the help of a youtube video"},
+		{"T":"CU8Uc=","P":77,"L":"T","E":"solving the assignmennt"},
+		{"T":"CU8W8=","P":100,"L":"T","E":"\\b"},
+		{"T":"CU8XA=","P":99,"L":"T","E":"\\b"},
+		{"T":"CU8XI=","P":98,"L":"T","E":"\\bt and the requirements."}
+	]
+}
