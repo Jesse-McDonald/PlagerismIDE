@@ -20,7 +20,7 @@ def load_and_augment_json_files(directory, parent_dir=None):
 				try:
 					with open(file_path, 'r') as json_file:
 						data = json.load(json_file)
-						name = os.path.basename(file_path)
+						name = os.path.realpath(file_path)
 						json_objects[name]=data
 						print(f"Loaded JSON from '{file_path}'")
 				except Exception as e:
@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
 	directory = sys.argv[1]
 	json_objects = load_and_augment_json_files(directory)
-	#print(json_objects)
+	print(json_objects)
 	# Now you have a list of JSON objects in json_objects
 	# Each JSON object has a "name" field indicating the directory it was in.
 	# You can work with these objects as needed.
