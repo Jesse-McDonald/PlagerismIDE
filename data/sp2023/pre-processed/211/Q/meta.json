@@ -12,14 +12,14 @@
 	"CreatorUUID":"5031093f-c680-4eb4-82ce-9112bff5f987",
 	"History":[
 		{"T":"CFs0I=","P":0,"L":"T","E":" "},
-		{"T":"CFs34=","P":1,"L":"T","E":"void setup(){\\n     si\\n     "},
+		{"T":"CFs34=","P":1,"L":"T","E":"void setup(){\n     si\n     "},
 		{"T":"CFs8Q=","P":"23-28","L":"T","E":" }"},
 		{"T":"CFs9I=","P":22,"L":"T","E":"ze()"},
 		{"T":"CFs/A=","P":25,"L":"T","E":"580,580"},
 		{"T":"CFtCU=","P":33,"L":"T","E":";"},
-		{"T":"CFtC4=","P":37,"L":"T","E":"\\n \\n void draw(){\\n     "},
+		{"T":"CFtC4=","P":37,"L":"T","E":"\n \n void draw(){\n     "},
 		{"T":"CFtFw=","P":"54-59","L":"T","E":" }"},
-		{"T":"CFtGY=","P":55,"L":"T","E":"\\n     "},
+		{"T":"CFtGY=","P":55,"L":"T","E":"\n     "},
 		{"T":"CFtGY=","P":"57-61","L":"T","E":"\\\\b[57-61]"},
 		{"T":"CFtcM=","P":55,"L":"T","E":"    background();"},
 		{"T":"CFths=","P":68,"L":"T","E":"0"},
@@ -35,10 +35,10 @@
 			"T":"CFuLQ=",
 			"P":99,
 			"L":"P",
-			"E":"int maxIterations = 100;\\nfloat minReal = -2;\\nfloat maxReal = 2;\\nfloat minImaginary = -2;\\nfloat maxImaginary = 2;\\n\\nvoid setup() {\\n  size(800, 800);\\n}\\n\\nvoid draw() {\\n  background(0);\\n\\n  loadPixels();\\n\\n  for (int x = 0; x < width; x++) {\\n    for (int y = 0; y < height; y++) {\\n      float cReal = map(x, 0, width, minReal, maxReal);\\n      float cImaginary = map(y, 0, height, minImaginary, maxImaginary);\\n\\n      int iteration = 0;\\n      float zReal = 0;\\n      float zImaginary = 0;\\n\\n      while (iteration < maxIterations && zReal * zReal + zImaginary * zImaginary < 4) {\\n        float nextZReal = zReal * zReal - zImaginary * zImaginary + cReal;\\n        float nextZImaginary = 2 * zReal * zImaginary + cImaginary;\\n\\n        zReal = nextZReal;\\n        zImaginary = nextZImaginary;\\n\\n        iteration++;\\n      }\\n\\n      int pixelColor;\\n      if (iteration == maxIterations) {\\n        pixelColor = color(0);\\n      } else {\\n        float hue = map(iteration, 0, maxIterations, 0, 255);\\n        pixelColor = color(hue, 255, 255);\\n      }\\n\\n      pixels[x + y * width] = pixelColor;\\n    }\\n  }\\n\\n  updatePixels();\\n\\n  println(\"Fractal rendered\");\\n}",
+			"E":"int maxIterations = 100;\nfloat minReal = -2;\nfloat maxReal = 2;\nfloat minImaginary = -2;\nfloat maxImaginary = 2;\n\nvoid setup() {\n  size(800, 800);\n}\n\nvoid draw() {\n  background(0);\n\n  loadPixels();\n\n  for (int x = 0; x < width; x++) {\n    for (int y = 0; y < height; y++) {\n      float cReal = map(x, 0, width, minReal, maxReal);\n      float cImaginary = map(y, 0, height, minImaginary, maxImaginary);\n\n      int iteration = 0;\n      float zReal = 0;\n      float zImaginary = 0;\n\n      while (iteration < maxIterations && zReal * zReal + zImaginary * zImaginary < 4) {\n        float nextZReal = zReal * zReal - zImaginary * zImaginary + cReal;\n        float nextZImaginary = 2 * zReal * zImaginary + cImaginary;\n\n        zReal = nextZReal;\n        zImaginary = nextZImaginary;\n\n        iteration++;\n      }\n\n      int pixelColor;\n      if (iteration == maxIterations) {\n        pixelColor = color(0);\n      } else {\n        float hue = map(iteration, 0, maxIterations, 0, 255);\n        pixelColor = color(hue, 255, 255);\n      }\n\n      pixels[x + y * width] = pixelColor;\n    }\n  }\n\n  updatePixels();\n\n  println(\"Fractal rendered\");\n}",
 			"N":"Paste from noncoded source"
 		},
-		{"T":"CFuKw=","P":95,"L":"T","E":"\\n \\n "},
+		{"T":"CFuKw=","P":95,"L":"T","E":"\n \n "},
 		{"T":"CFvGI=","P":"0-95","L":"T","E":"\\\\b[0-95]"},
 		{"T":"CFwsY=","P":"1198","L":"T","E":"."}
 	]
