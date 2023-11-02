@@ -1,22 +1,22 @@
 {
-	InstallUUIDStack:[
+	"InstallUUIDStack":[
 		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
 	],
-	InfectionStack:[
+	"InfectionStack":[
 		"ae920b65-1b57-4460-ad43-41e7dd1afc6e",
 		"b2c75a46-2e36-4fa8-8231-3fd12dd8422f"
 	],
-	ProjectUUID:"ae920b65-1b57-4460-ad43-41e7dd1afc6e",
-	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
-	History:[
+	"ProjectUUID":"ae920b65-1b57-4460-ad43-41e7dd1afc6e",
+	"CreatorUUID":"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	"History":[
 		{T:F9QAc=,P:0,P:"T",E:"void setup() {\n    \n    \n    \n    "},
 		{T:F9QEc=,P:30-34,P:"T",E:"\\b[30-34]}"},
 		{
-			T:F9QYI=,
-			P:19,
-			L:"P",
-			E:"size(640, 360);\n  noStroke();\n\n  // Create an empty ArrayList (will store Ball objects)\n  balls = new ArrayList<Ball>();\n  \n  // Start by adding one element\n  balls.add(new Ball(width/2, 0, ballWidth));",
-			N:"paste from project with same creator;Paste from project with UUID b2c75a46-2e36-4fa8-8231-3fd12dd8422f;"
+			"T":"F9QYI=",
+			"P":19,
+			"L":"P",
+			"E":"size(640, 360);\n  noStroke();\n\n  // Create an empty ArrayList (will store Ball objects)\n  balls = new ArrayList<Ball>();\n  \n  // Start by adding one element\n  balls.add(new Ball(width/2, 0, ballWidth));",
+			"N":"paste from project with same creator;Paste from project with UUID b2c75a46-2e36-4fa8-8231-3fd12dd8422f;"
 		
 		},
 		{T:F9QaA=,P:18,P:"T",E:"\b"},
@@ -24,11 +24,11 @@
 		{T:F9QaY=,P:16,P:"T",E:"\b "},
 		{T:F9Qfo=,P:0,P:"T",E:"\n\n\n"},
 		{
-			T:F9Qg0=,
-			P:1,
-			L:"P",
-			E:"ArrayList<Ball> balls;\nint ballWidth = 48;",
-			N:"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
+			"T":"F9Qg0=",
+			"P":1,
+			"L":"P",
+			"E":"ArrayList<Ball> balls;\nint ballWidth = 48;",
+			"N":"Paste from install with UUID fragment 00000000-0000-0000-0000-000000000000 -1 bytes long;"
 		
 		},
 		{T:F9Qiw=,P:11-15,P:"T",E:"Circle"},

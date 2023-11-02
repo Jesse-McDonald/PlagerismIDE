@@ -1,14 +1,14 @@
 {
-	InstallUUIDStack:[
+	"InstallUUIDStack":[
 		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
 	],
-	InfectionStack:[
+	"InfectionStack":[
 		"198cd19d-7e5a-4650-baf1-bc4c59c79c87",
 		"0644c77c-4389-47a7-9a6b-e02b23ff87c0"
 	],
-	ProjectUUID:"198cd19d-7e5a-4650-baf1-bc4c59c79c87",
-	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
-	History:[
+	"ProjectUUID":"198cd19d-7e5a-4650-baf1-bc4c59c79c87",
+	"CreatorUUID":"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	"History":[
 		{T:F9MG0=,P:0,P:"T",E:"public void"},
 		{T:F9MJI=,P:7,P:"T",E:"class Shape {\n    \n    \n    \n    "},
 		{T:F9MOQ=,P:36-40,P:"T",E:"\\b[36-40]}"},
@@ -64,11 +64,11 @@
 		{T:F9PPw=,P:93,P:"T",E:"void "},
 		{T:F9PSY=,P:101,P:"T",E:" void"},
 		{
-			T:F9ZVs=,
-			P:122,
-			L:"P",
-			E:"    void move() {\n        vy = 10;\n        y = y + vy;\n    }",
-			N:"Paste too short to track"
+			"T":"F9ZVs=",
+			"P":122,
+			"L":"P",
+			"E":"    void move() {\n        vy = 10;\n        y = y + vy;\n    }",
+			"N":"Paste too short to track"
 		},
 		
 		{T:F9ZVU=,P:117,P:"T",E:"\n    "},

@@ -1,22 +1,22 @@
 {
-	InstallUUIDStack:[
+	"InstallUUIDStack":[
 		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
 	],
-	InfectionStack:[
+	"InfectionStack":[
 		"84a1b3d6-a371-4cb5-834a-8d4994755b3a",
 		"b4ffd6f1-48c4-47ef-8a17-a88eaab91def",
 		"5b317886-5359-48ec-ad67-d2f19e2040ba",
 		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
 	],
-	ProjectUUID:"84a1b3d6-a371-4cb5-834a-8d4994755b3a",
-	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
-	History:[
+	"ProjectUUID":"84a1b3d6-a371-4cb5-834a-8d4994755b3a",
+	"CreatorUUID":"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	"History":[
 		{
-			T:F9rjk=,
-			P:0,
-			L:"P",
-			E:"class Square extends Shape {\n    float side;\n    \n    Square(float xPos, float yPos) {\n        side = random(height * 0.1);\n        x = xPos;\n        y = yPos;\n        vx = random(2, 7);\n        vy = random(2, 7);\n        colorOfShape = color(random(255), random(255), random(255));\n    }\n    \n    void drawShape() {\n        fill(colorOfShape);\n        square(x, y, side);\n    }\n}",
-			N:"paste from project with same creator;Paste from project with UUID b4ffd6f1-48c4-47ef-8a17-a88eaab91def;"
+			"T":"F9rjk=",
+			"P":0,
+			"L":"P",
+			"E":"class Square extends Shape {\n    float side;\n    \n    Square(float xPos, float yPos) {\n        side = random(height * 0.1);\n        x = xPos;\n        y = yPos;\n        vx = random(2, 7);\n        vy = random(2, 7);\n        colorOfShape = color(random(255), random(255), random(255));\n    }\n    \n    void drawShape() {\n        fill(colorOfShape);\n        square(x, y, side);\n    }\n}",
+			"N":"paste from project with same creator;Paste from project with UUID b4ffd6f1-48c4-47ef-8a17-a88eaab91def;"
 		},
 		
 		{T:F9rks=,P:6-12,P:"T",E:"Triangle"},

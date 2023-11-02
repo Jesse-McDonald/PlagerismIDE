@@ -27,7 +27,7 @@ def load_and_augment_json_files(directory, parent_dir=None):
 					print(f"Error loading JSON from '{file_path}': {str(e)}")
 
 	return json_objects
-
+	
 if __name__ == "__main__":
 	if len(sys.argv) != 2:
 		print("Usage: python "+sys.argv[0]+" /path/to/directory")

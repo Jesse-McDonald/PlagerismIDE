@@ -1,23 +1,23 @@
 {
-	InstallUUIDStack:[
+	"InstallUUIDStack":[
 		"324d4dda-f301-4da2-9351-a9c1a9315b51"
 	],
-	InfectionStack:[
+	"InfectionStack":[
 		"3e3b70bd-50c2-4a74-b507-ccd8864c3a47",
 		"ccd27524-d804-4860-8c7b-8c4c0bd2c82d",
 		"eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a",
 		"208c187d-829e-4879-b503-0f0087b33eb0",
 		"324d4dda-f301-4da2-9351-a9c1a9315b51"
 	],
-	ProjectUUID:"eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a",
-	CreatorUUID:"324d4dda-f301-4da2-9351-a9c1a9315b51",
-	History:[
+	"ProjectUUID":"eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a",
+	"CreatorUUID":"324d4dda-f301-4da2-9351-a9c1a9315b51",
+	"History":[
 		{
-			T:xmsI=,
-			P:0,
-			L:"P",
-			E:"import java.util.ArrayList;\n\nabstract class Shape {\n    int posx;\n    int posy;\n    int col;\n    float vx = random(-20, 20);\n    float vy = random(-20, 20);\n    int size = int(random(30));\n    \n    abstract void gen();\n    public void update() {\n        posx += vx;\n        posy += vy;\n        \n        //bring vx and vy closer to 0\n        vx = vx / 1.1;\n        vy = vy / 1.1;\n        \n        if (vx <= 1) {\n            vx = 1;\n        }\n        if (vy <= 1) {\n            vy = 1;\n        }\n    }\n    abstract void updraw();\n}\n\nclass Square extends Shape {\n    public void gen() {\n        posx = mouseX;\n        posy = mouseY;\n        size = 20;\n        col = #17181A;\n        square(posx, posy, size);\n    }\n    public void updraw() {\n       	fill(col);\n        square(posx, posy, size);\n    }\n}\nclass Circle extends Shape {\n    public void gen() {\n        posx = mouseX;\n        posy = mouseY;\n        size = 20;\n        col = #FFFFFF;\n        circle(posx, posy, size);\n    }\n    public void updraw() {\n        fill(col);\n        circle(posx, posy, size);\n    }\n}\n\nclass Triangle extends Shape {\n    public void gen() {\n        posx = mouseX;\n        posy = mouseY;\n        size = 20;\n        col = #FFFFFF;\n        triangle(posx+size, posy-size, posx-size, posy+size, posx+size, posy+size);\n    }\n    public void updraw() {\n        fill(col);\n        triangle(posx+size, posy-size, posx-size, posy+size, posx+size, posy+size);\n    }\n}\n\nArrayList<Shape> shapes = new ArrayList<Shape>();\n\nvoid setup(){\n    size(500,500);\n}\n\nvoid draw(){\n	background(#FFFFFF);\n	for (int i = 0; i < shapes.size(); i++){\n    	shapes.get(i).update();\n    	shapes.get(i).updraw();\n	}\n}\n\nvoid mouseClicked() {\n    int seed = int(random(3));\n    Shape x;\n    if (seed == 0) {\n        x = new Triangle();\n    } else if (seed == 1) {\n        x = new Circle();\n    } else {\n        x = new Square();\n    }\n    x.gen();\n    shapes.add(x);\n}",
-			N:"paste from project with same creator;Paste from project with UUID 208c187d-829e-4879-b503-0f0087b33eb0;"
+			"T":"xmsI=",
+			"P":0,
+			"L":"P",
+			"E":"import java.util.ArrayList;\n\nabstract class Shape {\n    int posx;\n    int posy;\n    int col;\n    float vx = random(-20, 20);\n    float vy = random(-20, 20);\n    int size = int(random(30));\n    \n    abstract void gen();\n    public void update() {\n        posx += vx;\n        posy += vy;\n        \n        //bring vx and vy closer to 0\n        vx = vx / 1.1;\n        vy = vy / 1.1;\n        \n        if (vx <= 1) {\n            vx = 1;\n        }\n        if (vy <= 1) {\n            vy = 1;\n        }\n    }\n    abstract void updraw();\n}\n\nclass Square extends Shape {\n    public void gen() {\n        posx = mouseX;\n        posy = mouseY;\n        size = 20;\n        col = #17181A;\n        square(posx, posy, size);\n    }\n    public void updraw() {\n       	fill(col);\n        square(posx, posy, size);\n    }\n}\nclass Circle extends Shape {\n    public void gen() {\n        posx = mouseX;\n        posy = mouseY;\n        size = 20;\n        col = #FFFFFF;\n        circle(posx, posy, size);\n    }\n    public void updraw() {\n        fill(col);\n        circle(posx, posy, size);\n    }\n}\n\nclass Triangle extends Shape {\n    public void gen() {\n        posx = mouseX;\n        posy = mouseY;\n        size = 20;\n        col = #FFFFFF;\n        triangle(posx+size, posy-size, posx-size, posy+size, posx+size, posy+size);\n    }\n    public void updraw() {\n        fill(col);\n        triangle(posx+size, posy-size, posx-size, posy+size, posx+size, posy+size);\n    }\n}\n\nArrayList<Shape> shapes = new ArrayList<Shape>();\n\nvoid setup(){\n    size(500,500);\n}\n\nvoid draw(){\n	background(#FFFFFF);\n	for (int i = 0; i < shapes.size(); i++){\n    	shapes.get(i).update();\n    	shapes.get(i).updraw();\n	}\n}\n\nvoid mouseClicked() {\n    int seed = int(random(3));\n    Shape x;\n    if (seed == 0) {\n        x = new Triangle();\n    } else if (seed == 1) {\n        x = new Circle();\n    } else {\n        x = new Square();\n    }\n    x.gen();\n    shapes.add(x);\n}",
+			"N":"paste from project with same creator;Paste from project with UUID 208c187d-829e-4879-b503-0f0087b33eb0;"
 		},
 		{T:xoFY=,P:27,P:"T",E:"\nimport java.lang.Math;"},
 		{T:xoOk=,P:423,P:"T",E:"Math.abs("},
@@ -162,11 +162,11 @@
 		{T:x19Y=,P:822-1168,P:"X",E:""},
 		{T:x19o=,P:821,P:"T",E:"\b"},
 		{
-			T:x1/E=,
-			P:641,
-			L:"P",
-			E:"        //detect edges\n        if (posy > height) {\n            posy = height;\n            vy *= -1;\n        } else if (posy < 0) {\n            posy = 0;\n            vy *= -1;\n        }\n        if (posx > width) {\n            posx = width;\n            vx *= -1;\n        } else if (posx < 0) {\n            posx = 0;\n            vx *= -1;\n        }",
-			N:"internal paste;"
+			"T":"x1/E=",
+			"P":641,
+			"L":"P",
+			"E":"        //detect edges\n        if (posy > height) {\n            posy = height;\n            vy *= -1;\n        } else if (posy < 0) {\n            posy = 0;\n            vy *= -1;\n        }\n        if (posx > width) {\n            posx = width;\n            vx *= -1;\n        } else if (posx < 0) {\n            posx = 0;\n            vx *= -1;\n        }",
+			"N":"internal paste;"
 		},
 		{T:x1+s=,P:623,P:"T",E:"\n        \n        "},
 		{T:x2Bg=,P:648,P:"T",E:"\b"},
@@ -212,39 +212,39 @@
 		{T:x7AI=,P:1890,P:"T",E:"\b20,20"},
 		{T:x7Ew=,P:1881-1896,P:"C",E:"+random(-20,20)"},
 		{
-			T:x7GM=,
-			P:1907,
-			L:"P",
-			E:"+random(-20,20)",
-			N:"paste from project on same machine;"
+			"T":"x7GM=",
+			"P":1907,
+			"L":"P",
+			"E":"+random(-20,20)",
+			"N":"paste from project on same machine;"
 		},
 		{
-			T:x7HQ=,
-			P:1933,
-			L:"P",
-			E:"+random(-20,20)",
-			N:"paste from project on same machine;"
+			"T":"x7HQ=",
+			"P":1933,
+			"L":"P",
+			"E":"+random(-20,20)",
+			"N":"paste from project on same machine;"
 		},
 		{
-			T:x7IE=,
-			P:1959,
-			L:"P",
-			E:"+random(-20,20)",
-			N:"paste from project on same machine;"
+			"T":"x7IE=",
+			"P":1959,
+			"L":"P",
+			"E":"+random(-20,20)",
+			"N":"paste from project on same machine;"
 		},
 		{
-			T:x7I8=,
-			P:1985,
-			L:"P",
-			E:"+random(-20,20)",
-			N:"paste from project on same machine;"
+			"T":"x7I8=",
+			"P":1985,
+			"L":"P",
+			"E":"+random(-20,20)",
+			"N":"paste from project on same machine;"
 		},
 		{
-			T:x7Jw=,
-			P:2011,
-			L:"P",
-			E:"+random(-20,20)",
-			N:"paste from project on same machine;"
+			"T":"x7Jw=",
+			"P":2011,
+			"L":"P",
+			"E":"+random(-20,20)",
+			"N":"paste from project on same machine;"
 		},
 		{T:x8+E=,P:0,P:"T",E:"\n\n\n"},
 		{T:x8/Y=,P:0,P:"T",E:"/* */"},
@@ -268,20 +268,20 @@
 		{T:x/H8=,P:1861,P:"T",E:")"},
 		{T:x/KE=,P:1829-1864,P:"C",E:"int randint1 = int(random(-20,20));"},
 		{
-			T:x/LQ=,
-			P:1869,
-			L:"P",
-			E:"int randint1 = int(random(-20,20));",
-			N:"paste from project on same machine;"
+			"T":"x/LQ=",
+			"P":1869,
+			"L":"P",
+			"E":"int randint1 = int(random(-20,20));",
+			"N":"paste from project on same machine;"
 		},
 		{T:x/LI=,P:1864,P:"T",E:"\n    "},
 		{T:x/Mc=,P:1880,P:"T",E:"\b2"},
 		{
-			T:x/No=,
-			P:1909,
-			L:"P",
-			E:"int randint1 = int(random(-20,20));",
-			N:"paste from project on same machine;"
+			"T":"x/No=",
+			"P":1909,
+			"L":"P",
+			"E":"int randint1 = int(random(-20,20));",
+			"N":"paste from project on same machine;"
 		},
 		{T:x/Nc=,P:1904,P:"T",E:"\n    "},
 		{T:x/PI=,P:1920,P:"T",E:"\b3"},
@@ -297,11 +297,11 @@
 		{T:x/o0=,P:2180,P:"T",E:")"},
 		{T:x/q0=,P:2045-2183,P:"C",E:"        triangle(posx+size+randint1, posy-size+randint1, posx-size+randint2, posy+size+randint2, posx+size+randint3, posy+size+randint3);\n"},
 		{
-			T:x/ro=,
-			P:2235-2319,
-			L:"P",
-			E:"        triangle(posx+size+randint1, posy-size+randint1, posx-size+randint2, posy+size+randint2, posx+size+randint3, posy+size+randint3);\n",
-			N:"internal paste;"
+			"T":"x/ro=",
+			"P":2235-2319,
+			"L":"P",
+			"E":"        triangle(posx+size+randint1, posy-size+randint1, posx-size+randint2, posy+size+randint2, posx+size+randint3, posy+size+randint3);\n",
+			"N":"internal paste;"
 		},
 		{T:x/6c=,P:1824,P:"T",E:"\n    //"},
 		{T:x/8M=,P:1831,P:"T",E:"randomiz"},
@@ -327,11 +327,11 @@
 		{T:yEBg=,P:1850,P:"T",E:"\b"},
 		{T:yEB0=,P:1849,P:"T",E:"\b"},
 		{
-			T:yEDw=,
-			P:378,
-			L:"P",
-			E:"    //used to randomize the triangle points and make them all look unique\n    int randint1 = int(random(-20,20));\n    int randint2 = int(random(-20,20));\n    int randint3 = int(random(-20,20));",
-			N:"paste from project on same machine;Paste from project with UUID fragment eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a 9 bytes long;"
+			"T":"yEDw=",
+			"P":378,
+			"L":"P",
+			"E":"    //used to randomize the triangle points and make them all look unique\n    int randint1 = int(random(-20,20));\n    int randint2 = int(random(-20,20));\n    int randint3 = int(random(-20,20));",
+			"N":"paste from project on same machine;Paste from project with UUID fragment eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a 9 bytes long;"
 		},
 		{T:yEDc=,P:368,P:"T",E:"\n    \n    "},
 		{T:yEFA=,P:381,P:"T",E:"\b"},
@@ -361,11 +361,11 @@
 		{T:yGjU=,P:374-398,P:"X",E:""},
 		{T:yGjg=,P:373,P:"T",E:"\b"},
 		{
-			T:yGko=,
-			P:1294,
-			L:"P",
-			E:"    abstract void gen();",
-			N:"paste from project on same machine;"
+			"T":"yGko=",
+			"P":1294,
+			"L":"P",
+			"E":"    abstract void gen();",
+			"N":"paste from project on same machine;"
 		},
 		{T:yGkc=,P:1289,P:"T",E:"\n    "},
 		{T:yGmg=,P:1297,P:"T",E:"\b"},
@@ -542,11 +542,11 @@
 		{T:1jg0=,P:249-312,P:"X",E:""},
 		{T:1jhE=,P:248,P:"T",E:"\b"},
 		{
-			T:1jiU=,
-			P:289,
-			L:"P",
-			E:"    float vx = random(-20, 20);\n    float vy = random(-20, 20);",
-			N:"paste from project on same machine;"
+			"T":"1jiU=",
+			"P":289,
+			"L":"P",
+			"E":"    float vx = random(-20, 20);\n    float vy = random(-20, 20);",
+			"N":"paste from project on same machine;"
 		},
 		{T:1jiE=,P:284,P:"T",E:"\n    "},
 		{T:1jkU=,P:292,P:"T",E:"\b"},
@@ -570,20 +570,20 @@
 		{T:1kZU=,P:357,P:"T",E:"\b5"},
 		{T:1kdc=,P:315-327,P:"C",E:" * (20/size)"},
 		{
-			T:1keY=,
-			P:359,
-			L:"P",
-			E:" * (20/size)",
-			N:"paste from project on same machine;"
+			"T":"1keY=",
+			"P":359,
+			"L":"P",
+			"E":" * (20/size)",
+			"N":"paste from project on same machine;"
 		},
 		{T:1khg=,P:378-574,P:"X",E:"   	//this const is used as the divisor with size to alter the rate of velocity in respects to how large a shape is (i.e. larger shapes should take longer to slow down).\n    final int SLOW = 1010;"},
 		{T:1khg=,P:378-574,P:"X",E:""},
 		{
-			T:1kig=,
-			P:180,
-			L:"P",
-			E:"   	//this const is used as the divisor with size to alter the rate of velocity in respects to how large a shape is (i.e. larger shapes should take longer to slow down).\n    final int SLOW = 1010;",
-			N:"paste from project on same machine;Paste from project with UUID fragment eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a 9 bytes long;"
+			"T":"1kig=",
+			"P":180,
+			"L":"P",
+			"E":"   	//this const is used as the divisor with size to alter the rate of velocity in respects to how large a shape is (i.e. larger shapes should take longer to slow down).\n    final int SLOW = 1010;",
+			"N":"paste from project on same machine;Paste from project with UUID fragment eb8ea4b5-ee4e-468a-81b3-fed9fdf1bd9a 9 bytes long;"
 		},
 		{T:1kiQ=,P:175,P:"T",E:"\n    "},
 		{T:1kks=,P:183,P:"T",E:"\b"},
@@ -621,11 +621,11 @@
 		{T:1p18=,P:2196,P:"T",E:"\b"},
 		{T:1p4k=,P:1944,P:"T",E:"\\"},
 		{
-			T:1p5M=,
-			P:1952,
-			L:"P",
-			E:"        translate(posx, posy)\n        rotate(40);",
-			N:"paste from project on same machine;"
+			"T":"1p5M=",
+			"P":1952,
+			"L":"P",
+			"E":"        translate(posx, posy)\n        rotate(40);",
+			"N":"paste from project on same machine;"
 		},
 		{T:1p44=,P:1944,P:"T",E:"\b\n       "},
 		{T:1p7U=,P:1959,P:"T",E:"\b"},
@@ -648,11 +648,11 @@
 		{T:1rjY=,P:55,P:"T",E:"\nI"},
 		{T:1rkA=,P:56,P:"T",E:"\b	I us"},
 		{
-			T:1rlg=,
-			P:68,
-			L:"P",
-			E:"https://processing.org/reference/",
-			N:"Paste from noncoded source"
+			"T":"1rlg=",
+			"P":68,
+			"L":"P",
+			"E":"https://processing.org/reference/",
+			"N":"Paste from noncoded source"
 		},
 		{T:1rkk=,P:60,P:"T",E:"\btilized "},
 		{T:1rn0=,P:36-55,P:"T",E:"\\b[36-55]"},
@@ -693,11 +693,11 @@
 		{T:1uAY=,P:2363,P:"T",E:"//"},
 		{T:1uB8=,P:2918,P:"T",E:"//"},
 		{
-			T:1uEE=,
-			P:1859,
-			L:"P",
-			E:"       	fill(col);",
-			N:"paste from project on same machine;"
+			"T":"1uEE=",
+			"P":1859,
+			"L":"P",
+			"E":"       	fill(col);",
+			"N":"paste from project on same machine;"
 		},
 		{T:1uFE=,P:1866,P:"T",E:"\b"},
 		{T:1uFI=,P:1865,P:"T",E:"\b"},
@@ -786,27 +786,27 @@
 		{T:10bw=,P:1636,P:"T",E:"\bSLRATE"},
 		{T:10iw=,P:1621-1643,P:"C",E:"vy = (vy * -1)/SLRATE;"},
 		{
-			T:10kA=,
-			P:1709-1718,
-			L:"P",
-			E:"vy = (vy * -1)/SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"10kA=",
+			"P":1709-1718,
+			"L":"P",
+			"E":"vy = (vy * -1)/SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{
-			T:10m4=,
-			P:1808-1817,
-			L:"P",
-			E:"vy = (vy * -1)/SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"10m4=",
+			"P":1808-1817,
+			"L":"P",
+			"E":"vy = (vy * -1)/SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{T:10ng=,P:1809,P:"T",E:"\bx"},
 		{T:10pA=,P:1815,P:"T",E:"\bx"},
 		{
-			T:10q4=,
-			P:1896-1905,
-			L:"P",
-			E:"vy = (vy * -1)/SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"10q4=",
+			"P":1896-1905,
+			"L":"P",
+			"E":"vy = (vy * -1)/SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{T:10rg=,P:1897,P:"T",E:"\bx"},
 		{T:10sg=,P:1903,P:"T",E:"\bx"},
@@ -830,29 +830,29 @@
 		{T:12bY=,P:1747,P:"T",E:"\n            vx = vx / SLRATE;"},
 		{T:12gk=,P:1760-1777,P:"C",E:"vx = vx / SLRATE;"},
 		{
-			T:12hk=,
-			P:1878,
-			L:"P",
-			E:"vx = vx / SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"12hk=",
+			"P":1878,
+			"L":"P",
+			"E":"vx = vx / SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{T:12hc=,P:1865,P:"T",E:"\n            "},
 		{
-			T:12jY=,
-			P:2007,
-			L:"P",
-			E:"vx = vx / SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"12jY=",
+			"P":2007,
+			"L":"P",
+			"E":"vx = vx / SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{T:12jQ=,P:1994,P:"T",E:"\n            "},
 		{T:12kY=,P:2008,P:"T",E:"\by"},
 		{T:12lk=,P:2013,P:"T",E:"\by"},
 		{
-			T:12nY=,
-			P:2125,
-			L:"P",
-			E:"vx = vx / SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"12nY=",
+			"P":2125,
+			"L":"P",
+			"E":"vx = vx / SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{T:12nQ=,P:2112,P:"T",E:"\n            "},
 		{T:12oc=,P:2126,P:"T",E:"\by"},
@@ -873,11 +873,11 @@
 		{T:159M=,P:2256,P:"T",E:"prevent the shapes from stopping without also "},
 		{T:16Hs=,P:2421-2438,P:"C",E:"vy = vy * SLRATE;"},
 		{
-			T:16Ig=,
-			P:2378,
-			L:"P",
-			E:"vy = vy * SLRATE;",
-			N:"paste from project on same machine;"
+			"T":"16Ig=",
+			"P":2378,
+			"L":"P",
+			"E":"vy = vy * SLRATE;",
+			"N":"paste from project on same machine;"
 		},
 		{T:16IY=,P:2365,P:"T",E:"\n            "},
 		{T:17wM=,P:2302,P:"T",E:"messing up their trajectory slightly"},
@@ -902,11 +902,11 @@
 		{T:2AA0=,P:1242,P:"T",E:"\b"},
 		{T:2ABA=,P:1241,P:"T",E:"\b"},
 		{
-			T:2ACM=,
-			P:1097,
-			L:"P",
-			E:"    //initial generation function\n    abstract void gen();",
-			N:"paste from project on same machine;"
+			"T":"2ACM=",
+			"P":1097,
+			"L":"P",
+			"E":"    //initial generation function\n    abstract void gen();",
+			"N":"paste from project on same machine;"
 		},
 		{T:2AB4=,P:1087,P:"T",E:"\n    \n    "},
 		{T:2ADg=,P:1100,P:"T",E:"\b"},
@@ -933,11 +933,11 @@
 		{T:2BJM=,P:2799-2858,P:"X",E:""},
 		{T:2BJg=,P:2798,P:"T",E:"\b"},
 		{
-			T:2BLg=,
-			P:1097,
-			L:"P",
-			E:"    //draw shape after updating\n    abstract void updraw();",
-			N:"paste from project on same machine;"
+			"T":"2BLg=",
+			"P":1097,
+			"L":"P",
+			"E":"    //draw shape after updating\n    abstract void updraw();",
+			"N":"paste from project on same machine;"
 		},
 		{T:2BLM=,P:1087,P:"T",E:"\n    \n    "},
 		{T:2BMc=,P:1100,P:"T",E:"\b"},
@@ -958,11 +958,11 @@
 		{T:2BmA=,P:1088,P:"T",E:"\b"},
 		{T:2BmI=,P:1087,P:"T",E:"\b"},
 		{
-			T:2Bps=,
-			P:2808,
-			L:"P",
-			E:"    //draw shape\n    //each shape much implement this \n    abstract void updraw();",
-			N:"internal paste;Paste from install with UUID 00000000-0000-0000-0000-000000000000;"
+			"T":"2Bps=",
+			"P":2808,
+			"L":"P",
+			"E":"    //draw shape\n    //each shape much implement this \n    abstract void updraw();",
+			"N":"internal paste;Paste from install with UUID 00000000-0000-0000-0000-000000000000;"
 		},
 		{T:2Bpc=,P:2798,P:"T",E:"\n    \n    "},
 		{T:2BrI=,P:2811,P:"T",E:"\b"},

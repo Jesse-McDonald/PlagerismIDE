@@ -1,13 +1,13 @@
 {
-	InstallUUIDStack:[
+	"InstallUUIDStack":[
 		"0644c77c-4389-47a7-9a6b-e02b23ff87d5"
 	],
-	InfectionStack:[
+	"InfectionStack":[
 		"5b317886-5359-48ec-ad67-d2f19e2040ba"
 	],
-	ProjectUUID:"5b317886-5359-48ec-ad67-d2f19e2040ba",
-	CreatorUUID:"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
-	History:[
+	"ProjectUUID":"5b317886-5359-48ec-ad67-d2f19e2040ba",
+	"CreatorUUID":"0644c77c-4389-47a7-9a6b-e02b23ff87d5",
+	"History":[
 		{T:F9OmE=,P:0,P:"T",E:"class Circle extends Shape {\n    \n    \n    \n    "},
 		{T:F9OsI=,P:44-48,P:"T",E:"\\b[44-48]}"},
 		{T:F9Rog=,P:43,P:"T",E:"Circle(float "},
