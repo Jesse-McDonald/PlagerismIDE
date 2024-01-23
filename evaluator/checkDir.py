@@ -63,6 +63,9 @@ def load_and_augment_json_files(directory, parent_dir=None):
 def processDir(directory):
 	json_objects = load_and_augment_json_files(directory)
 	#print(json_objects)
+	if len(json_objects)==0:
+		return
+	#print(json_objects)
 	students={}
 	creatorUUID={}
 	projectUUID={}
@@ -135,9 +138,46 @@ def processDir(directory):
 			definitlyDirty=not clean
 			
 			editsAfterPaste=0
+			lastEditLocation=0
+			edits=0
+			editDistance=0
+			nextLine=0
 			for event in student[file]['History']:
+				if(event['L']=='T' or event['L']=='P'):
+					edits+=1
+					try:
+						stend=event['P'].split('-')
+						if(int(stend[0])>lastEditLocation):
+							nextLine+=1
+						editDistance+=int(stend[0])-int(stend[1])#increase editDistance by the number of characters replaced
+						editDistance+=abs(lastEditLocation-int(stend[0]))
+						lastEditLocation=int(stend[0])
+					except:
+						if(int(event['P'])>lastEditLocation):
+							nextLine+=1
+						editDistance+=abs(lastEditLocation-int(event['P']))
+						lastEditLocation=int(event['P'])
+						
+					editDistance-=	len(event['E'])
+					#try:
+					#	stend=event['P'].split('-')
+					#	if(int(stend[0])>lastEditLocation):
+					#		nextLine+=1
+					#	editDistance+=int(stend[0])-int(stend[1])#increase editDistance by the number of characters replaced
+					#	editDistance+=abs(lastEditLocation-int(stend[0]))
+					#	lastEditLocation=int(stend[0])+len(event['E'])
+					#except:
+					#	if(int(event['P'])>lastEditLocation):
+					#		nextLine+=1
+					#	editDistance+=abs(lastEditLocation-int(event['P']))
+					#	lastEditLocation=int(event['P'])+len(event['E'])
+					#	
+					#editDistance-=	len(event['E'])
 				if(event['L']=='T'):
 					editsAfterPaste+=1
+					
+					
+					editDistance+=len(event['E'])
 				elif(event['L']=='P' and 'N' in event):
 					#print(event['N'])
 					notes=event['N'].split(';')
@@ -234,15 +274,23 @@ def processDir(directory):
 					elif event['N']=="Paste too short to track":
 						pass #not plagerism
 					#print(notes)
-						
+				#for event in student[file]['History']:
+				#	if(event['L']=='T'):			
 			if not clean and not definitlyDirty:
 				print(f"there were {editsAfterPaste} edits made after the last paste")
 			#check linear typing
+			#print(edits)
+			#print(editDistance)
+			
+			#print(editDistance/edits)
+			#print(nextLine)
+			#print(nextLine/edits)
 		if clean:
 			print("No plagiarism detected for student "+ name)
 			print()
 		else:
 			print(name+ " likely plagiarized\n")
+		
 		#break
 		#creatorUUID[
 	#infectionMap={}#machine.projectID.infections (other only)
