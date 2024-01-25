@@ -1,0 +1,187 @@
+\documentclass[letterpaper,10pt,conference]{IEEEtran}
+%\IEEEoverridecommandlockouts
+\usepackage[left=1in, right=1in, top=1in, bottom=1.125in]{geometry}
+\setlength{\columnsep}{0.31875in}
+\usepackage{paralist}
+%\usepackage[disable]{todonotes}
+\usepackage[]{todonotes}
+\usepackage[noadjust]{cite}
+\usepackage{xspace}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{balance}
+\usepackage{makecell}
+%\usepackage{natbib}
+\usepackage{amsmath,amssymb,amsfonts}
+%\usepackage{bbold}
+\usepackage{bera}
+\usepackage{algorithmic}
+
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\PassOptionsToPackage{hyphens}{url}
+
+\usepackage{xcolor,colortbl}
+\usepackage{enumitem}
+\usepackage{dblfloatfix}
+\newcommand{\cbox}[1]{\raisebox{\depth}{\fcolorbox{black}{#1}{\null}}}
+\newcommand{\n}{\hfill\break}
+\usepackage{xspace}
+\usepackage{filecontents}
+\AtBeginDocument{
+  \definecolor{pdfurlcolor}{rgb}{0,0,0.6}
+  \definecolor{pdfcitecolor}{rgb}{0,0.6,0}
+  \definecolor{pdflinkcolor}{rgb}{0.6,0,0}
+  \definecolor{light}{gray}{.85}
+  \definecolor{vlight}{gray}{.95}
+}
+\usepackage{url} \urlstyle{sf}
+\usepackage[colorlinks=true,citecolor=pdfcitecolor,urlcolor=pdfurlcolor,linkcolor=pdflinkcolor,pdfborder={0 0 0}]{hyperref}
+\urlstyle{same}
+\usepackage{etoolbox}
+
+\let\oldtitle\title % Save the original \title command
+\renewcommand{\title}[1]{\oldtitle{\fontsize{14}{16}\selectfont\textbf{#1}}}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\thesection\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\thesubsection\arabic{subsubsection}.}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\fontsize{12}{12}\selectfont\bfseries\raggedright}{\thesection}{0.5em}{}[\vspace{0.5em}]
+\titleformat{\subsection}[block]{\fontsize{11}{11}\selectfont\bfseries\raggedright}{\thesubsection}{0.5em}{}[\vspace{0.5em}]
+\titleformat{\subsubsection}[runin]{\fontsize{10}{10}\selectfont\bfseries\raggedright}{\n\thesubsubsection}{0.5em}{}[\hfill\hspace{0.5em}\phantom]
+
+
+\newcommand{\installID}{InstallID\xspace}
+\newcommand{\projectID}{ProjectID\xspace}
+\newcommand{\metaComment}{metaComment\xspace}
+\newcommand{\infectionStack}{InfectionStack\xspace}
+
+\renewcommand{\arraystretch}{1.03}
+
+\renewenvironment{abstract}{%
+    \section*{\begin{center}\fontsize{12}{14}\selectfont Abstract\end{center}}  \vspace{-2em} \begin{itshape}%
+}{%
+    \end{itshape}\vspace{2em}\ignorespacesafterend%
+}
+
+
+\begin{filecontents}{vReferences.bib}
+@article{smith_article,
+  author    = {A. B. Smith and C. D. Jones and E. F. Roberts},
+  title     = {Article Title},
+  journal   = {Journal},
+  year      = {Year},
+  publisher = {Publisher},
+  address   = {Location},
+  pages     = {1--10},
+}
+
+@book{jones_book,
+  author    = {C. D. Jones and A. B. Smith and E. F. Roberts},
+  title     = {Book Title},
+  publisher = {Publisher},
+  year      = {Year},
+  address   = {Location},
+}
+\end{filecontents}
+\setlength{\parindent}{0.25in}
+\begin{document}
+
+\title{Detailed Formatting Guidelines for Preparing an Initial 
+Manuscript with No Author Names: Paper May Not Exceed Ten Pages}
+
+%\author{
+% \IEEEauthorblockN{
+%   Jesse McDonald%\IEEEauthorrefmark{1},
+% }
+
+ %\medskip
+ 
+% \IEEEauthorblockA{%\IEEEauthorrefmark{1}
+ % University of Hawai`i at M\=anoa, Honolulu, HI, USA
+% }
+
+%}
+
+
+\maketitle
+
+\begin{abstract}
+The abstract is to be in fully-justified italicized text, at the top of the left-hand column as it is here, below the author information. Use the word “Abstract” as the title, in 12-point Times, boldface type, centered relative to the column, initially capitalized. The abstract is to be in 10-point, single-spaced type, and up to 150 words in length. Leave two blank lines after the abstract, and then begin the main text. 
+\end{abstract}
+\section{Introduction }
+
+All manuscripts must be in English. These guidelines include complete descriptions of the fonts, spacing, and related information for producing your proceedings manuscripts. Please follow them. 
+
+\section{Formatting your paper }
+
+Papers may not exceed ten pages.  All printed material, including text, illustrations, and charts, must be kept within a print area of 6-1/2 inches (16.51 cm) wide by 8-7/8 inches (22.51 cm) high. Do not write or print anything outside the print area. All text must be in a two-column format. Columns are to be 3 inches (7.85 cm) wide, with a 5.1/16 inch (0.81 cm) space between them. Text must be fully justified.
+This formatting guideline provides the margins, placement, and print areas. If you hold it and your printed page up to the light, you can easily check your margins to see if your print area fits within the space allowed.
+
+\section{Main title}
+
+The main title (on the first page) should begin 1-3/8 inches (3.49 cm) from the top edge of the page, centered, and in Times 14-point, boldface type. Capitalize the first letter of nouns, pronouns, verbs, adjectives, and adverbs; do not capitalize articles, coordinate conjunctions, or prepositions (unless the title begins with such a word). Leave two 12-point blank lines after the title.
+
+\section{Author name(s) and affiliation(s)}
+
+Author names and affiliations are to be omitted from original submission.
+
+\section{Second and following pages}
+
+The second and following pages should begin 1.0 inch (2.54 cm) from the top edge. On all pages, the bottom margin should be 1-1/8 inches (2.86 cm) from the bottom edge of the page for 8.5 x 11-inch paper. (Letter-size paper)
+
+\section{Type-style and fonts}
+
+Wherever Times is specified, Times Roman or Times New Roman may be used. If neither is available on your word processor, please use the font closest in appearance to Times. Avoid using bit-mapped fonts if possible. True-Type 1 fonts are preferred. 
+
+\section{Main text}
+
+Type your main text in 10-point Times, single-spaced. Do not use double-spacing. All paragraphs should be indented 1/4 inch (approximately 0.5 cm).  Be sure your text is fully justified—that is, flush left and flush right. Please do not place any additional blank lines between paragraphs. 
+Figure and table captions should be 10-point boldface Helvetica (or a similar sans-serif font).  Callouts should be 9-point non-boldface Helvetica. Initially capitalize only the first word of each figure caption and table title. Figures and tables must be numbered separately. For example: “Figure 1. Database contexts”, “Table 1. Input data”. Figure captions are to be centered below the figures. Table titles are to be centered above the tables. 
+
+
+\section{First-order headings}
+
+For example, “1. Introduction”, should be Times 12-point boldface, initially capitalized, flush left, with one 12-point blank line before, and one blank line after. Use a period (“.”) after the heading number, not a colon. 
+
+\subsection{Second-order headings}
+ 
+As in this heading, they should be Times 11-point boldface, initially capitalized, flush left, with one blank line before, and one after. 
+
+\subsubsection{Third-order headings.} Third-order head, as in this paragraph, are discouraged. However, if you must use them, use 10-point Times, boldface, initially capitalized, flush left, followed by a period and your text on the same line. 
+
+\section{ Footnotes}
+
+Use footnotes sparingly (or not at all) and place them at the bottom of the column on the page on which they are referenced. Use Times 8-point type, single-spaced. To help your readers, avoid using footnotes altogether and include necessary peripheral observations in the text (within parentheses, if you prefer, as in this sentence). 
+
+\section{References}
+     
+List and number all bibliographical references in 9-point Times, single-spaced, at the end of your paper.  When referenced in the text, enclose the citation number in square brackets, for example \cite{smith_article}. Where appropriate, include the name(s) of editors of referenced books.\cite{jones_book}
+
+
+
+
+
+
+%%
+%% The acknowledgments section is defined using the "acks" environment
+%% (and NOT an unnumbered section). This ensures the proper
+%% identification of the section in the article metadata, and the
+%% consistent spelling of the heading.
+
+%\begin{acks}
+
+%Removed for double-blind review.
+
+
+%\end{acks}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{vReferences}
+
+\end{document}
+\endinput
