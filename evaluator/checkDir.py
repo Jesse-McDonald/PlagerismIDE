@@ -5,7 +5,7 @@ import re
 unknownSelfThreshold=50
 unknownOtherThreshold=20
 externalThreshold=3
-redemptionThreshold=2000
+redemptionThreshold=500
 def extractUUID(string):
 	return re.search(r'\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b', string).group()
 
