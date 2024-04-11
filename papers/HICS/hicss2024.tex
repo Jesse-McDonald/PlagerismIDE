@@ -263,7 +263,7 @@ We have dismissed these weaknesses reasoning that if an intro level student disc
 
 A potential bypass is to complete the assignment via any means that doesnt add to the \infectionStack, and then copy and paste the file content into another copy of the IDE, this then gets logged as an internal paste events between assignments and all keystroke logging is lost.  This method we dismiss as there is little reason to do it (other than IDE bugs) and it is easily detectable as an event of interest.
 \subsection{Automated Detection}
-It is all well and good to wax eloquently about the theoretical ways the data can be used to detect plagiarism, and quite another to do so in an automated fashion suited to someone grading dozens of assignments.  As such, we also developed a script that takes all student submissions for a given assignment and analyzes them.  This script was developed after manual analysis of vectors within the Case Study, and as such, we did not implemented detection of the features not present in the case study.  Notably, we did not implement the timestamp based Collaboration detection as there was no Collaboration.  We did not implement a way to discriminate P2P and Theft as no Theft occurred. Additionally we did not implement the linear coding detection as only 1 student used it and there were not enough students who had not plagiarized to define a heuristic for how linear is too linear.  
+It is all well and good to wax eloquently about the theoretical ways the data can be used to detect plagiarism, and quite another to do so in an automated fashion suited to someone grading dozens of assignments.  As such, we also developed a script that takes all student submissions for a given assignment and analyzes them.  This script was developed after manual analysis of vectors within the Case Study, and as such, we did not implemented detection of the features not present in the case study.  Notably, we did not implement the timestamp based Collaboration detection as there was no Collaboration that would require such detection.  We did not implement a way to discriminate P2P and Theft as no Theft occurred. Additionally we did not implement the linear coding detection as only 1 student used it and there were not enough students who had not plagiarized to define a heuristic for how linear is too linear.  
 
 The Script will take in a directory of submissions.  First it will build a graph using the \infectionStack in an attempt to trace shared files.  At the same time it builds a list of shared machines, which is used later.  Any connections discovered at this point will be noted.  Next the script goes student by student and checks all paste events.  Purely internal paste events, or ones that are too short to track, are ignored.  From there pastes fall into 4 categories:  pastes originating from a project that was turned in by another student, or pastes originating from a different students machine; pastes originating from the same machine, but a different project; pastes that originate from an \installID that is not associated with any project turned in; and pastes of external origin.  In each case where plagiarism is detected, the code pasted is also logged for human validation.
 
@@ -291,7 +291,7 @@ As the 111 and 211 classes are separate assignments and cohorts, we will treat t
 
 As part of each Case Study, the \metaComment was stripped out of the files, and they were given to Stanford MOSS.
 
-The raw data is avaliable on Github\footnote{https://github.com/Jesse-McDonald/PlagerismIDE/tree/main/data/sp2023}
+The code, raw data, pre-processed data, automation reports, and MOSS reports are available on Github\footnote{https://github.com/Jesse-McDonald/PlagerismIDE/tree/main/data}
 \subsection{ICS 111}
     \label{sec:casestudy111}
 
@@ -315,7 +315,7 @@ The raw data is avaliable on Github\footnote{https://github.com/Jesse-McDonald/P
 \end{table*}
 
 
-We received 5 submissions from 111, these have each been arbitrary given a single letter designation between A and F.  The results are summarized in Table \ref{tab:ics111}.  Of these 5, 3 successfully completed the assignment by some means, and 2 did not.
+We received 6 submissions from 111, these have each been arbitrary given a single letter designation between A and F.  The results are summarized in Table \ref{tab:ics111}.  Of these 6, 4 successfully completed the assignment by some means, and 2 (A and D) did not.
 
   Student A copy and pasted from ChatGPT, but prompted it wrong, and did a similar, but different assignment.  Our \metaComment makes it easy to see this, there is a 75 line paste followed by about 38 minor tweaks and formatting changes.
 
@@ -367,17 +367,61 @@ Between all the submissions \metaComment we were able to identify that Student A
         \hline
     \end{tabular}
 \end{table*}
+We received 18* submissions from 211, these have each been arbitrary given a single letter designation between A and R.  The results are summarized in Table \ref{tab:ics211}.  Of these 18, 11 successfully completed the assignment by some means, 5 (C, G, L, M, and N) did not, and 2 (J and K) were completely blank thumbdrives.
+
+Student C managed to find and copy a working Mendlebrot fractal written using Swing, which does not run using Processing.
+
+Student G found and copied code for a Koch Snowflake written in Processing.  Unfortunately, they found a badly written Koch Snowflake that doesn't actually run.  We managed to fix their solution so that it would run, but when it did, it did not create any fractal.
+
+We are unsure how C and G managed to find broken solutions before finding working solutions as we have been unable to find the original source code, but did find many working solutions while looking.
+
+Student L found and copied a swing that makes a 3d render of a rain of rotating toroids.  They even managed to convert it to run in Processing.  However, this is not a solution to the actual the assignment given.
+
+Student M used the cross copy paste exploit mentioned previously and did not leave a comment explaining how they completed the assignment.  They did leave a comment explaining that it was an IDE stalling on saving bug that made them do the cross copy.  This may indicate a large edit history was being saved, which may indicate a legitimate completion, but we can not be sure this is the case.  The solution also does not work, but with minor tweaking it can make 3 different recursive fractals, an infinite bulls eye pattern, a line with circles at every intersection and a Tetra-circle fractal.   Unfortunately, the assignment specifically called for non-recursive fractals, so this is not a valid solution.
+
+Student N appears to have legitimately coded the start of a 3d solar system simulation using rotation and translation matrices to enable a mouse to change camera angle and zoom.  The planets in it do not orbit, but otherwise it is quite impressive, especially for having no external code usages.  However, it is not a solution to the given assignment.
+
+Of the correct assignments, a group of 5 (E, F, H, I, and P) were flagged by MOSS as having quite similar assignments, so we shall examine those first.
+
+Student E's solution contains no large external pastes, however when the edits are animated, the result is visibly linear coding as if typing.  The student claims they watched a youtube video of someone code a Mandlebrot fractal and followed along.  This makes it a good canidate to test Linear typing detection, but we did not implement such detection as this is the only positive example, and we have limited legitimate completions to compare.  While we consider E's solution to be Plagiarized, It is not part of a larger group unless they copied the same video.
+
+Student F and P independently copied a stock example from the Processing website authored by Daniel Shiffman\footnote{https://processing.org/examples/mandelbrot.html}. 
+
+Student H and I followed a video by Coding Train where the same code by Daniel Shiffman is transformed from a Mandelbrot fractal to a Julia Set.  After which, the final code was sent to I.  The \metaComment for I is corrupted after this paste, but the final result is altered from this share on both sides.  The \infectionStack successfully tracks this exchange.
+
+Student A found and copied a Penrose Snowflake example using multiple copies with no meaningful modifications.
+
+Student B found and copied a Mandelbrot Fractal with zoom and made no meaningful modifications.
+
+Students D and Q both asked ChatGPT to generate a Mandelbrot, then copied the result without modification.  The results are nevertheless distinct from each other.
+
+Student O found and copied a tree fractal example, then modified it to be slightly different.
+
+Student R claims to have used a video to help them make a Mendelbrot fractal complete with zoom. However there is no indication they copied from the video, and we believe this to be a legitimate completion of the assignment, all be it with a reference.
+
+\subsubsection{MOSS}
+
+MOSS identified a week connection between B and R, as well as C and R that are incidental.  
+
+Additionaly, it identified a moderate connection between D and Q, as well as R and Q.  The same connection is found despite the connection not being found between D and R, and only 2 of them being generated by ChatGPT.  The marked code is also quite incidental (nested for loops with same iterator names).
+
+MOSS Identified a strong connection between H and I, as well as between F and P.  This connection is a successful detection of plagiarism within those 2 pairs. However, Moss also identifies weaker, but still strong connections between all 4, and additionally E.  It may not be accurate to include E in this group, as E used a different source.  The code between the other 4 though has the same original author, with modifications.  It is tempting to say that MOSS correctly identified the plagiarism despite the changes, however the similarities between the 2 groups are the same as the similarities between each and E, and the code is quite common to Mandelbrot fractals.  As such, we believe this to be incorrect with regard to plagiarism.
+
+
+
 \subsubsection{Observed Vectors}
+Between all the submissions \metaComment we were able to identify that Students A-C, F-I, L,O, and P used the Search Vector; Students N and R completed the assignment on their own; Students D and Q used Expert vector; Student E used search but masked it with linear typing; Students J and K exploited loopholes in grading; and only student M is of indeterminate origin, but has a clean \infectionStack.
 
-\section{Future Work}
-In the future, we hope to completely automate the detection of plagiarized assignments created with the IDE.  UUID tracing is easy enough to automate, but automating the whole process will require several heuristics.  For example, how much of an assignment must be copied from the internet for it to be considered plagiarized?  How big of a paste is that?  What about linear typing?  How many lines are required to say ``this isnt organic'' from just linear typing?  All of these potential questions need future research to answer.  
 
-Additionally, our primary aim is plagiarism reduction, so it may be equally useful to create a heuristic that represents the general amount of plagiarism present in a class as a whole rather than individual assignments. 
 
-However, before any of this can happen the IDE needs to be stabilized.  Several students complained about it ``freezing'' on save and there are a few notable problems.  One possible improvement would be to gzip \metaComment and the embedded data.  Care should be taken in doing so, and it may be advantageous to pair this approach with Reed-Solomon ECC to combat accidental file corruption.  This may be advantageous even if there is no net decrease in \metaComment size.  Additional improvements include embedding extra clipboard data that another copy of the IDE could read separate from the hidden text embedding
 \section{Conclusion}
-Our approach has shown promise as a tool in detecting plagiarism within intro level CS courses.  The most useful features are paste event tracking and UUIDs.  We encourage anyone concerned with plagiarism in an intro level class to provide a modified IDE for their class that uses these tracking features.
+In this work, we have assessed the potential merit of edit event logging metadata generated by a specialized IDE for tracking plagiarism.  We find that this approach works quite well even against formerly impossible vectors such as Expert sources and undefinable Search results that current approaches struggle to detect.  This emphasizes the weakness of current approaches that compare two code samples to determine similarity as a way to detect plagiarisms, it is not possible to provide all the samples such a system requires, and the existence of code generating AI models only exacerbate the existing problem.
 
+Our approach has shown promise as a tool in detecting plagiarism within intro level CS courses.  The most useful features are paste event tracking and UUID tracking.  We encourage anyone concerned with plagiarism in an intro level class to provide a modified IDE for their class that uses these or similar tracking features.
+
+In the future, we hope to completely automate the detection of plagiarized assignments created with the IDE including linear typing, and timestamp based collaboration detection.
+
+Additionally, our primary aim is to research plagiarism reduction methods, so it may be equally useful to create a heuristic that represents the general amount of plagiarism present in a class as a whole rather than individual assignments.
 %%
 %% The acknowledgments section is defined using the "acks" environment
 %% (and NOT an unnumbered section). This ensures the proper
