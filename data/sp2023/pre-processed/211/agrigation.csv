@@ -6,7 +6,7 @@ D,X,X,X,,X,X,,,,17 Q,,,false flag
 E,X,X,,X,,,,,,"55 I, 44 H, 38 P, 38 F",,Good canidate to try essay mode detection on (Works),"EFHIP same source, potentially false flag"
 F,X,X,X,,,X,,,with work,"94 P,47 I, 47 H, 35 E",,same example used by 2 people,EFHIP same source
 G,,X,X,,,X,,,,,,,
-H,X,*,,,,X,,,X,"69 I, 56 P, 55 F, 46 H",I (H was Origin),"At first appears plagerized, but base is actually javascript that has been converted to java.  I would consider it not plagerized (other than the copy)",EFHIP same source
+H,X,*,,,,X,,,X,"69 I, 56 P, 55 F, 46 H",I (H was Origin),,EFHIP same source
 I,X,X,X,,,X,,,X,"72 I, 60 E, 58 P, 57 I ",H,,EFHIP same source
 L,,X,X,,,X,,,,,,,
 M,,?,,,,X,,,,,,"dirty, entire file is internal copy",
@@ -15,5 +15,5 @@ O,X,X,,,,X,,,,,,also contains a video copied sample,
 P,X,X,X,,,X,,,with work,"96 F, 49 P, 49 H, 35 E",,same example used by 2 people,EFHIP same source
 Q,X,X,X,,X,,,,,"15 Q, 11 R",,,false flag
 R,X,?,,,,,,,,"4 B, 3 Q, 3 C",,"video copy, check with essay mode (looks ligit)",false flag
-J,,,,,,,,,,,,Blank,
-K,,,,,,,,,,,,Blank,
+S,,,,,,,,,,,,Blank,
+T,,,,,,,,,,,,Blank,
