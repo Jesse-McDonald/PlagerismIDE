@@ -58,6 +58,20 @@ def load_and_augment_json_files(directory, parent_dir=None):
 						#print(f"Loaded JSON from '{file_path}'")
 				except Exception as e:
 					print(f"Error loading JSON from '{file_path}': {str(e)}")
+			if filename.endswith('.pde') and os.path.isfile(file_path):
+				try:
+					with open(file_path, 'r') as pde_file:
+						for line in pde_file:
+							pass
+						last_line = line[line.find('{'):]
+						print(last_line)
+						data = json.loads(last_line)
+						name = os.path.realpath(file_path)
+						json_objects[name]=data
+						json_objects[name]["name"]=studentName(directory,name)
+						#print(f"Loaded JSON from '{file_path}'")
+				except Exception as e:
+					print(f"Error loading JSON from '{file_path}' metacomment: {str(e)}")
 	
 	return json_objects
 def processDir(directory):
@@ -86,8 +100,9 @@ def processDir(directory):
 		if(len(creatorUUID[uuid])>1):
 			print(f"Machine UUID ${uuid} is shared by ${creatorUUID[uuid]}")
 			unique=False
-		else:
-			creatorUUID[uuid]=creatorUUID[uuid].pop()
+		
+		creatorUUID[uuid]=list(creatorUUID[uuid])
+		
 	if unique:
 		print("No students used the same machine")
 	unique=True
@@ -95,8 +110,8 @@ def processDir(directory):
 		if(len(projectUUID[uuid])>1):
 			print(f"Project UUID {uuid} is shared by {creatorUUID[uuid]}")
 			unique=False
-		else:
-			projectUUID[uuid]=projectUUID[uuid].pop()
+		
+		projectUUID[uuid]=list(projectUUID[uuid])
 	if unique:
 		print("No students directly shared files")
 		
@@ -110,7 +125,7 @@ def processDir(directory):
 		for file in student:
 			safeMachine=not len(creatorUUID[student[file]['CreatorUUID']])>1
 			for uuid in student[file]['InstallUUIDStack'] :
-				for other in creatorUUID[uuid][0]:
+				for other in creatorUUID[uuid]:
 					if name!=other and other not in infections:
 						infections.add(other)
 						print(f"Student {name} and {other} used file with same creator UUID")

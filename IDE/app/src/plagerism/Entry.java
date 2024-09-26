@@ -19,7 +19,7 @@ public class Entry{
 			timeStamp = System.currentTimeMillis();
 			//System.out.println("DEBUG"+" "+ pos+" "+end);
 			if(label.equals("T")&&set.equals("")){
-				this.set="\\b["+pos+"-"+end+"]";//log backspace hopefully?
+				this.set="\"\\b["+pos+"-"+end+"]\"";//log backspace hopefully?
 				//turns out backspace isnt making it this far?
 				
 				
@@ -70,22 +70,22 @@ public class Entry{
 			StringBuilder ret=new StringBuilder();
 
 			ret.append("{");
-			ret.append("T:");
+			ret.append("\"T\":");
 			ret.append(longToBase64(limit(timeStamp)));
-			ret.append(",P:");
+			ret.append(",\"P\":");
 			if(pos==endPos){
 				ret.append(""+pos);
 			}else{
-				ret.append(pos+"-"+endPos);
+				ret.append("\""+pos+"-"+endPos+"\"");
 			}
-			ret.append(",L:");
+			ret.append(",\"L\":");
 			ret.append("\""+label+"\"");
-			ret.append(",E:");
+			ret.append(",\"E\":");
 			
 			ret.append("\""+set+"\"");//make edit safe for json
 			
 			if(notes!=null&&!notes.isEmpty()){
-				ret.append(",N:\""+notes+"\"");
+				ret.append(",\"N\":\""+notes+"\"");
 			}
 			ret.append("}");
 			return ret.toString();

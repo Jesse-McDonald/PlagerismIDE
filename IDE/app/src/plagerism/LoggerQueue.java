@@ -222,8 +222,8 @@ public class LoggerQueue{
 
 		
 		
-		ret.append("{InstallUUIDStack:"+jsonify(allInstalls)+",InfectionStack:"+jsonify(infectionStack)+",ProjectUUID:\""+projectUUID+"\",CreatorUUID:\""+creatorUUID+"\",");
-		ret.append("History:[");
+		ret.append("{\"InstallUUIDStack\":"+jsonify(allInstalls)+",\"InfectionStack\":"+jsonify(infectionStack)+",\"ProjectUUID\":\""+projectUUID+"\",\"CreatorUUID\":\""+creatorUUID+"\",");
+		ret.append("\"History\":[");
 		boolean first=false;
 		if(history!=null){
 			ret.append(history);
@@ -280,7 +280,7 @@ public class LoggerQueue{
 					}catch(IllegalArgumentException e){}
 				}
 				//extract infection
-				lookFor="InfectionStack:[";
+				lookFor="\"InfectionStack\":[";
 				x=s.indexOf(lookFor)+lookFor.length();
 				if(x<lookFor.length()){
 					throw new Exception("index error on load");
@@ -297,7 +297,7 @@ public class LoggerQueue{
 					}catch(IllegalArgumentException e){}
 				}
 				//extract project UUID
-				lookFor="ProjectUUID:";
+				lookFor="\"ProjectUUID\":";
 				x=s.indexOf(lookFor)+lookFor.length();
 				if(x<lookFor.length()){
 					throw new Exception("index error on load");
@@ -317,7 +317,7 @@ public class LoggerQueue{
 				creatorUUID=UUID.fromString(process.replace("\"",""));
 				//mine history
 				if(past.isEmpty()||important){
-					lookFor="History:[";
+					lookFor="\"History\":[";
 
 					x=s.indexOf(lookFor)+lookFor.length();
 					//if(x>0){//I just realized this will always be true because of the +
@@ -360,13 +360,13 @@ public class LoggerQueue{
 				
 			}catch(Exception e){
 				if(s.length()>2){
-					history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Error loading file\",N:\""+protect(s)+"\"}";
+					history="{T:"+System.currentTimeMillis()+",\"P\":0,\"L\":\"O\",\"E\":\"Error loading file\",\"N\":\""+protect(s)+"\"}";
 				}
 			}
 			ret =s.substring(0,index1);
 		}else{
 			if(s.length()>2){
-				history="{T:"+System.currentTimeMillis()+",P:0,L:\"O\",E:\"Untracked file loaded\",N:\""+protect(s)+"\"}";
+				history="{T:"+System.currentTimeMillis()+",\"P\":0,\"L\":\"O\",\"E\":\"Untracked file loaded\",\"N\":\""+protect(s)+"\"}";
 			}
 		}
 		
