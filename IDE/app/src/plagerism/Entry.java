@@ -71,7 +71,7 @@ public class Entry{
 
 			ret.append("{");
 			ret.append("\"T\":");
-			ret.append(longToBase64(limit(timeStamp)));
+			ret.append("\""+longToBase64(limit(timeStamp))+"\"");
 			ret.append(",\"P\":");
 			if(pos==endPos){
 				ret.append(""+pos);
