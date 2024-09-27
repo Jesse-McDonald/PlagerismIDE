@@ -51,7 +51,9 @@ def load_and_augment_json_files(directory, parent_dir=None):
 			if filename.endswith('.json') and os.path.isfile(file_path):
 				try:
 					with open(file_path, 'r') as json_file:
-						data = json.load(json_file)
+						json_str=json_file.read().replace("	","    ")
+						#print(json_str)
+						data = json.loads(json_str)
 						name = os.path.realpath(file_path)
 						json_objects[name]=data
 						json_objects[name]["name"]=studentName(directory,name)
@@ -63,7 +65,7 @@ def load_and_augment_json_files(directory, parent_dir=None):
 					with open(file_path, 'r') as pde_file:
 						for line in pde_file:
 							pass
-						last_line = line[line.find('{'):]
+						last_line = line[line.find('{'):].replace("	","\\t")
 						#print(last_line)
 						data = json.loads(last_line)
 						name = os.path.realpath(file_path)
