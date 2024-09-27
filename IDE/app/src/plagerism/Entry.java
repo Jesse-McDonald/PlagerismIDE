@@ -37,7 +37,7 @@ public class Entry{
 		public boolean isYoung(){
 			return (System.currentTimeMillis()-timeStamp)<2000;
 		}
-		public long limit(long timeStamp){//greatly shorten time stamps to appropriate durration
+		public static long limit(long timeStamp){//greatly shorten time stamps to appropriate durration
 		//for my use, Years dont matter
 		//Months dont really
 		//and days barly do
@@ -60,7 +60,7 @@ public class Entry{
 		//should cut timestamp in half at least
 		return relevent;
 		}
-		public String longToBase64(long x) {
+		public static String longToBase64(long x) {
 			ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
 			buffer.putLong(x);
 			

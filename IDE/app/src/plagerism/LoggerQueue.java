@@ -261,7 +261,7 @@ public class LoggerQueue{
 		
 		//parse json
 		//extract installs
-		String lookFor="InstallUUIDStack:[";
+		String lookFor="\"InstallUUIDStack\":[";
 		int x=s.indexOf(lookFor)+lookFor.length();
 		if(x<lookFor.length()){
 			throw new Exception("index error on load");
@@ -307,7 +307,7 @@ public class LoggerQueue{
 				//System.out.println(process);
 				projectUUID=UUID.fromString(process.replace("\"",""));
 				//extract creator UUID
-				lookFor="CreatorUUID:";
+				lookFor="\"CreatorUUID\":";
 				x=s.indexOf(lookFor)+lookFor.length();
 				if(x<lookFor.length()){
 					throw new Exception("index error on load");
@@ -360,13 +360,13 @@ public class LoggerQueue{
 				
 			}catch(Exception e){
 				if(s.length()>2){
-					history="{T:"+System.currentTimeMillis()+",\"P\":0,\"L\":\"O\",\"E\":\"Error loading file\",\"N\":\""+protect(s)+"\"}";
+					history="{\"T\":\""+Entry.longToBase64(Entry.limit(System.currentTimeMillis()))+"\",\"P\":0,\"L\":\"O\",\"E\":\"Error loading file\",\"N\":\""+protect(s)+"\"}";
 				}
 			}
 			ret =s.substring(0,index1);
 		}else{
 			if(s.length()>2){
-				history="{T:"+System.currentTimeMillis()+",\"P\":0,\"L\":\"O\",\"E\":\"Untracked file loaded\",\"N\":\""+protect(s)+"\"}";
+				history="{\"T\":"+Entry.longToBase64(Entry.limit(System.currentTimeMillis()))+",\"P\":0,\"L\":\"O\",\"E\":\"Untracked file loaded\",\"N\":\""+protect(s)+"\"}";
 			}
 		}
 		

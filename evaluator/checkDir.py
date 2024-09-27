@@ -64,7 +64,7 @@ def load_and_augment_json_files(directory, parent_dir=None):
 						for line in pde_file:
 							pass
 						last_line = line[line.find('{'):]
-						print(last_line)
+						#print(last_line)
 						data = json.loads(last_line)
 						name = os.path.realpath(file_path)
 						json_objects[name]=data
@@ -253,7 +253,7 @@ def processDir(directory):
 								else:
 									#TODO, print student whos machine this is
 									#print(event)
-									print(creatorUUID[copyUUID])
+									print(projectUUID[copyUUID])
 									clean=False
 									editsAfterPaste=0
 						#print(event)
